@@ -1,10 +1,7 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view>
-			<text class="title">{{title}}</text>
-		</view>
-	</view>
+  <view class="content" @click="handleNextPage">
+    跳转
+  </view>
 </template>
 
 <script>
@@ -15,10 +12,12 @@
 			}
 		},
 		onLoad() {
-
+        const a = 'http://www.baidu.com'
 		},
 		methods: {
-
+      handleNextPage() {
+        this.$common.redirect({ url: '/pages/login/login', params: { a: 3, b: 5 }})
+      }
 		}
 	}
 </script>
