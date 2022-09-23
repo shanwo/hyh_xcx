@@ -5,44 +5,33 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
-        const a = 'http://www.baidu.com'
-		},
-		methods: {
-      handleNextPage() {
-        this.$common.redirect({ url: '/pages/login/login', params: { a: 3, b: 5 }})
-      }
-		}
-	}
+export default {
+  data() {
+    return {
+      title: 'Hello'
+    }
+  },
+  onLoad() {
+    // uni.showToast({
+    //   title: '标题',
+    //   duration: 2000
+    // })
+    // uni.showLoading({
+    //   title: '加载中'
+    // })
+    this.$common.showLoading()
+    setTimeout(() => {
+      this.$common.hideLoading()
+    }, 3000)
+  },
+  methods: {
+    handleNextPage() {
+      this.$common.redirect({ url: '/pages/login/login', params: { a: 3, b: 5 }})
+    }
+  }
+}
 </script>
 
 <style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin: 200rpx auto 50rpx auto;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
 </style>
