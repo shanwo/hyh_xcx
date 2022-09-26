@@ -1,5 +1,5 @@
 
-console.log('process', process.NODE_ENV)
+console.log('process', process.env.NODE_ENV)
 const baseUrl = {
   apiUrl: ''
 }

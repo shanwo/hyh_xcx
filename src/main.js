@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App'
-import Vconsole from 'vconsole'
+// import Vconsole from 'vconsole'
+// if (process.env.NODE_ENV === 'test') {
+//   new Vconsole()
+// }
 
-if (process.env.NODE_ENV === 'test') {
-  new Vconsole()
-}
+console.log('process.env', process.env)
+
 import { common } from '@/utils/tools' // 路径换成自己的
 Vue.prototype.$common = common
 import { router, RouterMount } from './router/router'

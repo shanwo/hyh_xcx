@@ -6,7 +6,16 @@
 				"auth": true
 			},
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/demo/demo",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "测试"
 			}
 		},
 		{
@@ -15,11 +24,12 @@
 				"auth": false
 			},
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "登录页"
 			}
 		}
 	],
 	"globalStyle": {
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",

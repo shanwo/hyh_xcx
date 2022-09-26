@@ -1,11 +1,18 @@
 <template>
   <view class="content" @click="handleNextPage">
-    跳转
+    <skiHeader />
+    <div>
+      dasd
+    </div>
   </view>
 </template>
 
 <script>
+import skiHeader from '@/components/common/skiHeader'
 export default {
+  components: {
+    skiHeader
+  },
   data() {
     return {
       title: 'Hello'
