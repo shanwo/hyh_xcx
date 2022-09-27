@@ -19,6 +19,15 @@
 			}
 		},
 		{
+			"path": "pages/jump/jump",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "测试"
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"meta": {
 				"auth": false
@@ -31,8 +40,47 @@
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式（list 的索引项）
+		"list": [
+			{
+				"name": "首页", //模式名称
+				"path": "pages/index/index" //启动页面，必选
+			},
+			{
+				"name": "登录页", //模式名称
+				"path": "pages/login/login" //启动页面，必选
+			}
+		]
+	},
+	"tabBar": {
+		"color": "#666", //当前字体颜色
+		"selectedColor": "#FE5164", //点击激活的字体颜色
+		"borderStyle": "white",
+		"backgroundColor": "#fff", //背景颜色
+		"list": [
+			{
+				"text": "首页",
+				"pagePath": "pages/index/index", //路径
+				"iconPath": "/static/images/backhei.png", // 当前图片的颜色
+				"selectedIconPath": "/static/images/backhei.png" // 选中图片的颜色
+			},
+			{
+				"text": "我的的",
+				"pagePath": "pages/demo/demo",
+				"iconPath": "/static/images/backhei.png",
+				"selectedIconPath": "/static/images/backhei.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/login/login",
+				"iconPath": "/static/images/backhei.png",
+				"selectedIconPath": "/static/images/backhei.png"
+			}
+		]
 	}
 }

@@ -11,6 +11,7 @@ export const common = {
   toast: function(title) {
     uni.showToast({
       title,
+      icon: 'none',
       duration: 2000
     })
   },

@@ -4,14 +4,17 @@
     <div>
       dasd
     </div>
+    <safeAreaCom />
   </view>
 </template>
 
 <script>
 import skiHeader from '@/components/common/skiHeader'
+import safeAreaCom from '@/components/common/safeAreaCom'
 export default {
   components: {
-    skiHeader
+    skiHeader,
+    safeAreaCom
   },
   data() {
     return {
