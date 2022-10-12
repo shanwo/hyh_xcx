@@ -2,8 +2,7 @@
 import baseUrl from '@/request/baseUrl'
 export default {
   globalData: {
-    statusBarHeight: Number, // 状态栏高度
-    isIphoneX: Boolean, // 是否iphoneX
+    statusBarHeight: '', // 状态栏高度
     jsonDetail: null // 设备信息
   },
   onLaunch: function() {
@@ -36,6 +35,7 @@ export default {
     getstatusBarHeightMiXin() {
       uni.getSystemInfo({
         success: (res) => {
+          console.log('12342')
           this.globalData.statusBarHeight = res.statusBarHeight
           this.globalData.jsonDetail = res
           let xBarHeight = 0
@@ -45,7 +45,6 @@ export default {
           }
           // #endif
           if (res.model && res.model.includes('iPhone X') || res.safeArea.top >= 40) {
-            this.globalData.isIphoneX = true
             xBarHeight = 34
           }
           this.globalData.xBarHeight = xBarHeight
@@ -59,4 +58,8 @@ export default {
 
 <style>
 	/*每个页面公共css */
+  .body_bg{
+    background-color: #000000;
+    min-height: 100vh;
+  }
 </style>

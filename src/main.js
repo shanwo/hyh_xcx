@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App'
+import mixin from './mixin/index'
 // import Vconsole from 'vconsole'
 // if (process.env.NODE_ENV === 'test') {
 //   new Vconsole()
 // }
-
+Vue.mixin(mixin)
 console.log('process.env', process.env)
 
 import { common } from '@/utils/tools' // 路径换成自己的

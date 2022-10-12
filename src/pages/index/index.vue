@@ -1,11 +1,14 @@
 <template>
-  <view class="content" @click="handleNextPage">
-    <skiHeader />
-    <div>
-      dasd
-    </div>
-    <safeAreaCom />
+  <view class="body_bg">
+    <view class="content" @click="handleNextPage">
+      <skiHeader />
+      <div>
+        dasd
+      </div>
+      <safeAreaCom />
+    </view>
   </view>
+
 </template>
 
 <script>

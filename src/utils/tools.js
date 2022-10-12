@@ -66,10 +66,24 @@ export const common = {
     return url
   },
   getUrlParams: function(k) {
+    // #ifdef H5
     const URL = window.location.href
     const url = URL.split('?')[1]
     const urlSearchParams = new URLSearchParams(url)
     const params = Object.fromEntries(urlSearchParams.entries())
+    if (this.isNull(params[k])) {
+      return ''
+    }
     return params[k]
+    // #endif
+    // #ifdef MP-WEIXIN
+    const pages = getCurrentPages()
+    const page = pages[pages.length - 1]
+    const options = page['options']
+    if (this.isNull(options[k])) {
+      return ''
+    }
+    return options[k]
+    // #endif
   }
 }

@@ -1,41 +1,43 @@
-
 <template>
-  <view class="header_container">
-    <view class="fiexed_view" :style="{ background: bgColor }">
-      <image v-if="bgImg" class="bg_img" :src="bgImg" />
-      <!-- 状态栏 -->
-      <view :style="{ height: statusBarHeight + 'px' }" />
-      <!-- header 主体 -->
-      <view class="header_content flexbox" :style="{ height: (navbarHeight + 'px') }">
-        <view v-if="showBackHome" class="btn_dv">
-          <view class="back_btn flexbox_cen" @click="backHome">
-            <image class="back_icon" :src="backHomeBlackIcon || backHomeIcon" />
+  <view>
+    <!-- #ifdef MP-WEIXIN -->
+    <view class="header_container">
+      <view class="fiexed_view" :style="{ background: bgColor }">
+        <image v-if="bgImg" class="bg_img" :src="bgImg" />
+        <!-- 状态栏 -->
+        <view class="fixheight" :style="{ height: statusBarHeight + 'px' }" />
+        <!-- header 主体 -->
+        <view class="header_content flexbox" :style="{ height: (navbarHeight + 'px') }">
+          <view class="header_content_fl_box btn_dv">
+            <view v-if="showBack || pageLength">
+              <view class="back_btn flexbox_cen" @click="handleBackPage">
+                <image class="back_icon" :src="backIcon" />
+              </view>
+            </view>
+            <view v-if="showBack && showBackHome" class="shuxian" />
+            <view v-if="showBackHome">
+              <view class="back_btn flexbox_cen" @click="handleBackHome">
+                <image class="back_icon" :src="backHomeIcon" />
+              </view>
+            </view>
           </view>
+          <view v-if="titleAlign != null && titleAlign.trim() == 'center'" class="btn_dv" />
+          <text class="text fz32 text_line1" :style="{ color: titleColor, 'text-align': titleAlign }">{{ title }}</text>
+          <view class="btn_dv" />
         </view>
-        <view v-else-if="showBack" class="btn_dv">
-          <view class="back_btn flexbox_cen" @click="backUpPage">
-            <image class="back_icon" :src="backIcon" />
-          </view>
-        </view>
-        <view v-else class="btn_dv" />
-        <view v-if="titleAlign != null && titleAlign.trim() == 'center'" class="btn_dv" />
-        <text class="text fz32 text_line1" :style="{ color: titleColor, 'text-align': titleAlign }">{{ title }}</text>
-        <view class="btn_dv" />
+        <slot />
+        <!-- 圆角 -->
       </view>
-      <slot />
-      <!-- 圆角 -->
-      <view v-if="showBdra" class="header_radius" :style="{ background: bdraColor,height:bdraHeight + 'rpx' }" />
-      <slot name="bottomSlot" />
+      <!-- 头部占位高度-->
+      <view
+        v-if="showSpaceEl"
+        :style="{ width: '100%' }"
+      >
+        <view :style="{ width: '100%', height: statusBarHeight + 'px'}" />
+        <view :style="{ width: '100%', height: navbarHeight + 'px'}" />
+      </view>
     </view>
-    <!-- 是否显示头部占位高度（显示时是否计算圆角高度） -->
-    <view
-      v-if="showSpaceEl"
-      :style="{ width: '100%' }"
-    >
-      <view :style="{ width: '100%', height: statusBarHeight + 'px'}" />
-      <view :style="{ width: '100%', height: navbarHeight + 'px'}" />
-      <view :style="{ width: '100%', height: showBdra ? bdraHeight + soltHeight + bottomSoltHeight + 'rpx' : soltHeight + bottomSoltHeight + 'rpx'}" />
-    </view>
+    <!--#endif-->
   </view>
 </template>
 
@@ -57,30 +59,10 @@ export default {
       type: String,
       default: 'center'
     },
-    // 返回类型，默认返回上一页；若需其他在此添加
-    backType: {
-      type: Number,
-      default: 0
-    },
-    // 返回页数
-    backNum: {
-      type: Number,
-      default: 1
-    },
-    // 插槽高度(匿名插槽)
-    soltHeight: {
-      type: Number,
-      default: 0
-    },
-    // 插槽高度(具名插槽)
-    bottomSoltHeight: {
-      type: Number,
-      default: 0
-    },
     // 背景颜色
     bgColor: {
       type: String,
-      default: '#fff'
+      default: '#000'
     },
     // 是否显示返回按钮
     showBack: {
@@ -90,7 +72,7 @@ export default {
     // 是否显示返回首页按钮
     showBackHome: {
       type: Boolean,
-      default: false
+      default: true
     },
     // 是否显示占位高度
     showSpaceEl: {
@@ -110,27 +92,12 @@ export default {
     // 返回按钮图片
     backIcon: {
       type: String,
-      default: '/static/images/backhei.png'
+      default: '/static/images/houtuihei.png'
     },
     // 返回首页图片
     backHomeIcon: {
       type: String,
-      default: '/static/images/shouyebai.png'
-    },
-    // 圆角背景颜色
-    bdraColor: {
-      type: String,
-      default: '#ebf2fb'
-    },
-    // 是否显示圆角
-    showBdra: {
-      type: Boolean,
-      default: false
-    },
-    // 圆角高度
-    bdraHeight: {
-      type: Number,
-      default: 40
+      default: '/static/images/shouyexiaofangzi.png'
     }
   },
   data() {
@@ -139,15 +106,11 @@ export default {
       statusBarHeight: getApp().globalData.statusBarHeight,
       // 导航栏高度
       navbarHeight: 44,
-      viewHeight: 0,
       titleColorWhiteList: ['#fff', '#ffffff'],
-      beforePage: true, // 页面栈是否有上一页
       backHomeBlackIcon: '' // 黑色返回按钮
     }
   },
-  computed: {
-
-  },
+  computed: {},
   watch: {
     // 监听设置状态栏
     isLight() {
@@ -155,12 +118,10 @@ export default {
     }
   },
   mounted() {
-    // 实例挂载后赋值
     // #ifdef H5
     this.navbarHeight = 0
     // #endif
     this.statusBarHeight = getApp().globalData.statusBarHeight
-    this.viewHeight = this.showBdra ? this.statusBarHeight * 2 + 140 + this.soltHeight + this.bottomSoltHeight : this.statusBarHeight * 2 + 100 + this.soltHeight + this.bottomSoltHeight
     this.setStatusBar()
   },
   options: {
@@ -169,14 +130,12 @@ export default {
   },
   methods: {
     // 返回上一页
-    backUpPage() {
+    handleBackPage() {
 
     },
     // 返回首页
-    backHome() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      })
+    handleBackHome() {
+
     },
     // 设置状态栏
     setStatusBar() {
@@ -223,10 +182,14 @@ export default {
   height: 44px;
   box-sizing: border-box;
   padding: 0 16rpx;
+  position: relative;
 
   .btn_dv {
+    height: 64rpx;
+    border-radius: 50rpx;
     position: absolute;
     left: 20rpx;
+    top: 6rpx;
   }
 
   /* text改为.text 低版本组件样式不能用标签选择器 */
@@ -241,18 +204,38 @@ export default {
   border-radius: 24rpx 24rpx 0 0;
 }
 
-.back_btn {
-  width: 76rpx;
-  height: 100rpx;
+.back_icon {
+  width: 48rpx;
+  height: 48rpx;
 }
 
-.back_icon {
-  width: 36rpx;
-  height: 36rpx;
-}
-.fz32{
+.fz32 {
   font-size: 32rpx;
 }
-.flexbox{display: flex;align-items: center;}
-.flexbox_cen{display:flex;align-items:center;justify-content:center;}
+
+.flexbox {
+  display: flex;
+  align-items: center;
+}
+
+.flexbox_cen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header_content_fl_box{
+  display: flex;
+  padding-right: 15rpx;
+  padding-left: 10rpx;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #d6d6d6;
+  box-sizing: border-box;
+}
+.shuxian{
+  height: 30rpx;
+  width: 2rpx;
+  margin: 0 20rpx;
+  background-color: #e9e9e9;
+}
 </style>

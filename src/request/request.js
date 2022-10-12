@@ -1,6 +1,11 @@
 import baseUrl from './baseUrl'
-
+let ajaxNumber = 0
 const myRequest = ({ url, data, method = 'post', header = {}}) => {
+  uni.showLoading({
+    title: '加载中',
+    mask: true
+  })
+  ajaxNumber++
   return new Promise((resolve, reject) => {
     const _header = {}
     const myHeader = Object.assign({}, _header, header)
@@ -15,6 +20,12 @@ const myRequest = ({ url, data, method = 'post', header = {}}) => {
       fail: (error) => {
         console.log('请求失败', error)
         reject(error)
+      },
+      complete: () => {
+        ajaxNumber--
+        if (ajaxNumber === 0) {
+          uni.hideLoading()
+        }
       }
     })
   })
