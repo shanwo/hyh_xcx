@@ -10,6 +10,24 @@
 			}
 		},
 		{
+			"path": "pages/downLoadFile/downLoadFile",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "下载"
+			}
+		},
+		{
+			"path": "pages/chooseSkiList/chooseSkiList",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "选择滑雪场"
+			}
+		},
+		{
 			"path": "pages/demo/demo",
 			"meta": {
 				"auth": true

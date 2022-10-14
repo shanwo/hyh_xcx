@@ -1,8 +1,8 @@
 export const common = {
-  showLoading: function(title = '加载中', duration = 2000) {
+  showLoading: function(title = '加载中', mask = true) {
     uni.showLoading({
       title: title,
-      duration: duration
+      mask: mask
     })
   },
   hideLoading: function() {

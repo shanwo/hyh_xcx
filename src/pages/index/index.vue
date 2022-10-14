@@ -1,5 +1,6 @@
 <template>
   <view class="body_bg">
+    <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />
     <view class="content" @click="handleNextPage">
       <skiHeader />
       <div>
@@ -14,9 +15,11 @@
 <script>
 import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
+import getLocationCom from '@/components/common/getLocationCom'
 export default {
   components: {
     skiHeader,
+    getLocationCom,
     safeAreaCom
   },
   data() {
@@ -38,6 +41,12 @@ export default {
     }, 3000)
   },
   methods: {
+    getLocationErrorBack() {
+
+    },
+    getLocationSuccessBack() {
+
+    },
     handleNextPage() {
       this.$common.redirect({ url: '/pages/login/login', params: { a: 3, b: 5 }})
     }
