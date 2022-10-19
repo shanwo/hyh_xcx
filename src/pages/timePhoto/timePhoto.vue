@@ -10,7 +10,19 @@
         </div>
       </div>
     </div>
-    <tabsCom />
+    <tabsCom
+      :line-width="50"
+      :current="0"
+      :list="list"
+      :line-color="'#F8B800'"
+      :active-style="{
+        color: '#F8B800',
+        fontWeight: 'bold',
+      }"
+      :inactive-style="{
+        color: '#ffffff',
+      }"
+    />
     <waterfall-list
       :status="waterfall.status"
       :list="waterfall.list"
@@ -26,6 +38,7 @@
 import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
+
 export default {
   name: 'List3',
   components: {
@@ -35,6 +48,30 @@ export default {
   },
   data() {
     return {
+      list: [{
+        name: '12:00'
+      },
+      {
+        name: '13:00'
+      }, {
+        name: '14:00'
+      },
+      {
+        name: '15:00'
+      },
+      {
+        name: '16:00'
+      }, {
+        name: '17:00'
+      },
+      {
+        name: '18:00'
+      },
+      {
+        name: '19:00'
+
+      }
+      ],
       // 瀑布流组件相关
       waterfall: {
         status: '',

@@ -14,7 +14,7 @@
     </div>
 
     <div>
-      <tabsCom :current="0" :list="list" />
+      <tabsCom :line-width="50" :current="0" :list="list" />
     </div>
     <div>
       啊实打实
@@ -140,6 +140,8 @@ export default {
     opacity: 0;
     left: 100px;
     top: 1000px;
+    width: 0;
+    height: 0;
     transform: rotate(180deg);
   }
 }
