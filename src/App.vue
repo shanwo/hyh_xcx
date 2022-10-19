@@ -56,10 +56,30 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
 	/*每个页面公共css */
+  @import "static/theme.scss";
   .body_bg{
-    background-color: #000000;
+    background: $bgColor;
     min-height: 100vh;
   }
+  .flexbox{
+    display: flex;
+    flex: 1;
+  }
+  .flexbox_h_center{
+    display: flex;
+    justify-content: center;
+  }
+  .flexbox_s_center{
+    display: flex;
+    align-items: center;
+  }
+  .flexbox_center{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
 </style>

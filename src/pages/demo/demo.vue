@@ -1,9 +1,20 @@
 <template>
   <div>
     <skiHeader title="测试" />
-    <image src="https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png" />
+    <div class="parent_box" @click="handleAdd">
+      <image
+        src="https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png"
+      />
+      <image
+
+        :class="[status === true?'move_left':'','son_box']"
+        src="https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png"
+        @click="handleAdd"
+      />
+    </div>
+
     <div>
-      <tabsCom />
+      <tabsCom :current="0" :list="list" />
     </div>
     <div>
       啊实打实
@@ -17,13 +28,46 @@
 import skiHeader from '@/components/common/skiHeader'
 import tabsCom from '@/components/common/tabsCom'
 import { downloadFiles } from '@/utils/downFile'
+
 export default {
   name: 'Demo',
   components: {
     skiHeader,
     tabsCom
   },
+  data() {
+    return {
+      status: false,
+      list: [{
+        name: '12:00'
+      },
+      {
+        name: '13:00'
+      }, {
+        name: '14:00'
+      },
+      {
+        name: '15:00'
+      },
+      {
+        name: '16:00'
+      }, {
+        name: '17:00'
+      },
+      {
+        name: '18:00'
+      },
+      {
+        name: '19:00'
+
+      }
+      ]
+    }
+  },
   methods: {
+    handleAdd() {
+      this.status = true
+    },
     handleDownImg() {
       this.reiveIamge()
     },
@@ -70,5 +114,34 @@ export default {
 </script>
 
 <style scoped>
+/*animation: name duration timing-function delay iteration-count direction fill-mode;*/
+/*去前面两个属性 name duration一定要写      默认的你不用改的可以不用写*/
+/*animation: move 2s linear 0s 2 alternate forwards ;*/
+.parent_box{
+  position: relative;
+}
+.son_box{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.move_left {
+
+  animation: moveleft 200ms linear;
+}
+
+@keyframes moveleft {
+  from {
+    opacity: 1;
+    top: 0;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    left: 100px;
+    top: 1000px;
+    transform: rotate(180deg);
+  }
+}
 
 </style>

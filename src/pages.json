@@ -1,4 +1,7 @@
 {
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [
 		{
 			"path": "pages/index/index",
@@ -7,6 +10,15 @@
 			},
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/cart/cart",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "购物车"
 			}
 		},
 		{
@@ -28,12 +40,39 @@
 			}
 		},
 		{
+			"path": "pages/timePhoto/timePhoto",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "照片墙"
+			}
+		},
+		{
 			"path": "pages/demo/demo",
 			"meta": {
 				"auth": true
 			},
 			"style": {
 				"navigationBarTitleText": "测试"
+			}
+		},
+		{
+			"path": "pages/demo/list2",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "测试列表"
+			}
+		},
+		{
+			"path": "pages/demo/list3",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "测试列表"
 			}
 		},
 		{
@@ -72,6 +111,26 @@
 			{
 				"name": "登录页", //模式名称
 				"path": "pages/login/login" //启动页面，必选
+			},
+			{
+				"name": "选择滑雪场", //模式名称
+				"path": "pages/chooseSkiList/chooseSkiList" //启动页面，必选
+			},
+			{
+				"name": "选择时间照片", //模式名称
+				"path": "pages/timePhoto/timePhoto" //启动页面，必选
+			},
+			{
+				"name": "购物车", //模式名称
+				"path": "pages/cart/cart" //启动页面，必选
+			},
+			{
+				"name": "瀑布流", //模式名称
+				"path": "pages/demo/list3" //启动页面，必选
+			},
+			{
+				"name": "demo", //模式名称
+				"path": "pages/demo/demo" //启动页面，必选
 			}
 		]
 	}

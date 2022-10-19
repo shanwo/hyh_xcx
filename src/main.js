@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App'
+
+import uView from 'uview-ui'
+Vue.use(uView)
 import mixin from './mixin/index'
 // import Vconsole from 'vconsole'
 // if (process.env.NODE_ENV === 'test') {

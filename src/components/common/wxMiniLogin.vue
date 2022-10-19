@@ -1,8 +1,8 @@
 <template>
   <view class="btn_wrap">
     <div style="height: 300rpx" />
-    <button v-if="!version" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
-    <button v-if="version" @click="getUserInfo">微信登录</button>
+    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
+    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>
   </view>
 </template>
 
@@ -57,4 +57,15 @@ export default {
   /*.btn{*/
   /*  color: #333;*/
   /*}*/
+  .btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 680rpx;
+    height: 92rpx;
+    background: #F8B800;
+    border-radius: 10rpx;
+    font-size: 32rpx;
+    color: #060606;
+  }
 </style>

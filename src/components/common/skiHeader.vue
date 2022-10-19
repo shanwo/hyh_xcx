@@ -8,7 +8,7 @@
         <view class="fixheight" :style="{ height: statusBarHeight + 'px' }" />
         <!-- header 主体 -->
         <view class="header_content flexbox" :style="{ height: (navbarHeight + 'px') }">
-          <view class="header_content_fl_box btn_dv">
+          <view class="header_content_fl_box btn_dv" :style="{'background-color':flBgColor}">
             <view v-if="showBack || pageLength">
               <view class="back_btn flexbox_cen" @click="handleBackPage">
                 <image class="back_icon" :src="backIcon" />
@@ -19,6 +19,9 @@
               <view class="back_btn flexbox_cen" @click="handleBackHome">
                 <image class="back_icon" :src="backHomeIcon" />
               </view>
+            </view>
+            <view v-if="logo" style="margin-top: 14rpx">
+              <image class="logo_icon" :src="logo" />
             </view>
           </view>
           <view v-if="titleAlign != null && titleAlign.trim() == 'center'" class="btn_dv" />
@@ -44,6 +47,10 @@
 <script>
 export default {
   props: {
+    logo: {
+      type: String,
+      default: ''
+    },
     // 页面标题
     title: {
       type: String,
@@ -53,6 +60,10 @@ export default {
     titleColor: {
       type: String,
       default: '#333'
+    },
+    flBgColor: {
+      type: String,
+      default: '#d6d6d6'
     },
     // 标题位置
     titleAlign: {
@@ -237,5 +248,9 @@ export default {
   width: 2rpx;
   margin: 0 20rpx;
   background-color: #e9e9e9;
+}
+.logo_icon{
+  width: 158rpx;
+  height: 42rpx;
 }
 </style>
