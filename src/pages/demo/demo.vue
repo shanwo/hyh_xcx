@@ -6,21 +6,18 @@
         src="https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png"
       />
       <image
-
         :class="[status === true?'move_left':'','son_box']"
         src="https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png"
         @click="handleAdd"
       />
     </div>
-
     <div>
       <tabsCom :line-width="50" :current="0" :list="list" />
     </div>
     <div>
-      啊实打实
-      阿斯达撒所
+      你们好2d
     </div>
-    <div @click="handleDownImg">下载图片</div>
+    <div @click="handleDownImg">下D载图片</div>
   </div>
 </template>
 
@@ -39,7 +36,7 @@ export default {
     return {
       status: false,
       list: [{
-        name: '12:00'
+        name: '32:00'
       },
       {
         name: '13:00'
@@ -126,7 +123,6 @@ export default {
   top: 0;
 }
 .move_left {
-
   animation: moveleft 200ms linear;
 }
 

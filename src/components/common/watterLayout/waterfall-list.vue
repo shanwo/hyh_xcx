@@ -185,6 +185,7 @@ export default {
         }
         return
       }
+
       const item = {
         ...this.awaitRenderList.splice(0, 1)[0],
         // 当前数据添加当前页面标识
@@ -250,4 +251,5 @@ export default {
 		color: #999;
 		font-size: 24rpx;
 	}
+
 </style>

@@ -5,10 +5,9 @@ export default {
     }
   },
   mounted() {
-    // #ifdef MP-WEIXIN
+    console.log('1232')
     const pages = getCurrentPages()
     const page = pages[pages.length - 1]
     console.warn(page.$page.fullPath)
-    // #defif
   }
 }

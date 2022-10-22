@@ -1,6 +1,10 @@
 <template>
   <view class="waterfall-item-container">
     <view class="waterfall-item" @tap="onTap">
+      <div class="fix_box" />
+      <div class="img_box">
+        <image class="jiahao" src="/static/images/cart/jiahao.png" />
+      </div>
       <image :src="params.url" mode="widthFix" @load="emitHeight" @error="emitHeight" />
       <!--      <view class="content">-->
       <!--        <view>{{ params.title }}</view>-->
@@ -59,6 +63,7 @@ export default {
   border-radius: 4px;
   font-size: 28 rpx;
   color: #666;
+  position: relative;
 
   image {
     display: block;
@@ -87,6 +92,26 @@ export default {
       font-size: 20 rpx;
       color: #999;
     }
+  }
+}
+.fix_box{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(0,0,0,0.2);
+}
+.img_box{
+  padding: 20rpx;
+  position: absolute;
+  z-index: 11;
+  right: 0;
+  bottom: 0;
+  .jiahao{
+    width: 40rpx;
+    height: 40rpx;
   }
 }
 </style>

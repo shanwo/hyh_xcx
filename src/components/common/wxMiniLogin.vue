@@ -1,6 +1,5 @@
 <template>
   <view class="btn_wrap">
-    <div style="height: 300rpx" />
     <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
     <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>
   </view>
@@ -31,6 +30,7 @@ export default {
   },
   methods: {
     getUserInfo(e) {
+      console.log('getUserInfogetUserInfo', e)
       this.$common.showLoading()
       if (this.version) {
         uni.getUserProfile({

@@ -23,13 +23,15 @@
         color: '#ffffff',
       }"
     />
+
     <waterfall-list
       :status="waterfall.status"
       :list="waterfall.list"
       :reset="waterfall.reset"
-      @click="onClick"
+      @click="listenClick"
       @done="onDone"
     />
+    <photoDetailDialog v-if="photoStatus" @listenClose="listenClose" />
   </div>
 </template>
 
@@ -38,12 +40,14 @@
 import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
+import photoDetailDialog from '@/pages/timePhoto/components/photoDetailDialog'
 
 export default {
   name: 'List3',
   components: {
     tabsCom,
     skiHeader,
+    photoDetailDialog,
     waterfallList
   },
   data() {
@@ -78,6 +82,7 @@ export default {
         reset: false,
         list: []
       },
+      photoStatus: false,
       storeData: [],
       allStoreData: [],
       pageIndex: 0
@@ -146,8 +151,11 @@ export default {
         this.waterfall.status = 'success'
       }, 1000)
     },
-    onClick() {
-
+    listenClick(obj) {
+      this.photoStatus = true
+    },
+    listenClose() {
+      this.photoStatus = false
     },
     onDone() {
 
