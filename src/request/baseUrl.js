@@ -1,16 +1,18 @@
-
 console.log('process', process.env.NODE_ENV)
-const baseUrl = {
-  apiUrl: ''
+const baseObj = {
+  apiUrl: '',
+  appId: 'wxd48e60476848c793',
+  appsecret: '750ccc02c3027af11d2f860e76652ce1'
+}
+if (process.env.NODE_ENV === 'development') {
+  baseObj.apiUrl = 'http://api.shanwo.vip'
+} else if (process.env.NODE_ENV === 'test') {
+  baseObj.apiUrl = 'http://api.shanwo.vip'
+
+  baseObj.apiUrl = ''
+} else if (process.env.NODE_ENV === 'production') {
+  baseObj.apiUrl = 'https://api.shanwo.cc'
 }
 
-if (process.NODE_ENV === 'development') {
-  baseUrl.apiUrl = 'http://localhost:3000'
-} else if (process.NODE_ENV === 'test') {
-  baseUrl.apiUrl = ''
-} else if (process.NODE_ENV === 'production') {
-  baseUrl.apiUrl = ''
-}
-
-export default baseUrl
+export default baseObj
 

@@ -29,6 +29,10 @@ export const common = {
       uni.navigateTo({ url: url })
     }
   },
+  back: function(delta = 1) {
+    uni.navigateBack({ delta: delta })
+  },
+
   redirect: function(obj) {
     const url = obj.url
     const params = obj.params

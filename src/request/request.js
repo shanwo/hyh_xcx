@@ -1,4 +1,4 @@
-import baseUrl from './baseUrl'
+import baseObj from './baseUrl'
 let ajaxNumber = 0
 const myRequest = ({ url, data, method = 'post', header = {}}) => {
   uni.showLoading({
@@ -7,10 +7,14 @@ const myRequest = ({ url, data, method = 'post', header = {}}) => {
   })
   ajaxNumber++
   return new Promise((resolve, reject) => {
-    const _header = {}
+    const _header = {
+      appid: baseObj.appId,
+      appsecret: baseObj.appsecret
+    }
     const myHeader = Object.assign({}, _header, header)
+    console.log('baseObj', baseObj, 'url', url)
     uni.request({
-      url: baseUrl.apiUrl + url, // 仅为示例，并非真实接口地址。
+      url: baseObj.apiUrl + url, // 仅为示例，并非真实接口地址。
       data,
       header: myHeader,
       success: (res) => {

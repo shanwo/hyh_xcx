@@ -1,11 +1,13 @@
 <template>
   <view class="btn_wrap">
-    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
-    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>
+    <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
+    <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
+    <button class="btns" @click="handleNewLogin">微信登录</button>
   </view>
 </template>
 
 <script>
+import { ajaxLogin } from '@/api/loginApi'
 
 export default {
   data() {
@@ -16,19 +18,50 @@ export default {
   },
   mounted() {
     this.backUrl = this.$common.getUrlParams('backUrl')
-    console.log(this.backUrl)
-    if (wx.getUserProfile) {
-      this.version = true
-    } else {
-      this.version = false
-    }
-    wx.login({
-      success(e) {
-        console.log(e)
-      }
-    })
+    // console.log(this.backUrl)
+    // if (wx.getUserProfile) {
+    //   this.version = true
+    // } else {
+    //   this.version = false
+    // }
+    // wx.login({
+    //   success(e) {
+    //     console.log('code', e.code)
+    //     ajaxLogin({ code: e.code }).then(res => {
+    //       console.log('res', res)
+    //     }).catch(err => {
+    //       console.log('err', err)
+    //     })
+    //   }
+    // })
   },
   methods: {
+    handleNewLogin() {
+      const that = this
+      that.$common.showLoading('登录中')
+      wx.login({
+        success(e) {
+          console.log('code', e.code)
+          ajaxLogin({ code: e.code }).then(res => {
+            console.log('res', res.data.data)
+            uni.setStorageSync('userId', res.data.data.id)
+            uni.setStorageSync('token', res.data.data.api_token)
+            that.$common.hideLoading()
+            if (that.backUrl) {
+              that.$common.redirect({
+                url: that.backUrl
+              })
+            } else {
+              that.$common.redirect({
+                url: '/pages/index/index'
+              })
+            }
+          }).catch(err => {
+            console.log('err', err)
+          })
+        }
+      })
+    },
     getUserInfo(e) {
       console.log('getUserInfogetUserInfo', e)
       this.$common.showLoading()

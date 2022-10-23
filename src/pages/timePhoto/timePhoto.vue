@@ -2,36 +2,42 @@
   <div class="body_bg">
     <skiHeader />
     <div class="header_box">
-      <div class="title">2022年10月7日</div>
+      <div class="title">{{ timeStr }}</div>
       <div class="desc flexbox">
-        <image class="icon" src="/static/images/chooseSkiList/gps_white@2x.png" />
-        <div>
-          北京阿啥都静安寺按适当滑雪场
+        <image class="icon" src="https://cdn.shanwo.cc/xcx/gps_white@2x.png" />
+        <div v-if="skiObj">
+          {{ skiObj.merger_name }}
+          {{ skiObj.address }}
         </div>
       </div>
     </div>
-    <tabsCom
-      :line-width="50"
-      :current="0"
-      :list="list"
-      :line-color="'#F8B800'"
-      :active-style="{
-        color: '#F8B800',
-        fontWeight: 'bold',
-      }"
-      :inactive-style="{
-        color: '#ffffff',
-      }"
-    />
+    <block v-if="hoursList.length">
+      <tabsCom
+        :line-width="50"
+        :current="0"
+        :list="hoursList"
+        :line-color="'#F8B800'"
+        :active-style="{
+          color: '#F8B800',
+          fontWeight: 'bold',
+        }"
+        :inactive-style="{
+          color: '#ffffff',
+        }"
+        @change="listenTabComChange"
+      />
+    </block>
+    <view>
+      <waterfall-list
+        :status="waterfall.status"
+        :list="waterfall.list"
+        :reset="waterfall.reset"
+        @click="listenClick"
+        @done="onDone"
+      />
+    </view>
 
-    <waterfall-list
-      :status="waterfall.status"
-      :list="waterfall.list"
-      :reset="waterfall.reset"
-      @click="listenClick"
-      @done="onDone"
-    />
-    <photoDetailDialog v-if="photoStatus" @listenClose="listenClose" />
+    <photoDetailDialog v-if="photoStatus" :photo-obj="photoObj" @listenClose="listenClose" />
   </div>
 </template>
 
@@ -41,6 +47,8 @@ import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
 import photoDetailDialog from '@/pages/timePhoto/components/photoDetailDialog'
+import { ajaxVenueHour } from '@/api/timePhotoApi'
+import { ajaxVenueLists } from '@/api/chooseSkiList'
 
 export default {
   name: 'List3',
@@ -52,30 +60,12 @@ export default {
   },
   data() {
     return {
-      list: [{
-        name: '12:00'
-      },
-      {
-        name: '13:00'
-      }, {
-        name: '14:00'
-      },
-      {
-        name: '15:00'
-      },
-      {
-        name: '16:00'
-      }, {
-        name: '17:00'
-      },
-      {
-        name: '18:00'
-      },
-      {
-        name: '19:00'
-
-      }
-      ],
+      photoObj: {},
+      skid: '',
+      timeStr: '',
+      skiObj: '',
+      hoursList: [],
+      hourVal: '',
       // 瀑布流组件相关
       waterfall: {
         status: '',
@@ -88,71 +78,83 @@ export default {
       pageIndex: 0
     }
   },
-  onLoad() {
-
+  onLoad(options) {
+    this.init(options)
   },
   mounted() {
-    const storeData = [
-      [
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/1.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/2.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/3.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/4.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/5.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/6.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/7.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/8.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/9.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/乐扣保温杯-吾皇联名款/商品详情图/10.jpg'
-      ],
-      [
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/1.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/2.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/3.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/4.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/5.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/6.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/7.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/8.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/9.png',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/10.png'
-      ],
-      [
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/01.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/02.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/03.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/04.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/05.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/06.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/07.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/08.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/09.jpg',
-        'https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/台历商品/普通客户横版台历/商品详情图/10.jpg'
-      ]
-    ]
-    this.allStoreData = storeData
-    console.log('this.waterfall', this.waterfall)
-    this.getList()
+    const storeData = []
   },
   methods: {
-    getList() {
-      this.waterfall.status = 'loading'
-      setTimeout(() => {
-        const arr = []
-        console.log('当前页', this.pageIndex)
-        const currentData = this.storeData.concat(this.allStoreData[this.pageIndex])
-        currentData.forEach(val => {
-          arr.push({
-            url: val
-          })
-        })
-
-        this.waterfall.list = arr
-        this.waterfall.status = 'success'
-      }, 1000)
+    init(options) {
+      this.skid = options.skid
+      this.timeStr = options.timeStr
+      this.getWxHoursList()
+      this.getSkiList()
     },
+    listenTabComChange(obj) {
+      console.log(obj)
+      this.hourVal = obj.time
+      this.waterfall.list = []
+      this.waterfall.reset = true
+      this.getList()
+    },
+    getSkiList() {
+      ajaxVenueLists().then(res => {
+        console.log('场景', res.data.data)
+        const lists = res.data.data.lists
+        this.skiObj = lists.filter(val => val.id == this.skid)[0]
+      })
+    },
+    getWxHoursList(hour) {
+      ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
+        if (!this.hoursList.length) {
+          const hoursList = []
+          res.data.data.hours.forEach(val => {
+            hoursList.push({
+              name: val + ':00',
+              time: val
+            })
+          })
+          this.hoursList = hoursList
+          this.hourVal = this.hoursList[0].time
+          this.getList()
+        }
+      })
+    },
+    getList() {
+      this.$common.showLoading()
+      this.waterfall.status = 'loading'
+      ajaxVenueHour({ venue_id: this.skid, day: '10-22', hour: this.hourVal }).then(res => {
+        this.waterfall.list = res.data.data.lists
+        if (this.waterfall.list.length == 0) {
+          this.waterfall.status = 'finish'
+        } else {
+          this.waterfall.status = 'success'
+        }
+        this.$common.hideLoading()
+      })
+    },
+    // getList() {
+    //   this.waterfall.status = 'loading'
+    //   setTimeout(() => {
+    //     const arr = []
+    //     console.log('当前页', this.pageIndex)
+    //     const currentData = this.storeData.concat(this.allStoreData[this.pageIndex])
+    //     currentData.forEach(val => {
+    //       arr.push({
+    //         url: val
+    //       })
+    //     })
+    //
+    //     this.waterfall.list = arr
+    //     this.waterfall.status = 'success'
+    //   }, 1000)
+    // },
     listenClick(obj) {
-      this.photoStatus = true
+      this.photoObj = obj
+      setTimeout(() => {
+        this.photoStatus = true
+      })
     },
     listenClose() {
       this.photoStatus = false
@@ -166,8 +168,8 @@ export default {
       })
     },
     onReachBottom() {
-      this.pageIndex += 1
-      this.getList()
+      // this.pageIndex += 1
+      // this.getList()
     }
   }
 }

@@ -1,5 +1,5 @@
 <script>
-import baseUrl from '@/request/baseUrl'
+import baseObj from '@/request/baseUrl'
 export default {
   globalData: {
     statusBarHeight: '', // 状态栏高度

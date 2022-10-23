@@ -2,16 +2,16 @@
 <template>
   <div class="body_bg">
     <div class="main_box" :style="{top:top1}">
-      <image class="shandian" src="/static/images/login/lightning@2x.png" />
+      <image class="shandian" src="https://cdn.shanwo.cc/xcx/lightning@2x.png" />
     </div>
     <div class="logo_box" :style="{top:top2}">
-      <image class="logo" src="/static/images/login/skier@2x.png" />
+      <image class="logo" src="https://cdn.shanwo.cc/xcx/skier2x.png" />
     </div>
     <!--    &lt;!&ndash; #ifdef H5 &ndash;&gt;-->
     <!--    <H5Login />-->
     <!--    &lt;!&ndash; #endif&ndash;&gt;-->
     <div class="login_box" :style="{top:top3}">
-      <image class="desc_logo" src="/static/images/login/logo@2x.png" />
+      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/logo@2x.png" />
       <wx-mini-login />
     </div>
   </div>
@@ -19,6 +19,7 @@
 
 <script>
 import wxMiniLogin from '@/components/common/wxMiniLogin'
+
 export default {
   components: {
     wxMiniLogin

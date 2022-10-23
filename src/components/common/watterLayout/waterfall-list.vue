@@ -59,7 +59,7 @@ export default {
     // 加载中文案
     loadingText: {
       type: String,
-      default: '加载中'
+      default: '图片加载中'
     },
     // 加载成功文案，一般与加载中保持一致即可，主要为提示组件可以开始渲染了
     successText: {
@@ -118,10 +118,10 @@ export default {
     '$props.status'(newValue, oldValue) {
       // 状态变更为 加载成功 时，执行瀑布流数据渲染
       if (newValue == 'success') {
-        if (!this.$props.list || this.$props.list.length < 1) {
-          console.error('河浪瀑布流插件提示：当前数据无效')
-          return
-        }
+        // if (!this.$props.list || this.$props.list.length < 1) {
+        //   console.error('河浪瀑布流插件提示：当前数据无效')
+        //   return
+        // }
 
         // 若本次渲染为 重置 则先恢复组件的默认参数
         if (this.$props.reset) {

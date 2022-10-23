@@ -7,7 +7,7 @@
       <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin2" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin3" src="/static/images/cart/shuiyin.png" />
-      <image class="big_img" mode="widthFix" src="https://desk-calenda.oss-cn-beijing.aliyuncs.com/static-h5/haowu-mall/staticData/保温杯商品/康宁保温杯-吾皇联名款/商品详情页/10.png" />
+      <image class="big_img" mode="widthFix" :src="photoObj.url" />
     </view>
     <view class="footer_box">
       <view class="cart_box">
@@ -22,6 +22,12 @@
 <script>
 export default {
   name: 'PhotoDetailDialog',
+  props: {
+    photoObj: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
 
@@ -101,6 +107,7 @@ export default {
 .mid_box{
   position: relative;
   overflow: hidden;
+  max-height: 860rpx;
   .shuiyin1{
     position: absolute;
     left:50%;

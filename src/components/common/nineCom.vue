@@ -1,12 +1,18 @@
 <template>
   <div class="main_box">
-    <image v-for="(item,index) in 9" :key="index" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" />
+    <image v-for="(item,index) in imgList" :key="item.id" :src="item.url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NineCom'
+  name: 'NineCom',
+  props: {
+    imgList: {
+      type: Array,
+      default: []
+    }
+  }
 }
 </script>
 
@@ -17,7 +23,6 @@ export default {
     display: block;
     margin-right: 6rpx;
     margin-bottom: 4rpx;
-    background: red;
   }
   .mr0{
     margin-right: 0;
@@ -26,6 +31,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 684rpx;
+    //height: 684rpx;
     overflow: hidden;
     margin: 0 auto;
   }

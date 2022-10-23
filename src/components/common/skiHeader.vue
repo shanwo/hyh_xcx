@@ -142,7 +142,7 @@ export default {
   methods: {
     // 返回上一页
     handleBackPage() {
-
+      this.$common.back()
     },
     // 返回首页
     handleBackHome() {

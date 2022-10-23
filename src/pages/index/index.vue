@@ -1,30 +1,38 @@
 <template>
-  <view>
+  <view v-if="showStatus">
     <view class="body_bg">
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
-      <view class="content" @click="handleNextPage">
-        <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'/static/images/index/homelogo.png'" />
+      <view class="content">
+        <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/homelogo.png'" />
         <div class="head flexbox">张三的滑雪相册</div>
-        <div class="flexbox_s_center hxc_label">
-          <image class="icon_left" src="/static/images/index/gps@2x.png" />
-          <div class="active">爱神滑雪场</div>
-          <image class="icon_right" src="/static/images/index/arrow@2x.png" />
+        <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
+          <image class="icon_left" src="https://cdn.shanwo.cc/xcx/gps@2x.png" />
+          <div class="active">{{ skiObj.name }}</div>
+          <image class="icon_right" src="https://cdn.shanwo.cc/xcx/arrow@2x.png" />
         </div>
-        <div class="desc_box">北京市昌平区龙泽啊实打实第三方的风格</div>
+        <div class="desc_box">{{ skiObj.merger_name }}{{ skiObj.address }}</div>
         <div class="photo_box">
-          <div v-for="(item,index) in 3" :key="index" class="photo_list">
+          <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
             <div class="list_label">
               <div class="fl">
-                2022年10月6日
+                {{ item.date }}
               </div>
-              <div class="fr">
+              <div class="fr" @click="handleNextPage(0,item)">
                 <span>已有</span>
-                <span class="active">232</span>
+                <span class="active">{{ item.total }}</span>
                 <span>张照片</span>
-                <image class="icon_right" src="/static/images/index/arrow_white@2x.png" />
+                <image class="icon_right" src="https://cdn.shanwo.cc/xcx/arrow_white@2x.png" />
               </div>
             </div>
-            <nineCom />
+            <nineCom :img-list="item.images" />
+          </div>
+          <div class="loading_box_d">
+            <u-loadmore
+              :status="loadingObj.status"
+              :loading-text="loadingObj.loadingText"
+              :loadmore-text="loadingObj.loadmoreText"
+              :nomore-text="loadingObj.nomoreText"
+            />
           </div>
 
         </div>
@@ -39,6 +47,8 @@ import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
 // import getLocationCom from '@/components/common/getLocationCom'
 import nineCom from '@/components/common/nineCom'
+import { ajaxVenueDay } from '@/api/indexApi'
+
 export default {
   components: {
     skiHeader,
@@ -48,31 +58,87 @@ export default {
   },
   data() {
     return {
-      title: 'Hello'
+      loadingObj: {
+        status: 'loadmore',
+        loadingText: '努力加载中',
+        loadmoreText: '加载中',
+        nomoreText: '没有更多了'
+      },
+      skid: '',
+      skiObj: '',
+      pageNo: 1,
+      pageSize: 10,
+      venDayList: [],
+      showStatus: false,
+      title: 'Hello',
+      options: ''
     }
   },
-  onLoad() {
-    // uni.showToast({
-    //   title: '标题',
-    //   duration: 2000
-    // })
-    // uni.showLoading({
-    //   title: '加载中'
-    // })
-    // this.$common.showLoading()
-    // setTimeout(() => {
-    //   this.$common.hideLoading()
-    // }, 3000)
+  onLoad(options) {
+    this.options = options
+    this.init(options)
   },
   methods: {
+    init(options) {
+      if (uni.getStorageSync('skid')) {
+        this.showStatus = true
+        this.skid = uni.getStorageSync('skid')
+        this.skiObj = uni.getStorageSync('skiObj')
+        this.getDayPhoto()
+      } else {
+        this.$common.push({ url: '/pages/chooseSkiList/chooseSkiList' })
+      }
+    },
+    getDayPhoto() {
+      if (this.loadingObj.status == 'nomore') {
+        return
+      }
+      ajaxVenueDay({ venue_id: this.skid, page: this.pageNo }).then(res => {
+        const list = res.data.data.lists
+        uni.stopPullDownRefresh()
+        if (res.data.data.page * 5 > res.data.data.total) {
+          this.loadingObj.status = 'nomore'
+        } else {
+          this.loadingObj.status = 'loading'
+          this.venDayList = this.venDayList.concat(list)
+        }
+      })
+    },
+    handleChooseSki() {
+      // this.$common.push({ url: '' })
+      uni.navigateTo({
+        url: '/pages/chooseSkiList/chooseSkiList'
+      })
+    },
+    handleNextPage(status, obj) {
+      console.log(obj)
+      if (status == 0) {
+        this.$common.push({
+          url: '/pages/timePhoto/timePhoto',
+          params: {
+            timeStr: obj.date,
+            skid: uni.getStorageSync('skid')
+          }
+        })
+      }
+    },
     getLocationErrorBack() {
 
     },
     getLocationSuccessBack() {
 
     },
-    handleNextPage() {
-      this.$common.redirect({ url: '/pages/login/login', params: { a: 3, b: 5 }})
+    onReachBottom() {
+      console.log('---------')
+      if (this.loadingObj.status == 'nomore') {
+        return
+      }
+      this.pageNo += 1
+      this.getDayPhoto()
+    },
+    onPullDownRefresh() {
+      this.pageNo = 1
+      this.getDayPhoto()
     }
   }
 }
@@ -153,6 +219,11 @@ export default {
       }
     }
   }
+
+}
+.loading_box_d{
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 </style>
