@@ -23,6 +23,15 @@
 			}
 		},
 		{
+			"path": "pages/my/my",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
 			"path": "pages/payResult/payResult",
 			"meta": {
 				"auth": true
@@ -133,6 +142,10 @@
 			{
 				"name": "支付结果页", //模式名称
 				"path": "pages/payResult/payResult" //启动页面，必选
+			},
+			{
+				"name": "我的", //模式名称
+				"path": "pages/my/my" //启动页面，必选
 			},
 			{
 				"name": "购物车", //模式名称
