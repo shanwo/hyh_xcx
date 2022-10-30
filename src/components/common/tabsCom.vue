@@ -285,7 +285,7 @@ export default {
 //@import "../../libs/css/components.scss";
 
 .u-tabs {
-
+  height: 44px;
   &__wrapper {
     @include flex;
     align-items: center;

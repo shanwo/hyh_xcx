@@ -146,7 +146,9 @@ export default {
     },
     // 返回首页
     handleBackHome() {
-
+      uni.reLaunch({
+        url: '/pages/index/index'
+      })
     },
     // 设置状态栏
     setStatusBar() {

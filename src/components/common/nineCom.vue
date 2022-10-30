@@ -1,6 +1,6 @@
 <template>
   <div class="main_box">
-    <image v-for="(item,index) in imgList" :key="item.id" :src="item.url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" />
+    <image v-for="(item,index) in imgList" :key="item.id" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" />
   </div>
 </template>
 

@@ -82,8 +82,6 @@ export default {
   onLoad(options) {
     this.options = options
     this.init(options)
-    // var timestamp = new Date().getTime()
-    // console.log('timestamp', timestamp)
   },
   methods: {
     init(options) {
@@ -108,6 +106,7 @@ export default {
         const list = res.data.data.lists
         uni.stopPullDownRefresh()
         if (res.data.data.page * 5 > res.data.data.total) {
+          this.venDayList = this.venDayList.concat(list)
           this.loadingObj.status = 'nomore'
         } else {
           this.loadingObj.status = 'loading'

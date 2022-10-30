@@ -5,7 +5,7 @@
         <skiHeader :show-back="true" :show-back-home="true" />
         <div class="head flexbox">
           <div>张三</div>
-          <image class="head_icon" src="https://sw-cdn-1255862984.cos.ap-beijing.myqcloud.com/xcx/logo.png" />
+          <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />
         </div>
         <div class="desc_box">
           <div>已购</div>
@@ -17,15 +17,15 @@
             <div />
             <div class="list_label">
               <div class="fl flexbox">
-                <image class="icon1" src="https://sw-cdn-1255862984.cos.ap-beijing.myqcloud.com/xcx/crux.png" />
+                <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
                 <div>{{ item.date }}</div>
-                <image class="icon" src="https://sw-cdn-1255862984.cos.ap-beijing.myqcloud.com/xcx/arrow_crux_down.png" />
+                <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
               </div>
               <div class="fr" @click="handleNextPage(0,item)">
                 <span>已购买</span>
-                <span class="active">9张</span>
+                <span class="active">{{ item.images.length }}张</span>
                 <span>张</span>
-                <span>共￥12</span>
+                <span>共￥{{ item.pay_price }}</span>
               </div>
             </div>
             <div class="main_box">
@@ -33,7 +33,7 @@
               <nineCom :img-list="item.images" />
               <view class="footer_box">
                 <view class="cart_box">
-                  <image class="cart_icon" src="https://sw-cdn-1255862984.cos.ap-beijing.myqcloud.com/xcx/bianzu.png" />
+                  <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
                   <view class="title-1">下载全部</view>
                 </view>
               </view>
@@ -111,6 +111,7 @@ export default {
         const list = res.data.data.lists
         uni.stopPullDownRefresh()
         if (res.data.data.page * 10 > res.data.data.total) {
+          this.venDayList = this.venDayList.concat(list)
           this.loadingObj.status = 'nomore'
         } else {
           this.loadingObj.status = 'loading'

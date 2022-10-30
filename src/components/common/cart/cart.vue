@@ -44,7 +44,6 @@ export default {
   .footer_box{
     width: 750rpx;
     background: rgba(0,0,0,0.6);
-    height: 120rpx;
     opacity: 0.6;
     position: fixed;
     bottom: 0;

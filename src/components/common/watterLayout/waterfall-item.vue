@@ -74,18 +74,18 @@ export default {
     },
     handleRemoveCart() {
       this.status = 0
-      if (this.status == 0) {
-        console.log('移除')
-        const cartList = uni.getStorageSync('cartList') || []
-        const id = this.params.id
-        const arr = []
-        cartList.forEach(val => {
-          if (val.id != id) {
-            arr.push(val)
-          }
-        })
-        uni.setStorageSync('cartList', arr)
-      }
+      // if (this.status == 0) {
+      //   console.log('移除')
+      //   const cartList = uni.getStorageSync('cartList') || []
+      //   const id = this.params.id
+      //   const arr = []
+      //   cartList.forEach(val => {
+      //     if (val.id != id) {
+      //       arr.push(val)
+      //     }
+      //   })
+      //   uni.setStorageSync('cartList', arr)
+      // }
     }
   }
 }

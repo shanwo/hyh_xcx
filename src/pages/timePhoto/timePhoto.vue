@@ -27,15 +27,31 @@
         @change="listenTabComChange"
       />
     </block>
-    <view>
-      <waterfall-list
-        :status="waterfall.status"
-        :list="waterfall.list"
-        :reset="waterfall.reset"
-        @click="listenClick"
-        @done="onDone"
-      />
-    </view>
+
+    <scroll-view
+      :style="{height:sHeight+'px'}"
+      scroll-y="true"
+      refresher-enabled="true"
+      :refresher-triggered="triggered"
+      :refresher-threshold="100"
+      refresher-background="'#000000'"
+      @refresherpulling="onPulling"
+      @refresherrefresh="onRefresh"
+      @refresherrestore="onRestore"
+      @refresherabort="onAbort"
+    >
+
+      <view>
+        <waterfall-list
+          :status="waterfall.status"
+          :list="waterfall.list"
+          :reset="waterfall.reset"
+          @click="listenClick"
+          @done="onDone"
+        />
+      </view>
+
+    </scroll-view>
 
     <photoDetailDialog v-if="photoStatus" :photo-obj="photoObj" @listenClose="listenClose" />
     <cartCom />
@@ -63,6 +79,7 @@ export default {
   },
   data() {
     return {
+      sHeight: 0,
       photoObj: {},
       skid: '',
       timeStr: '',
@@ -91,8 +108,18 @@ export default {
     init(options) {
       this.skid = options.skid
       this.timeStr = options.timeStr
+      this.getScrollViewHeight()
+      this.getScrollViewHeight()
       this.getWxHoursList()
       this.getSkiList()
+    },
+    getScrollViewHeight() {
+      const sysInfo = uni.getSystemInfoSync()
+      console.log('sysInfo', sysInfo)
+      if (sysInfo.safeArea) {
+        const sHeight = sysInfo.safeArea.height - 46 - 44 - 44
+        this.sHeight = sHeight
+      }
     },
     listenTabComChange(obj) {
       console.log(obj)
@@ -183,6 +210,7 @@ export default {
   .header_box{
     padding-left: 20rpx;
     box-sizing: border-box;
+    height: 46px;
     .title{
       color: $titleColor;
       height: 40rpx;

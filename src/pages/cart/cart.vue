@@ -6,7 +6,7 @@
       <div class="ski_main">
         <div v-for="(item,index) in cartList" :key="item.id" class="cart_list">
           <div :class="[index %2 == 0 ? 'mr4':'']" class="main_box">
-            <image :src="item.url" class="main_img" />
+            <image :src="item.url" class="main_img" mode="aspectFill" />
             <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose(index)">
               <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
             </div>
