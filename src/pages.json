@@ -68,6 +68,15 @@
 			}
 		},
 		{
+			"path": "pages/confirmOrder/confirmOrder",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "确认订单页"
+			}
+		},
+		{
 			"path": "pages/demo/demo",
 			"meta": {
 				"auth": true
@@ -146,6 +155,15 @@
 			{
 				"name": "我的", //模式名称
 				"path": "pages/my/my" //启动页面，必选
+			},
+
+			{
+				"name": "下载", //模式名称
+				"path": "pages/downLoadFile/downLoadFile" //启动页面，必选
+			},
+			{
+				"name": "确认订单页", //模式名称
+				"path": "pages/confirmOrder/confirmOrder" //启动页面，必选
 			},
 			{
 				"name": "购物车", //模式名称

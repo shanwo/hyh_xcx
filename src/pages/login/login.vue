@@ -2,7 +2,7 @@
 <template>
   <div class="body_bg">
     <div class="main_box" :style="{top:top1}">
-      <image class="shandian" src="https://cdn.shanwo.cc/xcx/lightning@2x.png" />
+      <image class="shandian" src="https://cdn.shanwo.cc/xcx/asjdkas.png" />
     </div>
     <div class="logo_box" :style="{top:top2}">
       <image class="logo" src="https://cdn.shanwo.cc/xcx/skier2x.png" />

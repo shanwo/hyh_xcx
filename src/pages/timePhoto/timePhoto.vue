@@ -38,6 +38,7 @@
     </view>
 
     <photoDetailDialog v-if="photoStatus" :photo-obj="photoObj" @listenClose="listenClose" />
+    <cartCom />
   </div>
 </template>
 
@@ -46,6 +47,7 @@
 import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
+import cartCom from '@/components/common/cart/cart'
 import photoDetailDialog from '@/pages/timePhoto/components/photoDetailDialog'
 import { ajaxVenueHour } from '@/api/timePhotoApi'
 import { ajaxVenueLists } from '@/api/chooseSkiList'
@@ -54,6 +56,7 @@ export default {
   name: 'List3',
   components: {
     tabsCom,
+    cartCom,
     skiHeader,
     photoDetailDialog,
     waterfallList

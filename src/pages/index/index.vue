@@ -4,7 +4,6 @@
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
         <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/homelogo.png'" />
-        <div class="head flexbox">张三的滑雪相册</div>
         <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
           <image class="icon_left" src="https://cdn.shanwo.cc/xcx/gps@2x.png" />
           <div class="active">{{ skiObj.name }}</div>
@@ -36,15 +35,19 @@
           </div>
 
         </div>
+        <myCom />
         <safeAreaCom />
       </view>
     </view>
-
-  </view></template>
+    <cart />
+  </view>
+</template>
 
 <script>
 import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
+import myCom from '@/components/common/my'
+import cart from '@/components/common/cart/cart'
 // import getLocationCom from '@/components/common/getLocationCom'
 import nineCom from '@/components/common/nineCom'
 import { ajaxVenueDay } from '@/api/indexApi'
@@ -54,6 +57,8 @@ export default {
     skiHeader,
     // getLocationCom,
     safeAreaCom,
+    cart,
+    myCom,
     nineCom
   },
   data() {
@@ -77,16 +82,22 @@ export default {
   onLoad(options) {
     this.options = options
     this.init(options)
+    // var timestamp = new Date().getTime()
+    // console.log('timestamp', timestamp)
   },
   methods: {
     init(options) {
-      if (uni.getStorageSync('skid')) {
-        this.showStatus = true
-        this.skid = uni.getStorageSync('skid')
-        this.skiObj = uni.getStorageSync('skiObj')
-        this.getDayPhoto()
+      if (uni.getStorageSync('token')) {
+        if (uni.getStorageSync('skid')) {
+          this.showStatus = true
+          this.skid = uni.getStorageSync('skid')
+          this.skiObj = uni.getStorageSync('skiObj')
+          this.getDayPhoto()
+        } else {
+          this.$common.push({ url: '/pages/chooseSkiList/chooseSkiList' })
+        }
       } else {
-        this.$common.push({ url: '/pages/chooseSkiList/chooseSkiList' })
+        this.$common.redirect({ url: '/pages/login/login' })
       }
     },
     getDayPhoto() {
@@ -138,6 +149,8 @@ export default {
     },
     onPullDownRefresh() {
       this.pageNo = 1
+      this.loadingObj.status = 'loadmore'
+      this.venDayList = []
       this.getDayPhoto()
     }
   }

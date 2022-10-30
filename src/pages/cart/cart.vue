@@ -1,47 +1,55 @@
 <template>
   <div class="body_bg">
     <skiHeader />
-    <div class="ski_main">
-      <div v-for="(item,index) in 18" :key="index" class="cart_list">
-        <div :class="[index %2 == 0 ? 'mr4':'']" class="main_box">
-          <image src="" class="main_img" />
-          <div class="choose_box flexbox_center">
-            <image class="icon" src="/static/images/cart/choosenone.png" />
+    <emptyCom v-if="cartList.length == 0" />
+    <view v-if="cartList.length > 0">
+      <div class="ski_main">
+        <div v-for="(item,index) in cartList" :key="item.id" class="cart_list">
+          <div :class="[index %2 == 0 ? 'mr4':'']" class="main_box">
+            <image :src="item.url" class="main_img" />
+            <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose(index)">
+              <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+            </div>
+            <div v-else class="choose_box flexbox_center">
+              <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose(index)" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="edit_box">编辑</div>
-    <div class="footer_box">
-      <!--      <div class="footer_box_1">-->
-      <!--        <div class="fl">-->
-      <!--          <div>已选 <span style="color: #ff253a;margin: 0 8rpx">18</span>张</div>-->
-      <!--        </div>-->
-      <!--        <div class="fr">-->
-      <!--          <div class="btn cancel" style="margin-right: 8rpx">取消</div>-->
-      <!--          <div class="btn del">删除</div>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <div class="footer_box_2">
-        <div class="fl">
-          <div class="flexbox">
-            <image class="icon" src="/static/images/cart/choosenone.png" />
-            <div style="font-weight: 400;margin-left: 6rpx">全选</div>
+      <div class="edit_box" @click.stop="handleEdit">编辑</div>
+      <div class="footer_box">
+        <div v-if="editStatus == 1" class="footer_box_1">
+          <div class="fl">
+            <div>已选 <span style="color: #ff253a;margin: 0 8rpx">18</span>张</div>
           </div>
-          <div style="width: 100%;">
-            <span>已选</span>
-            <span style="color: #ff253a;margin: 0 8rpx">18</span>
-            <span>张，</span>
-            <span>合计<span style="color: #ff253a;margin: 0 2rpx">￥18</span>
-            </span>
+          <div class="fr">
+            <div class="btn cancel" style="margin-right: 8rpx" @click.stop="handleCancel">取消</div>
+            <div class="btn del" @click.stop="handleDelete">删除</div>
           </div>
         </div>
-        <div class="fr">
-          <div class="btn cancel">结算</div>
+        <div v-if="editStatus == 0" class="footer_box_2">
+          <div class="fl">
+            <div class="flexbox" @click.stop="handleChooseAll">
+              <image v-if="chooseStatus == 1" class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+              <image v-else class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" />
+              <div style="font-weight: 400;margin-left: 6rpx">全选</div>
+            </div>
+            <div style="width: 100%;">
+              <span>已选</span>
+              <span style="color: #ff253a;margin: 0 8rpx">{{ num }}</span>
+              <span>张，</span>
+              <span>合计<span style="color: #ff253a;margin: 0 2rpx">￥{{ totalPrice }}</span>
+              </span>
+            </div>
+          </div>
+          <div class="fr" @click.stop="handleNextPage">
+            <div class="btn cancel">结算</div>
+          </div>
         </div>
+        <safeAreaCom />
       </div>
-      <safeAreaCom />
-    </div>
+    </view>
+
   </div>
 
 </template>
@@ -49,12 +57,136 @@
 <script>
 import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
-
+import emptyCom from '@/components/common/emptyCom'
 export default {
   name: 'ChooseSkiList',
   components: {
     skiHeader,
-    safeAreaCom
+    safeAreaCom,
+    emptyCom
+  },
+  data() {
+    return {
+      num: 0,
+      editStatus: 0,
+      totalPrice: 0,
+      cartList: [],
+      chooseStatus: 0
+    }
+  },
+  onLoad() {
+    this.getCartList()
+  },
+  methods: {
+    setPrice() {
+      const price = uni.getStorageSync('skiObj').price * 1
+      const idArr = []
+      this.cartList.forEach(val => {
+        if (val['chooseStatus'] == 1) {
+          idArr.push(val.id)
+        }
+      })
+      const totalPrice = (idArr.length * price / 100).toFixed(2)
+      this.num = idArr.length
+      this.totalPrice = totalPrice
+      if (idArr.length == this.cartList.length) { // 如果选择的长度 等于购物车的长度 就代表全选了
+        this.chooseStatus = 1
+      } else {
+        this.chooseStatus = 0
+      }
+    },
+    handleChooseAll() {
+      if (this.cartList.length) {
+        if (this.chooseStatus == 1) {
+          this.cartList.forEach(val => {
+            val['chooseStatus'] = 0
+          })
+        } else {
+          this.cartList.forEach(val => {
+            val['chooseStatus'] = 1
+          })
+        }
+        this.setPrice()
+      }
+    },
+    handleChoose(index) {
+      if (this.cartList[index].chooseStatus) {
+        this.cartList[index].chooseStatus = 0
+      } else {
+        this.cartList[index].chooseStatus = 1
+      }
+      this.setPrice()
+    },
+    getCartList() {
+      const cartList = uni.getStorageSync('cartList') || []
+      cartList.forEach(val => {
+        val['chooseStatus'] = 0
+      })
+      this.cartList = cartList
+    },
+    // 编辑
+    handleEdit() {
+      this.chooseStatus = 0
+      this.totalPrice = 0
+      this.num = 0
+      if (this.editStatus == 1) {
+        this.editStatus = 0
+      } else {
+        this.editStatus = 1
+        this.cartList.forEach(val => {
+          val['chooseStatus'] = 0
+        })
+      }
+    },
+    handleDelete() {
+      const that = this
+      uni.showModal({
+        title: '提示',
+        content: '确认要删除选中的图片吗?',
+        success(res) {
+          if (res.confirm) {
+            const newArr = []
+            that.cartList.forEach(val => {
+              if (val['chooseStatus'] == 1) {
+              } else {
+                newArr.push(val)
+              }
+            })
+
+            that.cartList = newArr
+            uni.setStorageSync('cartList', newArr)
+          } else if (res.cancel) {
+            console.log('点击取消')
+          }
+        }
+      })
+    },
+    handleCancel() {
+      this.cartList.forEach(val => {
+        val['chooseStatus'] = 0
+      })
+      this.editStatus = 0
+      this.chooseStatus = 0
+    },
+    handleNextPage() {
+      // if (this.cartList.length == 0) {
+      //   this.$common.showToast('请选择结算的照片')
+      //   return
+      // }
+      const idArr = []
+      this.cartList.forEach(val => {
+        if (val['chooseStatus'] == 1) {
+          idArr.push(val.id)
+        }
+      })
+      if (idArr.length == 0) {
+        this.$common.toast('请选择结算的照片')
+        return
+      }
+      this.$common.push({
+        url: `/pages/confirmOrder/confirmOrder?idArr=${idArr}`
+      })
+    }
   }
 }
 </script>
@@ -86,7 +218,6 @@ export default {
     .main_img {
       width: 368rpx;
       height: 244rpx;
-      background: red;
       display: block;
     }
   }

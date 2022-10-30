@@ -1,10 +1,14 @@
 <template>
   <view class="waterfall-item-container">
     <view class="waterfall-item" @tap="onTap">
-      <div class="fix_box" />
-      <div class="img_box">
-        <image class="jiahao" src="/static/images/cart/jiahao.png" />
+      <div :class="[status == 1? 'fix_box_active':'', 'fix_box']" />
+      <div v-if="status == 0" class="img_box" @click.stop="handleAddCart">
+        <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
       </div>
+      <div v-if="status == 1" class="img_box" @click.stop="handleRemoveCart">
+        <image class="jiahao" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+      </div>
+
       <image :src="params.url" mode="widthFix" @load="emitHeight" @error="emitHeight" />
       <!--      <view class="content">-->
       <!--        <view>{{ params.title }}</view>-->
@@ -38,7 +42,9 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      status: 0
+    }
   },
   methods: {
     // 发出组件高度信息，在此处可以区分正确和错误的加载，给予错误的提示图片
@@ -51,6 +57,35 @@ export default {
     },
     onTap() {
       this.$emit('click', this.$props.index, this.$props.tag)
+    },
+    handleAddCart() {
+      const cartList = uni.getStorageSync('cartList') || []
+      const cartIdArr = []
+      cartList.forEach(val => {
+        cartIdArr.push(val.id)
+      })
+      if (cartIdArr.includes(this.params).id) {
+        return
+      }
+
+      cartList.push(this.params)
+      uni.setStorageSync('cartList', cartList)
+      this.status = !this.status
+    },
+    handleRemoveCart() {
+      this.status = 0
+      if (this.status == 0) {
+        console.log('移除')
+        const cartList = uni.getStorageSync('cartList') || []
+        const id = this.params.id
+        const arr = []
+        cartList.forEach(val => {
+          if (val.id != id) {
+            arr.push(val)
+          }
+        })
+        uni.setStorageSync('cartList', arr)
+      }
     }
   }
 }
@@ -101,7 +136,10 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 10;
+}
+.fix_box_active{
   background: rgba(0,0,0,0.2);
+
 }
 .img_box{
   padding: 20rpx;

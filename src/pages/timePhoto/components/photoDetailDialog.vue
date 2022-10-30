@@ -10,7 +10,7 @@
       <image class="big_img" mode="widthFix" :src="photoObj.url" />
     </view>
     <view class="footer_box">
-      <view class="cart_box">
+      <view class="cart_box" @click="handleAddCart">
         <image class="cart_icon" />
         <view class="title-1">加入购物车</view>
       </view>
@@ -34,6 +34,12 @@ export default {
     }
   },
   methods: {
+    handleAddCart() {
+      const cartList = uni.getStorageSync('cartList') || []
+      cartList.push(this.photoObj)
+      console.log('cartList', cartList)
+      uni.setStorageSync('cartList', cartList)
+    },
     handleClose() {
       this.$emit('listenClose')
     }

@@ -61,6 +61,7 @@ import safeAreaCom from '@/components/common/safeAreaCom'
 // import getLocationCom from '@/components/common/getLocationCom'
 import nineCom from '@/components/common/nineCom'
 import { ajaxVenueDay } from '@/api/indexApi'
+import { ajaxOrderList } from '@/api/myApi'
 
 export default {
   components: {
@@ -106,10 +107,10 @@ export default {
       if (this.loadingObj.status == 'nomore') {
         return
       }
-      ajaxVenueDay({ venue_id: this.skid, page: this.pageNo }).then(res => {
+      ajaxOrderList({ page: this.pageNo }).then(res => {
         const list = res.data.data.lists
         uni.stopPullDownRefresh()
-        if (res.data.data.page * 5 > res.data.data.total) {
+        if (res.data.data.page * 10 > res.data.data.total) {
           this.loadingObj.status = 'nomore'
         } else {
           this.loadingObj.status = 'loading'
