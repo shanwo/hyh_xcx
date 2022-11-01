@@ -95,6 +95,7 @@ export default {
   .desc_box{
     height: 34rpx;
     font-size: 24rpx;
+    margin-top: 20rpx;
     font-weight: 400;
     box-sizing: border-box;
     color: $descColor;
@@ -121,7 +122,7 @@ export default {
   .choose_box{
     position: absolute;
     right: 0;
-    bottom: 20rpx;
+    bottom: 38rpx;
     width: 154rpx;
     height: 68rpx;
     background: #F8B800;

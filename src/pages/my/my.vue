@@ -3,16 +3,26 @@
     <view class="body_bg">
       <view class="content">
         <skiHeader :show-back="true" :show-back-home="true" />
-        <div class="head flexbox">
-          <div>张三</div>
-          <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />
+        <div class="flexbox" style="justify-content: space-between">
+          <div>
+            <div class="head flexbox">
+              <div>微信用户</div>
+              <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />
+            </div>
+            <!--            <div class="desc_box">-->
+            <!--              <div>已购</div>-->
+            <!--              <div style="color: #fff;font-weight: 600;margin: 0 3rpx">120</div>-->
+            <!--              <div>张照片</div>-->
+            <!--            </div>-->
+          </div>
+          <div class="avatar_box">
+            <img src="https://cdn.shanwo.cc/xcx/morentouxiang.png" class="avatar_icon" alt="">
+          </div>
         </div>
-        <div class="desc_box">
-          <div>已购</div>
-          <div style="color: #fff;font-weight: 600;margin: 0 3rpx">120</div>
-          <div>张照片</div>
+        <div v-if="venDayList.length == 0" style="margin-top: 150rpx">
+          <emptyCom :title="'暂时没有图片~'" />
         </div>
-        <div class="photo_box">
+        <div v-else class="photo_box">
           <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
             <div />
             <div class="list_label">
@@ -21,7 +31,7 @@
                 <div>{{ item.date }}</div>
                 <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
               </div>
-              <div class="fr" @click="handleNextPage(0,item)">
+              <div class="fr">
                 <span>已购买</span>
                 <span class="active">{{ item.images.length }}张</span>
                 <span>张</span>
@@ -30,9 +40,9 @@
             </div>
             <div class="main_box">
               <div class="main_box_line" />
-              <nineCom :img-list="item.images" />
+              <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
               <view class="footer_box">
-                <view class="cart_box">
+                <view class="cart_box" @click="handleNextPage(1,item.images)">
                   <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
                   <view class="title-1">下载全部</view>
                 </view>
@@ -52,21 +62,26 @@
         <safeAreaCom />
       </view>
     </view>
-
-  </view></template>
+    <!-- <photoDown v-if="photoDownStatus" :photo-obj="photoObj" @listenClose="listenClose" /> -->
+  </view>
+</template>
 
 <script>
 import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
 // import getLocationCom from '@/components/common/getLocationCom'
 import nineCom from '@/components/common/nineCom'
+import emptyCom from '@/components/common/emptyCom'
+// import photoDown from './components/photoDown.vue'
 import { ajaxVenueDay } from '@/api/indexApi'
 import { ajaxOrderList } from '@/api/myApi'
 
 export default {
   components: {
     skiHeader,
+    emptyCom,
     // getLocationCom,
+    // photoDown,
     safeAreaCom,
     nineCom
   },
@@ -78,6 +93,8 @@ export default {
         loadmoreText: '加载中',
         nomoreText: '没有更多了'
       },
+      photoObj: {},
+      photoDownStatus: false,
       skid: '',
       skiObj: '',
       pageNo: 1,
@@ -136,6 +153,23 @@ export default {
           }
         })
       }
+      if (status == 1) {
+        obj.forEach(val => {
+          val['original_url'] = 'https://cdn.shanwo.cc/xcx/cecececece.jpg'
+        })
+        uni.setStorageSync('downImgs', obj)
+        this.$common.push({
+          url: '/pages/downLoadFile/downLoadFile'
+        })
+      }
+    },
+    handleClickImg(obj) {
+      this.photoDownStatus = true
+      this.photoObj = obj
+    },
+    // 监听下载弹框的关闭事件
+    listenClose() {
+      this.photoDownStatus = false
     },
     getLocationErrorBack() {
 
@@ -301,6 +335,23 @@ export default {
     margin-top: 10rpx;
     border: 2rpx solid #4E5969;
 
+  }
+}
+.avatar_box{
+  width: 187rpx;
+  height: 222rpx;
+  background: url("https://cdn.shanwo.cc/xcx/asjdkas.png") no-repeat left top;
+  background-size: cover;
+  position: relative;
+  .avatar_icon{
+    width: 132rpx;
+    height: 132rpx;
+    border: 4rpx solid #E1E1E1;
+    border-radius: 50%;
+    position: absolute;
+    top: 52rpx;
+    left: 0;
+    background: #E1E1E1;
   }
 }
 

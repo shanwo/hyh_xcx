@@ -1,38 +1,68 @@
 <template>
-  <div>
-    <div style="margin-top: 100px" @click="handleDown">点击下载</div>
-    <div>
-      <image v-for="(item,index) in tempFile" :key="index" :src="item" />
+  <div class="body_bg">
+    <skiHeader />
+    <div class="top_box">
+      <img class="icon" src="https://cdn.shanwo.cc/xcx/xiazaiicon213123.png" alt="">
+      <div class="title">正在下载请勿关闭...</div>
     </div>
-    <div @click="handleSaveImg">保存</div>
+    <div>
+      <div v-for="(item,index) in showImgs" :key="index" class="main_box">
+        <img :src="item.thumbnail_url" alt="" class="fl_icon">
+        <div class="fr">
+          <div>{{ item.name }}</div>
+          <u-line-progress :percentage="numArr[index]" height="8" />
+        </div>
+      </div>
+    </div>
+    <div class="footer_btn" @click="handleClose">取消</div>
+    <!--    <div style="margin-top: 100px" @click="handleDown">点击下载</div>-->
+    <!--    <div>-->
+    <!--      <image v-for="(item,index) in tempFile" :key="index" :src="item" />-->
+    <!--    </div>-->
+    <!--    <div @click="handleSaveImg">保存</div>-->
   </div>
 </template>
 
 <script>
 import { downloadFiles, saveImgFile, checkAuth } from '@/utils/downFile'
-
+import skiHeader from '@/components/common/skiHeader'
+let a1, a0
 export default {
   name: 'DownLoadFile',
+  components: {
+    skiHeader
+  },
   data() {
     return {
+      downTasks: {},
+      status: true,
       saveNum: 0,
       oTimer: null,
-      imgUrl: [],
+      showImgs: [],
       numArr: [],
       tempFile: [] // 下载下来的临时文件
     }
   },
   mounted() {
-    this.imgUrl = [
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/xfhmaster/main/main.png',
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/flowerTravel/main/main.png',
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/jinsimudan22tou/main/main.png',
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/celebration-cup/main/main.jpg',
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/constellation-cup/main/main.jpg',
-      'https://cdn3custom-mall.zengapp.cn/yfy/goods/jinsimudan9/xiangwu/main.png'
-    ]
+    this.init()
   },
   methods: {
+    handleClose() {
+      this.status = false
+      uni.navigateBack()
+    },
+    init() {
+      this.showImgs = uni.getStorageSync('downImgs')
+      const downImgs = uni.getStorageSync('downImgs')
+      const imgs = []
+      downImgs.forEach(val => {
+        imgs.push(val.original_url)
+      })
+      this.imgUrl = imgs
+      setTimeout(() => {
+        this.handleDown()
+      })
+    },
     handleSaveImg() {
       checkAuth(() => {
         wx.showLoading({
@@ -71,24 +101,36 @@ export default {
       })
     },
     handleDown() {
+      const obj = [0, 0]
       this.imgUrl.forEach((v, i) => {
-        this.downloadSaveFile(v, i)
+        this.downloadSaveFile(v, i, obj)
       })
     },
-    downloadSaveFile(url, k) {
+    downloadSaveFile(url, k, obj) {
       console.log('----------------')
       const _this = this
-      this.$common.showLoading('正在下载图片')
-      wx.downloadFile({
+      // this.$common.showLoading('正在下载图片')
+      var keyName = 'tasks' + k
+      keyName = wx.downloadFile({
         url: url,
         success: res => {
           if (res.statusCode === 200) {
             this.tempFile.push(res.tempFilePath)
             console.log('临时路径', this.tempFile)
+            uni.setStorageSync('tempFile', _this.tempFile)
           }
+        },
+        fail: err => {
+          console.log('下载失败', err)
+        },
+        complete: res => {
+          console.log('下载complete', res)
         }
-      }).onProgressUpdate(res => {
+      })
+      console.log('keyName', keyName)
+      keyName.onProgressUpdate(res => {
         _this.numArr[k] = res.progress
+        _this.$forceUpdate()
         // console.log(`第${k}张照片的下载进度`, res.progress / 100)
         console.log('照片进度', _this.numArr)
         let sum = 0
@@ -96,10 +138,9 @@ export default {
           sum += _this.numArr[i] * 1
           console.log('总进度', sum)
           if (sum === this.numArr.length * 100 && this.numArr.length) {
-            console.log('所有图片下载完成了')
-            setTimeout(() => {
-              this.$common.hideLoading()
-            }, 1000)
+            console.log('所有图片下载完成了', _this.tempFile)
+            this.$common.hideLoading()
+            _this.$common.redirect({ url: '/pages/downLoadResult/downLoadResult' })
           }
         }
       })
@@ -108,6 +149,53 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .top_box{
+    .icon{
+      display: block;
+      width: 90rpx;
+      height: 90rpx;
+      margin: 124rpx auto 24rpx;
+    }
+    .title{
+      font-size: 28rpx;
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+    }
+  }
+  .main_box{
+    display: flex;
+    align-items: center;
+    padding: 0 98rpx;
+    box-sizing: border-box;
+    margin-bottom: 16rpx;
 
+    .fl_icon{
+      width: 64rpx;
+      height: 64rpx;
+      margin-right: 8rpx;
+    }
+    .fr{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+    }
+  }
+  .footer_btn{
+    position: fixed;
+    left: 36rpx;
+    right: 36rpx;
+    height: 92rpx;
+    background: #F8B800;
+    border-radius: 10px;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #060606;
+    text-align: center;
+    line-height: 92rpx;
+    bottom: 184rpx;
+  }
 </style>

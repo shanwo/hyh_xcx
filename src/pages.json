@@ -41,6 +41,15 @@
 			}
 		},
 		{
+			"path": "pages/downLoadResult/downLoadResult",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"navigationBarTitleText": "下载结果"
+			}
+		},
+		{
 			"path": "pages/downLoadFile/downLoadFile",
 			"meta": {
 				"auth": true

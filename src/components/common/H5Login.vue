@@ -11,7 +11,6 @@ export default {
     }
   },
   mounted() {
-    sessionStorage.setItem('token', 111)
     this.backUrl = this.$common.getUrlParams('backUrl') || '/pages/index/index'
     // #ifdef H5
     this.wxH5Login()

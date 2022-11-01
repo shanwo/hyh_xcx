@@ -1,16 +1,51 @@
 <template>
-  <div class="main_box">
-    <image v-for="(item,index) in imgList" :key="item.id" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" />
+  <div>
+    <div class="main_box">
+      <image v-for="(item,index) in imgList" :key="index" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" @click="handleClickShow(item)" />
+    </div>
+    <photoDown v-if="photoDownStatus" :photo-obj="photoObj" @listenClose="listenClose" />
   </div>
+
 </template>
 
 <script>
+import photoDown from './photoDown.vue'
 export default {
   name: 'NineCom',
+  components: {
+    photoDown
+  },
   props: {
     imgList: {
       type: Array,
-      default: []
+      default: () => []
+    },
+    pageStatus: {
+      type: String,
+      default: '0'
+    }
+  },
+  data() {
+    return {
+      photoObj: {},
+      photoDownStatus: false
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log('imgList', this.imgList)
+    })
+  },
+  methods: {
+    handleClickShow(item) {
+      console.log('item', item)
+      if (this.pageStatus == 1) {
+        this.photoObj = item
+        this.photoDownStatus = true
+      }
+    },
+    listenClose() {
+      this.photoDownStatus = false
     }
   }
 }
