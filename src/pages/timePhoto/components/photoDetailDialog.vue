@@ -1,5 +1,7 @@
 <template>
   <view class="main_box">
+    <image class="big_img" style="position: fixed;bottom: -2000rpx" mode="widthFix" :src="photoObj.url" @load="imgLoad" />
+
     <view class="header_box">
       <image class="close_img" src="/static/images/cart/close@2x.png" @click="handleClose" />
     </view>
@@ -7,7 +9,8 @@
       <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin2" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin3" src="/static/images/cart/shuiyin.png" />
-      <image class="big_img" mode="widthFix" :src="photoObj.url" />
+      <image v-if="sWidth && sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="photoObj.url" />
+
     </view>
     <view class="footer_box">
       <view class="cart_box" @click="handleAddCart">
@@ -30,10 +33,24 @@ export default {
   },
   data() {
     return {
-
+      sWidth: 0,
+      sHeight: 0
     }
   },
   methods: {
+    imgLoad(e) {
+      // TODO
+      const sys = uni.getSystemInfoSync()
+      console.log(sys, e.detail.width)
+      if (e.detail.width > e.detail.height) {
+        this.sWidth = sys.screenWidth
+        this.sHeight = this.sWidth * e.detail.height / e.detail.width
+
+        console.log('代表长图', this.sHeight)
+      } else if (e.detail.width < e.detail.height) {
+
+      }
+    },
     handleAddCart() {
       const cartList = uni.getStorageSync('cartList') || []
       cartList.push(this.photoObj)

@@ -41,15 +41,13 @@
       @refresherabort="onAbort"
     >
 
-      <view>
-        <waterfall-list
-          :status="waterfall.status"
-          :list="waterfall.list"
-          :reset="waterfall.reset"
-          @click="listenClick"
-          @done="onDone"
-        />
-      </view>
+      <waterfall-list
+        :status="waterfall.status"
+        :list="waterfall.list"
+        :reset="waterfall.reset"
+        @click="listenClick"
+        @done="onDone"
+      />
 
     </scroll-view>
 
@@ -154,10 +152,17 @@ export default {
     getList() {
       this.$common.showLoading()
       this.waterfall.status = 'loading'
-      ajaxVenueHour({ venue_id: this.skid, day: '10-22', hour: this.hourVal }).then(res => {
-        this.waterfall.list = res.data.data.lists
+      ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
+        if (this.hourVal == 13) {
+          this.waterfall.list = []
+        } else {
+          this.waterfall.list = res.data.data.lists
+        }
         if (this.waterfall.list.length == 0) {
-          this.waterfall.status = 'finish'
+          this.waterfall.status = 'success'
+          setTimeout(() => {
+            this.waterfall.status = 'empty'
+          })
         } else {
           this.waterfall.status = 'success'
         }
@@ -229,6 +234,25 @@ export default {
         height: 32rpx;
         margin-right: 4rpx;
       }
+    }
+  }
+  .move_left {
+    animation: moveleft 200ms linear;
+  }
+
+  @keyframes moveleft {
+    from {
+      opacity: 1;
+      top: 0;
+      transform: rotate(0deg);
+    }
+    to {
+      opacity: 0;
+      left: 100px;
+      top: 1000px;
+      width: 0;
+      height: 0;
+      transform: rotate(180deg);
     }
   }
 </style>

@@ -1,7 +1,8 @@
 <template>
   <view class="waterfall-item-container">
     <view class="waterfall-item" @tap="onTap">
-      <div :class="[status == 1? 'fix_box_active':'', 'fix_box']" />
+      <!--status ==1?'move_left':'','son_box'-->
+      <div :class="[status == 1? 'fix_box_active':'', 'fix_box', ]" />
       <div v-if="status == 0" class="img_box" @click.stop="handleAddCart">
         <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
       </div>
@@ -64,16 +65,16 @@ export default {
       cartList.forEach(val => {
         cartIdArr.push(val.id)
       })
-      if (cartIdArr.includes(this.params).id) {
-        return
+      if (cartIdArr.includes(this.params.id)) {
+      } else {
+        cartList.push(this.params)
+        uni.setStorageSync('cartList', cartList)
       }
 
-      cartList.push(this.params)
-      uni.setStorageSync('cartList', cartList)
       this.status = !this.status
     },
     handleRemoveCart() {
-      this.status = 0
+      this.status = !this.status
       // if (this.status == 0) {
       //   console.log('移除')
       //   const cartList = uni.getStorageSync('cartList') || []
@@ -150,6 +151,26 @@ export default {
   .jiahao{
     width: 40rpx;
     height: 40rpx;
+  }
+}
+.move_left {
+  position: fixed;
+  animation: moveleft 200ms linear;
+}
+
+@keyframes moveleft {
+  from {
+    opacity: 1;
+    top: 0;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    left: 100px;
+    top: 1000px;
+    width: 0;
+    height: 0;
+    transform: rotate(180deg);
   }
 }
 </style>

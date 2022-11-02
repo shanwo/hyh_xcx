@@ -28,7 +28,7 @@
             <div class="list_label">
               <div class="fl flexbox">
                 <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
-                <div>{{ item.date }}</div>
+                <div>{{ item.created_at }}</div>
                 <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
               </div>
               <div class="fr">

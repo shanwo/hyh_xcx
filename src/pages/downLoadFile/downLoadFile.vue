@@ -1,6 +1,7 @@
 <template>
   <div class="body_bg">
     <skiHeader />
+    <div style="color: #fff" @click="handleCeshi">点击</div>
     <div class="top_box">
       <img class="icon" src="https://cdn.shanwo.cc/xcx/xiazaiicon213123.png" alt="">
       <div class="title">正在下载请勿关闭...</div>
@@ -34,7 +35,7 @@ export default {
   },
   data() {
     return {
-      downTasks: {},
+      downTasks: [],
       status: true,
       saveNum: 0,
       oTimer: null,
@@ -47,8 +48,16 @@ export default {
     this.init()
   },
   methods: {
+
+    handleCeshi() {
+      uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.shanwo.cc/xcx/homelogo.png' }])
+      this.init()
+    },
     handleClose() {
       this.status = false
+      this.downTasks.forEach(val => {
+        val.abort()
+      })
       uni.navigateBack()
     },
     init() {
@@ -110,8 +119,8 @@ export default {
       console.log('----------------')
       const _this = this
       // this.$common.showLoading('正在下载图片')
-      var keyName = 'tasks' + k
-      keyName = wx.downloadFile({
+
+      _this.downTasks[k] = wx.downloadFile({
         url: url,
         success: res => {
           if (res.statusCode === 200) {
@@ -127,8 +136,8 @@ export default {
           console.log('下载complete', res)
         }
       })
-      console.log('keyName', keyName)
-      keyName.onProgressUpdate(res => {
+      // console.log('keyName', keyName)
+      _this.downTasks[k].onProgressUpdate(res => {
         _this.numArr[k] = res.progress
         _this.$forceUpdate()
         // console.log(`第${k}张照片的下载进度`, res.progress / 100)
@@ -140,7 +149,7 @@ export default {
           if (sum === this.numArr.length * 100 && this.numArr.length) {
             console.log('所有图片下载完成了', _this.tempFile)
             this.$common.hideLoading()
-            _this.$common.redirect({ url: '/pages/downLoadResult/downLoadResult' })
+            // _this.$common.redirect({ url: '/pages/downLoadResult/downLoadResult' })
           }
         }
       })

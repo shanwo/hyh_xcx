@@ -64,7 +64,7 @@ export default {
     // 加载成功文案，一般与加载中保持一致即可，主要为提示组件可以开始渲染了
     successText: {
       type: String,
-      default: '加载中'
+      default: ''
     },
     // 加载结束文案，用于没有更多数据时候展示
     finishText: {
@@ -75,6 +75,11 @@ export default {
     failText: {
       type: String,
       default: '加载失败'
+    },
+    // 空文案
+    emptyText: {
+      type: String,
+      default: '暂无图片~'
     },
     // 待渲染的数据
     list: {
@@ -118,10 +123,10 @@ export default {
     '$props.status'(newValue, oldValue) {
       // 状态变更为 加载成功 时，执行瀑布流数据渲染
       if (newValue === 'success') {
-        if (!this.$props.list || this.$props.list.length < 1) {
-          console.error('河浪瀑布流插件提示：当前数据无效')
-          return
-        }
+        // if (!this.$props.list || this.$props.list.length < 1) {
+        //   console.error('河浪瀑布流插件提示：当前数据无效')
+        //   return
+        // }
 
         // 若本次渲染为 重置 则先恢复组件的默认参数
         if (this.$props.reset) {
@@ -133,7 +138,7 @@ export default {
           // 当前展示页码数据
           this.showPage = 1
         }
-
+        console.log('...this.$props.list', this.$props.list)
         this.awaitRenderList = [...this.$props.list]
         this.renderList()
       }
@@ -168,6 +173,7 @@ export default {
     },
     // 渲染列表，这里实现瀑布流的左右分栏
     renderList() {
+      console.log('this.awaitRenderList', this.awaitRenderList)
       // 待渲染长度为 0 时表示已渲染完成
       if (this.awaitRenderList.length < 1) {
         this.showPage++
