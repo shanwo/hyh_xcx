@@ -24,29 +24,30 @@
         </div>
         <div v-else class="photo_box">
           <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
-            <div />
-            <div class="list_label">
-              <div class="fl flexbox">
-                <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
-                <div>{{ item.created_at }}</div>
-                <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
+            <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">
+              <div class="list_label" @click="handleHideBox(index)">
+                <div class="fl flexbox">
+                  <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
+                  <div>{{ item.created_at }}</div>
+                  <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
+                </div>
+                <div class="fr">
+                  <span>已购买</span>
+                  <span class="active">{{ item.images.length }}张</span>
+                  <span>张</span>
+                  <span>共￥{{ item.pay_price }}</span>
+                </div>
               </div>
-              <div class="fr">
-                <span>已购买</span>
-                <span class="active">{{ item.images.length }}张</span>
-                <span>张</span>
-                <span>共￥{{ item.pay_price }}</span>
-              </div>
-            </div>
-            <div class="main_box">
-              <div class="main_box_line" />
-              <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
-              <view class="footer_box">
-                <view class="cart_box" @click="handleNextPage(1,item.images)">
-                  <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
-                  <view class="title-1">下载全部</view>
+              <div class="main_box">
+                <div class="main_box_line" />
+                <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
+                <view class="footer_box">
+                  <view class="cart_box" @click="handleNextPage(1,item.images)">
+                    <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
+                    <view class="title-1">下载全部</view>
+                  </view>
                 </view>
-              </view>
+              </div>
             </div>
           </div>
           <div class="loading_box_d">
@@ -120,12 +121,21 @@ export default {
         this.$common.push({ url: '/pages/chooseSkiList/chooseSkiList' })
       }
     },
+    // 显示隐藏照片
+    handleHideBox(index) {
+      this.venDayList[index].statusHeight = !this.venDayList[index].statusHeight
+    },
     getDayPhoto() {
       if (this.loadingObj.status == 'nomore') {
         return
       }
       ajaxOrderList({ page: this.pageNo }).then(res => {
-        const list = res.data.data.lists
+        const list = [res.data.data.lists]
+
+        list.forEach(val => {
+          val['statusHeight'] = 0
+        })
+
         uni.stopPullDownRefresh()
         if (res.data.data.page * 10 > res.data.data.total) {
           this.venDayList = this.venDayList.concat(list)
@@ -353,6 +363,23 @@ export default {
     left: 0;
     background: #E1E1E1;
   }
+}
+.height0{
+  transition: height 2s;
+  -moz-transition: height 2s; /* Firefox 4 */
+  -webkit-transition: height 2s; /* Safari 和 Chrome */
+  -o-transition: height 2s; /* Opera */
+
+  height: 40rpx;
+  overflow: hidden;
+
+}
+.heightauto{
+  transition: height 2s;
+  -moz-transition: height 2s; /* Firefox 4 */
+  -webkit-transition: height 2s; /* Safari 和 Chrome */
+  -o-transition: height 2s; /* Opera */
+  height: auto;
 }
 
 </style>
