@@ -59,7 +59,17 @@ export default {
     onTap() {
       this.$emit('click', this.$props.index, this.$props.tag)
     },
-    handleAddCart() {
+    async handleAddCart() {
+      try {
+        const query = uni.createSelectorQuery().in(this)
+        query.selectAll('.img_box').boundingClientRect(data => {
+          console.log('得到布局位置信息' + JSON.stringify(data))
+          console.log('节点离页面顶部的距离为' + data.top)
+        }).exec()
+      } catch (e) {
+        console.log('error', e)
+      }
+
       const cartList = uni.getStorageSync('cartList') || []
       const cartIdArr = []
       cartList.forEach(val => {
