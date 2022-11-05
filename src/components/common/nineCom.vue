@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main_box">
-      <image v-for="(item,index) in imgList" :key="index" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" @click="handleClickShow(item)" />
+      <image v-for="(item,index) in imgList" :key="index" mode="aspectFill" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" @click="handleClickShow(item)" />
     </div>
     <photoDown v-if="photoDownStatus" :photo-obj="photoObj" @listenClose="listenClose" />
   </div>

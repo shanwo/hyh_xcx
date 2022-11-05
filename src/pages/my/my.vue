@@ -24,12 +24,14 @@
         </div>
         <div v-else class="photo_box">
           <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
+            <!--            <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">-->
             <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">
               <div class="list_label" @click="handleHideBox(index)">
                 <div class="fl flexbox">
                   <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
                   <div>{{ item.created_at }}</div>
-                  <image class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
+                  <image v-if="item.statusHeight != 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
+                  <image v-if="item.statusHeight == 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_right%402x.png" />
                 </div>
                 <div class="fr">
                   <span>已购买</span>
@@ -39,7 +41,7 @@
                 </div>
               </div>
               <div class="main_box">
-                <div class="main_box_line" />
+                <div v-if="venDayList.length > 1" class="main_box_line" />
                 <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
                 <view class="footer_box">
                   <view class="cart_box" @click="handleNextPage(1,item.images)">
@@ -164,9 +166,9 @@ export default {
         })
       }
       if (status == 1) {
-        obj.forEach(val => {
-          val['original_url'] = 'https://cdn.shanwo.cc/xcx/cecececece.jpg'
-        })
+        // obj.forEach(val => {
+        //   val['original_url'] = 'https://cdn.shanwo.cc/xcx/cecececece.jpg'
+        // })
         uni.setStorageSync('downImgs', obj)
         this.$common.push({
           url: '/pages/downLoadFile/downLoadFile'
@@ -365,21 +367,45 @@ export default {
   }
 }
 .height0{
-  transition: height 2s;
-  -moz-transition: height 2s; /* Firefox 4 */
-  -webkit-transition: height 2s; /* Safari 和 Chrome */
-  -o-transition: height 2s; /* Opera */
-
+  //transition: height 2s;
+  //-moz-transition: height 2s; /* Firefox 4 */
+  //-webkit-transition: height 2s; /* Safari 和 Chrome */
+  //-o-transition: height 2s; /* Opera */
+  //
   height: 40rpx;
   overflow: hidden;
+  //animation: moveHeight1 1s;
+  //-webkit-animation: moveHeight1 1s; /* Safari 与 Chrome */
+  //animation-fill-mode:forwards;
 
 }
 .heightauto{
-  transition: height 2s;
-  -moz-transition: height 2s; /* Firefox 4 */
-  -webkit-transition: height 2s; /* Safari 和 Chrome */
-  -o-transition: height 2s; /* Opera */
+  //transition: height 2s;
+  //-moz-transition: height 2s; /* Firefox 4 */
+  //-webkit-transition: height 2s; /* Safari 和 Chrome */
+  //-o-transition: height 2s; /* Opera */
   height: auto;
+  //animation: moveHeight0 1s;
+  //-webkit-animation: moveHeight0 1s; /* Safari 与 Chrome */
+  //animation-fill-mode:forwards;
+
+}
+@keyframes moveHeight0 {
+  from{
+    height: 40rpx;
+  }
+  to{
+    height: 100rpx;
+  }
+}
+@keyframes moveHeight1 {
+  from{
+    height: 100rpx;
+  }
+  to{
+    height: 40rpx;
+    overflow: hidden;
+  }
 }
 
 </style>

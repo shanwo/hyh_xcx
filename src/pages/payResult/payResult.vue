@@ -6,13 +6,13 @@
       <div class="pay_text">支付成功</div>
     </div>
     <div class="btn_box">
-      <div class="list list_ac">
+      <div class="list list_ac" @click="handleNextMy">
         <image class="icon1" src="/static/images/pay/potos@2x.png" />
         <div>查看照片</div>
       </div>
       <div class="list list_n">
         <image class="icon2" src="/static/images/pay/home@2x.png" />
-        <div style="color: #fff">回首页</div>
+        <div style="color: #fff" @click="handleBackHome">回首页</div>
       </div>
     </div>
   </div>
@@ -28,6 +28,18 @@ export default {
   data() {
     return {
 
+    }
+  },
+  methods: {
+    handleNextMy() {
+      uni.redirectTo({
+        url: '/pages/my/my'
+      })
+    },
+    handleBackHome() {
+      uni.reLaunch({
+        url: '/pages/index/index'
+      })
     }
   }
 }

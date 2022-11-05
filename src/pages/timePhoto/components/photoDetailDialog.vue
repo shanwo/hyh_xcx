@@ -1,20 +1,19 @@
 <template>
   <view class="main_box">
-    <image class="big_img" style="position: fixed;bottom: -2000rpx" mode="widthFix" :src="photoObj.url" @load="imgLoad" />
-
+    <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="photoObj.url" @load="imgLoad" />
     <view class="header_box">
       <image class="close_img" src="/static/images/cart/close@2x.png" @click="handleClose" />
     </view>
     <view class="mid_box">
       <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin2" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin3" src="/static/images/cart/shuiyin.png" />
-      <image v-if="sWidth && sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="photoObj.url" />
-
+      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+      <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="photoObj.url" />
+      <image v-if="!imgStatus" mode="aspectFit" class="big_img" :src="photoObj.url" />
     </view>
     <view class="footer_box">
       <view class="cart_box" @click="handleAddCart">
-        <image class="cart_icon" />
+        <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/shoppingssad.png" />
         <view class="title-1">加入购物车</view>
       </view>
     </view>
@@ -34,7 +33,9 @@ export default {
   data() {
     return {
       sWidth: 0,
-      sHeight: 0
+      sHeight: 0,
+      imgStatus: false,
+      status: false
     }
   },
   methods: {
@@ -45,17 +46,29 @@ export default {
       if (e.detail.width > e.detail.height) {
         this.sWidth = sys.screenWidth
         this.sHeight = this.sWidth * e.detail.height / e.detail.width
-
+        this.status = true
+        this.imgStatus = true
         console.log('代表长图', this.sHeight)
       } else if (e.detail.width < e.detail.height) {
-
+        this.status = false
+        this.imgStatus = false
       }
     },
     handleAddCart() {
       const cartList = uni.getStorageSync('cartList') || []
-      cartList.push(this.photoObj)
-      console.log('cartList', cartList)
-      uni.setStorageSync('cartList', cartList)
+      const cartIdArr = []
+      cartList.forEach(val => {
+        cartIdArr.push(val.id)
+      })
+      if (cartIdArr.includes(this.photoObj.id)) {
+        this.$common.toast('购物车已存在该照片')
+        return
+      } else {
+        this.$common.toast('添加成功')
+        cartList.push(this.photoObj)
+        uni.setStorageSync('cartList', cartList)
+      }
+      uni.$emit('changeCartNum', { msg: '页面更新' })
     },
     handleClose() {
       this.$emit('listenClose')

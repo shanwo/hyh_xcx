@@ -8,23 +8,20 @@ const router = createRouter({
 // 全局路由前置守卫
 router.beforeEach((to, from, next) => {
   // #ifdef H5
-  if (to.meta.auth) {
-    if (sessionStorage.getItem('token')) {
-      next()
-    } else {
-      next('/pages/login/login')
-    }
-  } else {
-    next()
-  }
+  // if (to.meta.auth) {
+  //   if (sessionStorage.getItem('token')) {
+  //     next()
+  //   } else {
+  //     next('/pages/login/login')
+  //   }
+  // } else {
+  //   next()
+  // }
   // #endif
   // #ifndef H5
-  next()
+
   // #endif
-})
-// 全局路由后置守卫
-router.afterEach((to, from) => {
-  console.log('跳转结束')
+  next()
 })
 
 export {

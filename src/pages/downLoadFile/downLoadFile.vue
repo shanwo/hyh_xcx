@@ -1,7 +1,7 @@
 <template>
   <div class="body_bg">
     <skiHeader />
-    <div style="color: #fff" @click="handleCeshi">点击</div>
+    <!--    <div style="color: #fff" @click="handleCeshi">点击</div>-->
     <div class="top_box">
       <img class="icon" src="https://cdn.shanwo.cc/xcx/xiazaiicon213123.png" alt="">
       <div class="title">正在下载请勿关闭...</div>
@@ -25,9 +25,8 @@
 </template>
 
 <script>
-import { downloadFiles, saveImgFile, checkAuth } from '@/utils/downFile'
+import { checkAuth } from '@/utils/downFile'
 import skiHeader from '@/components/common/skiHeader'
-let a1, a0
 export default {
   name: 'DownLoadFile',
   components: {
@@ -48,17 +47,21 @@ export default {
     this.init()
   },
   methods: {
-
-    handleCeshi() {
-      uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.shanwo.cc/xcx/homelogo.png' }])
-      this.init()
-    },
+    //
+    // handleCeshi() {
+    //   uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.shanwo.cc/xcx/homelogo.png' }])
+    //   this.init()
+    // },
     handleClose() {
-      this.status = false
-      this.downTasks.forEach(val => {
-        val.abort()
-      })
-      uni.navigateBack()
+      try {
+        this.status = false
+        this.downTasks.forEach(val => {
+          val.abort()
+        })
+        uni.navigateBack()
+      } catch (e) {
+        uni.navigateBack()
+      }
     },
     init() {
       this.showImgs = uni.getStorageSync('downImgs')
@@ -149,7 +152,7 @@ export default {
           if (sum === this.numArr.length * 100 && this.numArr.length) {
             console.log('所有图片下载完成了', _this.tempFile)
             this.$common.hideLoading()
-            // _this.$common.redirect({ url: '/pages/downLoadResult/downLoadResult' })
+            _this.$common.redirect({ url: '/pages/downLoadResult/downLoadResult' })
           }
         }
       })

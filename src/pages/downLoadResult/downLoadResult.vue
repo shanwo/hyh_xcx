@@ -98,7 +98,11 @@ export default {
   }
 }
 </script>
-
+<style>
+  page{
+    background-color:#000000;
+  }
+</style>
 <style lang="scss" scoped>
   @import "/src/static/theme";
   .main_box{

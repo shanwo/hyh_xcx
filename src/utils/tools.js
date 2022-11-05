@@ -80,14 +80,5 @@ export const common = {
     }
     return params[k]
     // #endif
-    // #ifdef MP-WEIXIN
-    const pages = getCurrentPages()
-    const page = pages[pages.length - 1]
-    const options = page['options']
-    if (this.isNull(options[k])) {
-      return ''
-    }
-    return options[k]
-    // #endif
   }
 }

@@ -5,7 +5,7 @@
       <div class="title">{{ timeStr }}</div>
       <div class="desc flexbox">
         <image class="icon" src="https://cdn.shanwo.cc/xcx/gps_white@2x.png" />
-        <div v-if="skiObj">
+        <div v-if="skiObj" class="text_line1">
           {{ skiObj.merger_name }}
           {{ skiObj.address }}
         </div>
@@ -27,7 +27,8 @@
         @change="listenTabComChange"
       />
     </block>
-
+    <!--      @refresherpulling="onPulling"
+-->
     <scroll-view
       :style="{height:sHeight+'px'}"
       scroll-y="true"
@@ -35,10 +36,7 @@
       :refresher-triggered="triggered"
       :refresher-threshold="100"
       refresher-background="'#000000'"
-      @refresherpulling="onPulling"
       @refresherrefresh="onRefresh"
-      @refresherrestore="onRestore"
-      @refresherabort="onAbort"
     >
 
       <waterfall-list
@@ -52,7 +50,7 @@
     </scroll-view>
 
     <photoDetailDialog v-if="photoStatus" :photo-obj="photoObj" @listenClose="listenClose" />
-    <cartCom />
+    <cartCom ref="refCartCom" />
   </div>
 </template>
 
@@ -77,6 +75,7 @@ export default {
   },
   data() {
     return {
+      triggered: false,
       sHeight: 0,
       photoObj: {},
       skid: '',
@@ -99,8 +98,18 @@ export default {
   onLoad(options) {
     this.init(options)
   },
+  onShow() {
+    this.$refs['refCartCom'].changeNum()
+  },
   mounted() {
-    const storeData = []
+    const that = this
+    uni.$on('changeCartNum', res => {
+      console.log('res', res)
+      that.$refs['refCartCom'].changeNum()
+    })
+  },
+  beforeDestroy() {
+    uni.$off('changeCartNum')
   },
   methods: {
     init(options) {
@@ -110,6 +119,11 @@ export default {
       this.getScrollViewHeight()
       this.getWxHoursList()
       this.getSkiList()
+    },
+    onRefresh() {
+      this.waterfall.list = []
+      this.triggered = true
+      this.getList()
     },
     getScrollViewHeight() {
       const sysInfo = uni.getSystemInfoSync()
@@ -153,11 +167,13 @@ export default {
       this.$common.showLoading()
       this.waterfall.status = 'loading'
       ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
-        if (this.hourVal == 13) {
-          this.waterfall.list = []
-        } else {
-          this.waterfall.list = res.data.data.lists
-        }
+        // if (this.hourVal == 13) {
+        //   this.waterfall.list = []
+        // } else {
+        //   this.waterfall.list = res.data.data.lists
+        // }
+        this.waterfall.list = res.data.data.lists
+
         if (this.waterfall.list.length == 0) {
           this.waterfall.status = 'success'
           setTimeout(() => {
@@ -167,6 +183,7 @@ export default {
           this.waterfall.status = 'success'
         }
         this.$common.hideLoading()
+        this.triggered = false
       })
     },
     // getList() {

@@ -66,12 +66,15 @@ export default {
         cartIdArr.push(val.id)
       })
       if (cartIdArr.includes(this.params.id)) {
+        this.$common.toast('购物车已存在该照片')
+        return
       } else {
+        this.$common.toast('添加成功')
         cartList.push(this.params)
         uni.setStorageSync('cartList', cartList)
       }
-
-      this.status = !this.status
+      uni.$emit('changeCartNum', { msg: '页面更新' })
+      // this.status = !this.status
     },
     handleRemoveCart() {
       this.status = !this.status

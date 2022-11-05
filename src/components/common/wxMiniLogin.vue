@@ -18,6 +18,7 @@ export default {
   },
   mounted() {
     this.backUrl = this.$common.getUrlParams('backUrl')
+    console.log('backUrl', this.backUrl)
     // console.log(this.backUrl)
     // if (wx.getUserProfile) {
     //   this.version = true
@@ -48,10 +49,12 @@ export default {
             uni.setStorageSync('token', res.data.data.api_token)
             that.$common.hideLoading()
             if (that.backUrl) {
+              console.log('4444444444')
               that.$common.redirect({
                 url: that.backUrl
               })
             } else {
+              console.log('2333333333333')
               that.$common.redirect({
                 url: '/pages/index/index'
               })

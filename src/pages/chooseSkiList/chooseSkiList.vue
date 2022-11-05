@@ -51,11 +51,13 @@ export default {
     handleChoose(obj) {
       uni.setStorageSync('skid', obj.id)
       uni.setStorageSync('skiObj', obj)
-      const pages = getCurrentPages()
-      const currentPage = pages[pages.length - 2]
-      console.log('前一个页面', currentPage)
-      currentPage.$vm.init() // 调用首页的初始化方法
-      this.$common.back()
+      // const pages = getCurrentPages()
+      // const currentPage = pages[pages.length - 2]
+      // console.log('前一个页面', currentPage)
+      // currentPage.$vm.init() // 调用首页的初始化方法
+      this.$common.redirect({
+        url: '/pages/index/index'
+      })
     },
     getList() {
       ajaxVenueLists().then(res => {
@@ -79,7 +81,6 @@ export default {
     margin: 0 32rpx 32rpx;
     .main_img{
       min-width: 684rpx;
-      background: #fff;
     }
   }
 .title{

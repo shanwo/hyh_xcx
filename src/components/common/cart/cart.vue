@@ -27,10 +27,22 @@ export default {
   },
   data() {
     return {
-      num: 1
+      num: 0
     }
   },
   methods: {
+    mounted() {
+      const that = this
+      console.log('页面初始化')
+      that.changeNum()
+    },
+    beforeDestroy() {
+      // uni.$off('changeCartNum')
+    },
+    changeNum() {
+      const cartList = uni.getStorageSync('cartList') || ''
+      this.num = cartList.length
+    },
     handleNextCart() {
       this.$common.push({
         url: '/pages/cart/cart'

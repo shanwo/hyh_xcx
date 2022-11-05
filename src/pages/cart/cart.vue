@@ -20,7 +20,7 @@
       <div class="footer_box">
         <div v-if="editStatus == 1" class="footer_box_1">
           <div class="fl">
-            <div>已选 <span style="color: #ff253a;margin: 0 8rpx">18</span>张</div>
+            <div>已选 <span style="color: #ff253a;margin: 0 8rpx">{{ num }}</span>张</div>
           </div>
           <div class="fr">
             <div class="btn cancel" style="margin-right: 8rpx" @click.stop="handleCancel">取消</div>
@@ -152,9 +152,9 @@ export default {
                 newArr.push(val)
               }
             })
-
             that.cartList = newArr
             uni.setStorageSync('cartList', newArr)
+            that.num = 0
           } else if (res.cancel) {
             console.log('点击取消')
           }
@@ -165,6 +165,8 @@ export default {
       this.cartList.forEach(val => {
         val['chooseStatus'] = 0
       })
+      this.num = 0
+      this.totalPrice = 0
       this.editStatus = 0
       this.chooseStatus = 0
     },

@@ -1,5 +1,4 @@
 <script>
-import baseObj from '@/request/baseUrl'
 export default {
   globalData: {
     statusBarHeight: '', // 状态栏高度
@@ -55,7 +54,11 @@ export default {
 }
 
 </script>
-
+<style>
+page {
+  background-color:#000000;
+}
+</style>
 <style lang="scss">
 	/*每个页面公共css */
   @import "static/theme.scss";
@@ -81,5 +84,10 @@ export default {
     align-items: center;
     justify-content: center;
   }
+  /* 文本省略 */
+
+  .text_line1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .text_line2{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .text_line3{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
 
 </style>

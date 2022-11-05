@@ -1,6 +1,6 @@
 <template>
-  <view v-if="showStatus">
-    <view class="body_bg">
+  <view v-if="showStatus" class="body_bg">
+    <view>
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
         <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/homelogo.png'" />
@@ -33,13 +33,12 @@
               :nomore-text="loadingObj.nomoreText"
             />
           </div>
-
         </div>
-        <myCom />
-        <safeAreaCom />
+
       </view>
     </view>
-    <cart />
+    <myCom />
+    <cart ref="cartCom" />
   </view>
 </template>
 
@@ -83,6 +82,17 @@ export default {
     this.options = options
     this.init(options)
   },
+  onShow() {
+    if (this.showStatus) {
+      try {
+        this.$refs['cartCom'].changeNum()
+      } catch (e) {
+        setTimeout(() => {
+          this.$refs['cartCom'].changeNum()
+        })
+      }
+    }
+  },
   methods: {
     init(options) {
       if (uni.getStorageSync('token')) {
@@ -90,9 +100,11 @@ export default {
           this.showStatus = true
           this.skid = uni.getStorageSync('skid')
           this.skiObj = uni.getStorageSync('skiObj')
+          console.log('已经选择雪场1')
           this.getDayPhoto()
         } else {
-          this.$common.push({ url: '/pages/chooseSkiList/chooseSkiList' })
+          console.log('进入选择雪场页面')
+          this.$common.redirect({ url: '/pages/chooseSkiList/chooseSkiList' })
         }
       } else {
         this.$common.redirect({ url: '/pages/login/login' })
@@ -194,6 +206,9 @@ export default {
     height: 32rpx;
   }
 }
+.content{
+  padding-bottom: 180rpx;
+}
 .photo_box{
   margin-top: 80rpx;
 }
@@ -202,7 +217,7 @@ export default {
   .list_label{
     display: flex;
     justify-content: space-between;
-    padding: 0 20rpx;
+    padding: 0 20rpx ;
     box-sizing: border-box;
     margin-bottom: 18rpx;
     .fl{
