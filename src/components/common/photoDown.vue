@@ -1,13 +1,16 @@
 <template>
   <view class="main_box">
+    <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="photoObj.thumbnail_url" @load="imgLoad" />
+
     <view class="header_box">
       <image class="close_img" src="/static/images/cart/close@2x.png" @click="handleClose" />
     </view>
     <view class="mid_box">
       <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin2" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin3" src="/static/images/cart/shuiyin.png" />
-      <image class="big_img" mode="widthFix" :src="photoObj.thumbnail_url" />
+      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+      <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="photoObj.thumbnail_url" />
+      <image v-if="!imgStatus" mode="aspectFit" class="big_img" :src="photoObj.thumbnail_url" />
     </view>
     <view class="footer_box">
       <view class="cart_box" @click="handleSaveImg">
@@ -31,6 +34,10 @@ export default {
   },
   data() {
     return {
+      sWidth: '',
+      sHeight: '',
+      imgStatus: false,
+      status: false,
       saveNum: 0,
       oTimer: null,
       imgUrl: [],
@@ -39,6 +46,20 @@ export default {
     }
   },
   methods: {
+    imgLoad(e) {
+      const sys = uni.getSystemInfoSync()
+      console.log(sys, e.detail.width)
+      if (e.detail.width > e.detail.height) {
+        this.sWidth = sys.screenWidth
+        this.sHeight = this.sWidth * e.detail.height / e.detail.width
+        this.status = true
+        this.imgStatus = true
+        console.log('代表长图', this.sHeight)
+      } else if (e.detail.width < e.detail.height) {
+        this.status = false
+        this.imgStatus = false
+      }
+    },
     handleSaveImg() {
       console.log('photoObj', this.photoObj)
       uni.setStorageSync('downImgs', [this.photoObj])

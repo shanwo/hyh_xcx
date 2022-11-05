@@ -1,6 +1,6 @@
 <template>
   <div class="body_bg">
-    <skiHeader />
+    <skiHeader :page-back="'1'" @listenCallBack="listenCallBack" />
     <!--    <div style="color: #fff" @click="handleCeshi">点击</div>-->
     <div class="top_box">
       <img class="icon" src="https://cdn.shanwo.cc/xcx/xiazaiicon213123.png" alt="">
@@ -43,7 +43,7 @@ export default {
       tempFile: [] // 下载下来的临时文件
     }
   },
-  mounted() {
+  onLoad() {
     this.init()
   },
   methods: {
@@ -52,6 +52,9 @@ export default {
     //   uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.shanwo.cc/xcx/homelogo.png' }])
     //   this.init()
     // },
+    listenCallBack() {
+      this.handleClose()
+    },
     handleClose() {
       try {
         this.status = false

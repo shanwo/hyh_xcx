@@ -9,7 +9,7 @@
         <!-- header 主体 -->
         <view class="header_content flexbox" :style="{ height: (navbarHeight + 'px') }">
           <view class="header_content_fl_box btn_dv" :style="{'background-color':flBgColor}">
-            <view v-if="showBack || pageLength">
+            <view v-if="pageLength">
               <view class="back_btn flexbox_cen" @click="handleBackPage">
                 <image class="back_icon" :src="backIcon" />
               </view>
@@ -47,6 +47,10 @@
 <script>
 export default {
   props: {
+    pageBack: {
+      type: String,
+      default: '0'
+    },
     logo: {
       type: String,
       default: ''
@@ -113,6 +117,7 @@ export default {
   },
   data() {
     return {
+      pageLength: false,
       // 状态栏高度
       statusBarHeight: getApp().globalData.statusBarHeight,
       // 导航栏高度
@@ -132,6 +137,12 @@ export default {
     // #ifdef H5
     this.navbarHeight = 0
     // #endif
+    const pages = getCurrentPages() // 获取当前页面js里面的pages里的所有信息。
+    console.log('页面pages', pages)
+    if (pages.length > 1) {
+      this.pageLength = true
+    }
+
     this.statusBarHeight = getApp().globalData.statusBarHeight
     this.setStatusBar()
   },
@@ -142,7 +153,11 @@ export default {
   methods: {
     // 返回上一页
     handleBackPage() {
-      this.$common.back()
+      if (this.pageBack == 0) {
+        this.$common.back()
+      } else {
+        this.$emit('listenCallBack')
+      }
     },
     // 返回首页
     handleBackHome() {

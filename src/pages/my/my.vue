@@ -41,7 +41,7 @@
                 </div>
               </div>
               <div class="main_box">
-                <div v-if="venDayList.length > 1" class="main_box_line" />
+                <div v-if="venDayList.length > 1 && !item.statusHeight && index != venDayList.length - 1" class="main_box_line" />
                 <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
                 <view class="footer_box">
                   <view class="cart_box" @click="handleNextPage(1,item.images)">
@@ -132,7 +132,7 @@ export default {
         return
       }
       ajaxOrderList({ page: this.pageNo }).then(res => {
-        const list = [res.data.data.lists]
+        const list = res.data.data.lists
 
         list.forEach(val => {
           val['statusHeight'] = 0

@@ -1,7 +1,10 @@
 <template>
   <div class="body_bg">
     <skiHeader />
-    <emptyCom v-if="cartList.length == 0" />
+    <div v-if="cartList.length == 0" style="margin-top: 150px">
+      <emptyCom />
+
+    </div>
     <view v-if="cartList.length > 0">
       <div class="ski_main">
         <div v-for="(item,index) in cartList" :key="item.id" class="cart_list">
