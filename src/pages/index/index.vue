@@ -11,12 +11,12 @@
         </div>
         <div class="desc_box">{{ skiObj.merger_name }}{{ skiObj.address }}</div>
         <div class="photo_box">
-          <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
+          <div v-for="(item,index) in venDayList" :key="index" class="photo_list" @click="handleNextPage(0,item)">
             <div class="list_label">
               <div class="fl">
                 {{ item.date }}
               </div>
-              <div class="fr" @click="handleNextPage(0,item)">
+              <div class="fr">
                 <span>已有</span>
                 <span class="active">{{ item.total }}</span>
                 <span>张照片</span>
