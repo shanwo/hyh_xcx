@@ -136,6 +136,9 @@ export default {
 
         list.forEach(val => {
           val['statusHeight'] = 0
+          val.images.forEach(v => {
+            v['url'] = v.thumbnail_url
+          })
         })
 
         uni.stopPullDownRefresh()

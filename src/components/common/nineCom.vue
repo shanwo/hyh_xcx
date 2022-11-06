@@ -3,16 +3,19 @@
     <div class="main_box">
       <image v-for="(item,index) in imgList" :key="index" mode="aspectFill" :src="item.url || item.thumbnail_url" :class="[ index %3 == 2 ?'mr0':'' ,'big_img']" @click="handleClickShow(item)" />
     </div>
-    <photoDown v-if="photoDownStatus" :photo-obj="photoObj" @listenClose="listenClose" />
+    <!--    <photoDown v-if="photoDownStatus" :photo-obj="photoObj" @listenClose="listenClose" />-->
+    <photoDetailDialog v-if="photoDownStatus" ref="refPhotoDetailDialog" :page-from="'my'" :img-list="imgList" :photo-obj="photoObj" @listenClose="listenClose" />
   </div>
 
 </template>
 
 <script>
 import photoDown from './photoDown.vue'
+import photoDetailDialog from '@/components/common/photoDetailDialog'
 export default {
   name: 'NineCom',
   components: {
+    photoDetailDialog,
     photoDown
   },
   props: {
@@ -38,10 +41,14 @@ export default {
   },
   methods: {
     handleClickShow(item) {
-      console.log('item', item)
-      if (this.pageStatus == 1) {
-        this.photoObj = item
+      if (this.pageStatus == 1) { //  如果是我的页面
+        console.log('item', item)
+        const index = this.imgList.findIndex(val => val.name == item.name)
         this.photoDownStatus = true
+        this.photoObj = item
+        setTimeout(() => {
+          this.$refs['refPhotoDetailDialog'].init(this.imgList, index)
+        })
       }
     },
     listenClose() {

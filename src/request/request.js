@@ -18,7 +18,7 @@ const myRequest = ({ url, data, method = 'POST', header = {}}) => {
       url: baseObj.apiUrl + url, // 仅为示例，并非真实接口地址。
       data,
       method,
-      timeout: 5000,
+      timeout: 8000,
       header: myHeader,
       success: (res) => {
         console.log('res', res)
@@ -26,6 +26,18 @@ const myRequest = ({ url, data, method = 'POST', header = {}}) => {
       },
       fail: (error) => {
         console.log('请求失败', error)
+        if (error.errMsg == 'request:fail timeout') {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: '可能网络不太好，请重试！',
+            success: function() {
+              uni.reLaunch({
+                url: '/pages/index/index'
+              })
+            }
+          })
+        }
         reject(error)
       },
       complete: () => {

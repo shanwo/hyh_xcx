@@ -46,6 +46,16 @@ export default {
   onLoad() {
     this.init()
   },
+  onUnload() {
+    try {
+      this.status = false
+      this.downTasks.forEach(val => {
+        val.abort()
+      })
+    } catch (e) {
+      console.log('页面卸载报错', e)
+    }
+  },
   methods: {
     //
     // handleCeshi() {
@@ -57,10 +67,10 @@ export default {
     },
     handleClose() {
       try {
-        this.status = false
-        this.downTasks.forEach(val => {
-          val.abort()
-        })
+        // this.status = false
+        // this.downTasks.forEach(val => {
+        //   val.abort()
+        // })
         uni.navigateBack()
       } catch (e) {
         uni.navigateBack()

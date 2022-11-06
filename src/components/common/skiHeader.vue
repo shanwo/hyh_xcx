@@ -14,7 +14,7 @@
                 <image class="back_icon" :src="backIcon" />
               </view>
             </view>
-            <view v-if="showBack && showBackHome" class="shuxian" />
+            <view v-if="pageLength && showBackHome" class="shuxian" />
             <view v-if="showBackHome">
               <view class="back_btn flexbox_cen" @click="handleBackHome">
                 <image class="back_icon" :src="backHomeIcon" />

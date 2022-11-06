@@ -49,7 +49,7 @@
 
     </scroll-view>
 
-    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :img-list="waterfall.list" :photo-obj="photoObj" @listenClose="listenClose" />
+    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'cart'" :img-list="waterfall.list" :photo-obj="photoObj" @listenClose="listenClose" />
     <cartCom ref="refCartCom" />
   </div>
 </template>
@@ -60,7 +60,7 @@ import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
 import cartCom from '@/components/common/cart/cart'
-import photoDetailDialog from '@/pages/timePhoto/components/photoDetailDialog'
+import photoDetailDialog from '@/components/common/photoDetailDialog'
 import { ajaxVenueHour } from '@/api/timePhotoApi'
 import { ajaxVenueLists } from '@/api/chooseSkiList'
 
@@ -121,8 +121,9 @@ export default {
       this.getSkiList()
     },
     onRefresh() {
-      this.waterfall.list = []
       this.triggered = true
+      this.waterfall.list = []
+      this.waterfall.reset = true
       this.getList()
     },
     getScrollViewHeight() {
@@ -173,7 +174,6 @@ export default {
         //   this.waterfall.list = res.data.data.lists
         // }
         this.waterfall.list = res.data.data.lists
-
         if (this.waterfall.list.length == 0) {
           this.waterfall.status = 'success'
           setTimeout(() => {

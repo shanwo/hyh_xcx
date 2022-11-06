@@ -5,11 +5,9 @@ const baseObj = {
   appsecret: '750ccc02c3027af11d2f860e76652ce1'
 }
 if (process.env.NODE_ENV === 'development') {
-  baseObj.apiUrl = 'http://api.shanwo.vip'
+  baseObj.apiUrl = 'https://api.shanwo.vip'
 } else if (process.env.NODE_ENV === 'test') {
-  baseObj.apiUrl = 'http://api.shanwo.vip'
-
-  baseObj.apiUrl = ''
+  baseObj.apiUrl = 'https://api.shanwo.vip'
 } else if (process.env.NODE_ENV === 'production') {
   baseObj.apiUrl = 'https://api.shanwo.cc'
 }
