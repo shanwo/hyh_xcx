@@ -49,7 +49,7 @@
 
     </scroll-view>
 
-    <photoDetailDialog v-if="photoStatus" :photo-obj="photoObj" @listenClose="listenClose" />
+    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :img-list="waterfall.list" :photo-obj="photoObj" @listenClose="listenClose" />
     <cartCom ref="refCartCom" />
   </div>
 </template>
@@ -204,8 +204,12 @@ export default {
     // },
     listenClick(obj) {
       this.photoObj = obj
+      this.photoStatus = true
+      const data = JSON.parse(JSON.stringify(this.waterfall.list))
+      const index = this.waterfall.list.findIndex(val => val.id == obj.id)
+      console.log('index', index)
       setTimeout(() => {
-        this.photoStatus = true
+        this.$refs['refPhotoDetailDialog'].init(data, index)
       })
     },
     listenClose() {

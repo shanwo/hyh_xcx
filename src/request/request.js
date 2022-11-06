@@ -18,6 +18,7 @@ const myRequest = ({ url, data, method = 'POST', header = {}}) => {
       url: baseObj.apiUrl + url, // 仅为示例，并非真实接口地址。
       data,
       method,
+      timeout: 5000,
       header: myHeader,
       success: (res) => {
         console.log('res', res)
