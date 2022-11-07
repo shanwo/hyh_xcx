@@ -333,7 +333,7 @@ export default {
         background: $u-primary;
         width: 30px;
         position: absolute;
-        bottom: 2px;
+        bottom: 8px;
         border-radius: 100px;
         transition-property: transform;
         transition-duration: 300ms;

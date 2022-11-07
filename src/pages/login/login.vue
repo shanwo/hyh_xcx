@@ -11,7 +11,7 @@
     <!--    <H5Login />-->
     <!--    &lt;!&ndash; #endif&ndash;&gt;-->
     <div class="login_box" :style="{top:top3}">
-      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/logo@2x.png" />
+      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/jsahffbs.png" />
       <wx-mini-login />
     </div>
   </div>

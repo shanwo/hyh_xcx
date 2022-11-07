@@ -212,7 +212,7 @@ export default {
 
 <style lang="scss" scoped>
 	.waterfall-box {
-		padding: 20rpx 10rpx;
+		padding:  0  10rpx ;
 		box-sizing: border-box;
 
 		>view {

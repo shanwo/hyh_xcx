@@ -130,7 +130,7 @@ export default {
       const sysInfo = uni.getSystemInfoSync()
       console.log('sysInfo', sysInfo)
       if (sysInfo.safeArea) {
-        const sHeight = sysInfo.safeArea.height - 46 - 44 - 44
+        const sHeight = sysInfo.screenHeight - sysInfo.statusBarHeight - 46 - 44 - 44 - 60
         this.sHeight = sHeight
       }
     },
@@ -246,6 +246,7 @@ export default {
       margin: 0 0 4rpx 0;
     }
     .desc{
+      width: 552rpx;
       height: 40rpx;
       font-size: 28rpx;
       font-weight: 600;

@@ -6,23 +6,22 @@
     </view>
     <block v-if="imgList.length > 1">
       <swiper class="swiper_box" :style="{height:sHeight+'px'}" :circular="true" :current="currentIndex" @transition="swipertransition" @animationfinish="animationfinish" @change="listenSwiperChange">
-        <swiper-item v-for="(item,index) in imgList" :key="index" class="swiperitem">
+        <swiper-item v-for="(item,index) in 3" :key="index" class="swiperitem">
           <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
           <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
           <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
           <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[imgShowIndex].url" />
-          <image v-if="!imgStatus" mode="aspectFit" class="big_img" :src="imgList[imgShowIndex].url" />
+          <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[imgShowIndex].url" />
         </swiper-item>
       </swiper>
     </block>
     <view v-if="imgList.length==1" class="mid_box">
       <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
-
       <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
       <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
       <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
-      <image v-if="!imgStatus" mode="aspectFit" class="big_img" :src="imgList[0].url" />
+      <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
     </view>
     <view v-if="imgList.length > 1" class="num_box">
       {{ imgShowIndex + 1 }}/{{ imgList.length }}
@@ -70,21 +69,20 @@ export default {
       imgStatus: false,
       status: false,
       swiperVal: '',
+      allImgList: [],
       imgList: []
     }
   },
   methods: {
     init(data, index) {
       this.imgShowIndex = index
-      // this.imgList = [data[0]]
       this.imgList = data
     },
     swipertransition(e) {
-      console.log('loadingStatus', this.loadingStatus)
+      // console.log('loadingStatus', this.loadingStatus)
       if (this.loadingStatus) {
         this.loadingStatus = false
       }
-      // console.log('swipertransition', e)
       this.swiperVal = e.detail.dx
     },
     animationfinish(e) {
@@ -101,7 +99,6 @@ export default {
           if (this.imgShowIndex == -1) {
             this.imgShowIndex = this.imgList.length - 1
           }
-
           console.log('this.imgShowIndex', this.imgShowIndex)
           console.log('右滑')
         }
@@ -114,6 +111,7 @@ export default {
       this.currentIndex = e.detail.current
     },
     imgLoad(e) {
+      console.log('图片加载', e)
       const sys = uni.getSystemInfoSync()
       console.log(sys, e.detail.width)
       if (e.detail.width > e.detail.height) {
@@ -121,8 +119,11 @@ export default {
         this.sHeight = this.sWidth * e.detail.height / e.detail.width
         this.status = true
         this.imgStatus = true
-        console.log('代表长图', this.sHeight)
+        console.log('代表宽图')
       } else if (e.detail.width < e.detail.height) {
+        console.log('代表长图')
+        this.sHeight = sys.screenHeight - 320
+        this.sWidth = sys.screenWidth
         this.status = false
         this.imgStatus = false
       }

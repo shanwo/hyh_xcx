@@ -4,12 +4,14 @@
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
         <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/homelogo.png'" />
+        <div class="main_title">照片墙</div>
         <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
+          <img class="right_sd" src="https://cdn.shanwo.cc/xcx/asdsa5634x.png" alt="">
           <image class="icon_left" src="https://cdn.shanwo.cc/xcx/gps@2x.png" />
           <div class="active">{{ skiObj.name }}</div>
           <image class="icon_right" src="https://cdn.shanwo.cc/xcx/arrow@2x.png" />
         </div>
-        <div class="desc_box">{{ skiObj.merger_name }}{{ skiObj.address }}</div>
+        <div class="desc_box text_line1">{{ skiObj.merger_name }}{{ skiObj.address }}</div>
         <div class="photo_box">
           <div v-for="(item,index) in venDayList" :key="index" class="photo_list" @click="handleNextPage(0,item)">
             <div class="list_label">
@@ -179,6 +181,7 @@ export default {
   box-sizing: border-box;
 }
 .desc_box{
+  width: 552rpx;
   height: 34rpx;
   font-size: 24rpx;
   font-weight: 400;
@@ -222,7 +225,7 @@ export default {
     margin-bottom: 18rpx;
     .fl{
       height: 40rpx;
-      font-size: 28rpx;
+      font-size: 30rpx;
       font-family: PingFangSC-Semibold, PingFang SC;
       font-weight: 600;
       color: $titleColor;
@@ -252,5 +255,22 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
 }
-
+.main_title{
+  font-size: 36rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #F8B800;
+  line-height: 50rpx;
+  margin: 15rpx 0 0 20rpx;
+}
+.flexbox_s_center{
+  position: relative;
+}
+.right_sd{
+  width: 134rpx;
+  height: 170rpx;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
 </style>

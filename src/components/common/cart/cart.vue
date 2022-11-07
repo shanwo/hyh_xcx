@@ -12,7 +12,7 @@
       <image class="img_sad" src="https://cdn.shanwo.cc/xcx/arrow_white@2x.png" />
     </div>
     <div>
-      <safeAreaCom />
+      <!--      <safeAreaCom />-->
     </div>
   </div>
 
@@ -55,7 +55,8 @@ export default {
   @import "src/static/theme.scss";
   .footer_box{
     width: 750rpx;
-    background: rgba(0,0,0,0.6);
+    //background: rgba(0,0,0,0.6);
+    background: url("https://cdn.shanwo.cc/xcx/juxingtouming.png") no-repeat left;
     opacity: 0.6;
     position: fixed;
     bottom: 0;
