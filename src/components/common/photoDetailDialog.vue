@@ -23,21 +23,20 @@
       <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
       <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
     </view>
-    <view v-if="imgList.length > 1" class="num_box">
-      {{ imgShowIndex + 1 }}/{{ imgList.length }}
-    </view>
-    <view v-else class="num_box">
-      1/1
-    </view>
 
-    <view v-if="pageFrom == 'cart'" class="footer_box">
-      <view class="cart_box" @click="handleAddCart">
-        <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/shoppingssad.png" />
-        <view class="title-1">加入购物车</view>
+    <view v-if="pageFrom == 'cart'" class="footer_box1">
+      <view class="cart_box1" @click="handleAddCart">
+        <view v-if="imgList.length > 1" class="num_box">
+          {{ imgShowIndex + 1 }}/{{ imgList.length }}
+        </view>
+        <view v-else class="num_box">
+          1/1
+        </view>
+        <image class="cart_icon1" src="https://cdn.shanwo.cc/xcx/asdjhasduirel.png" />
       </view>
     </view>
     <view v-if="pageFrom == 'my'" class="footer_box">
-      <view class="cart_box" @click="handleSaveImg">
+      <view class="cart_box1" @click="handleSaveImg">
         <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
         <view class="title-1">下载照片</view>
       </view>
@@ -189,9 +188,16 @@ export default {
       opacity: 0.8;
       margin-top: 10rpx;
       border: 2rpx solid #4E5969;
-
     }
   }
+.cart_icon1{
+  width: 64rpx;
+  height: 64rpx;
+  display: block;
+  position: absolute;
+  right: 40rpx;
+  top: 0;
+}
 .cart_icon{
   width: 48rpx;
   height: 48rpx;
@@ -205,6 +211,17 @@ export default {
   display: flex;
   flex-direction: row-reverse;
   padding-right: 20rpx;
+  position: fixed;
+  z-index: 100;
+  bottom: 150rpx;
+}
+.footer_box1{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  bottom: 150rpx;
 }
 .header_box{
   width: 100%;
@@ -213,6 +230,9 @@ export default {
   padding-right: 40rpx;
   box-sizing: border-box;
   margin-bottom: 6rpx;
+  position: fixed;
+  z-index: 100;
+  top: 200rpx;
   .close_img{
     width: 48rpx;
     height: 48rpx;

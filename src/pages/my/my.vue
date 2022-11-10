@@ -6,18 +6,13 @@
         <div class="flexbox" style="justify-content: space-between">
           <div>
             <div class="head flexbox">
-              <div>微信用户</div>
-              <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />
+              <div>我的照片</div>
+              <!--              <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />-->
             </div>
-            <!--            <div class="desc_box">-->
-            <!--              <div>已购</div>-->
-            <!--              <div style="color: #fff;font-weight: 600;margin: 0 3rpx">120</div>-->
-            <!--              <div>张照片</div>-->
-            <!--            </div>-->
           </div>
-          <div class="avatar_box">
-            <img src="https://cdn.shanwo.cc/xcx/morentouxiang.png" class="avatar_icon" alt="">
-          </div>
+          <!--          <div class="avatar_box">-->
+          <!--            <img src="https://cdn.shanwo.cc/xcx/morentouxiang.png" class="avatar_icon" alt="">-->
+          <!--          </div>-->
         </div>
         <div v-if="venDayList.length == 0" style="margin-top: 150rpx">
           <emptyCom :title="'暂时没有图片~'" />
@@ -256,7 +251,7 @@ export default {
   }
 }
 .photo_box{
-  margin-top: 80rpx;
+  margin-top: 40rpx;
 }
 .photo_list{
   margin-bottom: 32rpx;

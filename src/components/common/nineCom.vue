@@ -65,6 +65,7 @@ export default {
     display: block;
     margin-right: 6rpx;
     margin-bottom: 4rpx;
+    border-radius: 8rpx;
   }
   .mr0{
     margin-right: 0;
