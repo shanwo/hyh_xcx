@@ -1,6 +1,10 @@
 <template>
   <div class="body_bg">
     <skiHeader />
+
+    <view v-if="cartStatus && !addLeftStatus" :class="['fix_box',aniStatus? 'move_left':'' ]" :style="{'left':leftVal+'px','top':topVal+'px'}" />
+    <view v-if="cartStatus && addLeftStatus" :class="['fix_box',aniStatus? 'move_right':'' ]" :style="{'left':leftVal+'px','top':topVal + 'px'}" />
+
     <div class="header_box">
       <div class="title">{{ timeStr }}</div>
       <div class="desc flexbox">
@@ -75,6 +79,11 @@ export default {
   },
   data() {
     return {
+      addLeftStatus: false, // 动画方向
+      aniStatus: false, // 是否运行动画效果
+      cartStatus: false, // 是否显示dom
+      leftVal: 0,
+      topVal: 0,
       triggered: false,
       sHeight: 0,
       photoObj: {},
@@ -226,6 +235,38 @@ export default {
     onReachBottom() {
       // this.pageIndex += 1
       // this.getList()
+    },
+    handleClickAdd(index) {
+      const that = this
+      const sys = uni.getSystemInfoSync()
+      console.log('sys.width', sys.screenWidth)
+      this.$uGetRect('.ani').then(size => {
+        console.log('得到布局位置信息size', size)
+      })
+      const query = uni.createSelectorQuery().in(this)
+      query.selectAll('.ani').boundingClientRect(data => {
+        console.log('得到布局位置信息', data)
+
+        console.log('节点离页面顶部的距离为' + data[index].top)
+        that.leftVal = data[index].left
+        that.topVal = data[index].top
+        console.log('得到布局位置信息左边', data[index].left)
+        if (that.leftVal > sys.screenWidth / 2) { // 如果距离左边的位置大于屏幕的一半 就是从右边往左边慢慢销售
+          that.addLeftStatus = true
+          console.log('往左')
+        } else {
+          console.log('往右')
+          that.addLeftStatus = false
+        }
+        that.cartStatus = true
+        setTimeout(() => {
+          this.aniStatus = true
+          setTimeout(() => {
+            that.cartStatus = false
+            this.aniStatus = false
+          }, 800)
+        })
+      }).exec()
     }
   }
 }
