@@ -53,7 +53,7 @@
 
     </scroll-view>
 
-    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'cart'" :img-list="waterfall.list" :photo-obj="photoObj" @listenClose="listenClose" />
+    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'timePhoto'" :img-list="waterfall.list" :photo-obj="photoObj" @listenClose="listenClose" />
     <cartCom ref="refCartCom" />
   </div>
 </template>
@@ -109,6 +109,9 @@ export default {
   },
   onShow() {
     this.$refs['refCartCom'].changeNum()
+  },
+  onHide() {
+    this.photoStatus = false
   },
   mounted() {
     const that = this

@@ -11,7 +11,7 @@
         <div class="list">
           <div class="fl">订单金额</div>
           <div class="fr">
-            <span class="txt1">(￥ {{ skiObj.price/100 }}  /张)</span>
+            <span class="txt1">(￥ {{ skiObj.price / 100 }}  /张)</span>
             <span class="txt2">￥</span>
             <span>{{ totalPrice }}</span>
           </div>
@@ -24,6 +24,14 @@
             <span style="font-size: 43rpx">{{ hjPrice }}</span>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="main_box_2">
+      <div class="hea">付款提示</div>
+      <div class="mid">
+        <div>需更改照片请返回购物车，付款后不进行退换</div>
+        <div> 照片影像著作权归拍摄人所有，照片肖像权归被拍摄个人有</div>
+        <div> 照片的下载仅可拍摄人与被拍摄人用于非商业使用</div>
       </div>
     </div>
     <div class="footer_box">
@@ -52,6 +60,7 @@ import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
 import baseUrl from '@/request/baseUrl'
 import { ajaxOrderSend } from '@/api/orderApi'
+
 export default {
   name: 'ConfirmOrder',
   components: {
@@ -79,8 +88,26 @@ export default {
 
   },
   methods: {
+    // 移除购物车中的品
+
+    removeCartOne() {
+      const that = this
+      const cartList = uni.getStorageSync('cartList')
+      console.log('sadsdsad', cartList, this.idArr)
+      cartList.forEach((v, index) => {
+        console.log('idArr', this.idArr)
+        that.idArr.forEach(val => {
+          console.log('val', val)
+          if (val == v.id) {
+            cartList.splice(index, 1)
+          }
+        })
+      })
+      uni.setStorageSync('cartList', cartList)
+    },
     handlePay() {
       const that = this
+
       this.$common.showLoading('支付中')
       const skid = uni.getStorageSync('skid')
       const params = {
@@ -100,6 +127,7 @@ export default {
           paySign: payInfo.paySign,
           success(res) {
             console.log('支付成功', res)
+            that.removeCartOne()
             that.$common.redirect({
               url: '/pages/payResult/payResult?order_sn=' + payInfo.order_sn
             })
@@ -133,97 +161,112 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/static/theme";
-  .main_box{
-    margin: 30rpx auto;
-    width: 686rpx;
-    height: 386rpx;
-    background: #FFFFFF;
-    box-shadow: 0 16rpx 32rpx 0px rgba(138,149,158,0.1);
-    border-radius: 16rpx;
-    overflow: hidden;
-    .hea{
-      width: 100%;
-      height: 104rpx;
-      line-height: 104rpx;
-      background: #F8B800;
-      border-radius: 16rpx 16rpx 0px 0px;
-      font-size: 32rpx;
-      font-weight: 600;
-      color: #1E2128;
-      padding-left: 28rpx;
+
+.main_box {
+  margin: 30rpx auto 16rpx;
+  width: 686rpx;
+  height: 386rpx;
+  background: #FFFFFF;
+  box-shadow: 0 16rpx 32rpx 0px rgba(138, 149, 158, 0.1);
+  border-radius: 16rpx;
+  overflow: hidden;
+  .hea {
+    width: 100%;
+    height: 104rpx;
+    line-height: 104rpx;
+    background: #F8B800;
+    border-radius: 16rpx 16rpx 0px 0px;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1E2128;
+    padding-left: 28rpx;
+    box-sizing: border-box;
+  }
+
+  .mid {
+    padding-top: 20rpx;
+    box-sizing: border-box;
+
+    .list {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 32rpx 0 28rpx;
       box-sizing: border-box;
-    }
-    .mid{
-      padding-top: 20rpx;
-      box-sizing: border-box;
-      .list{
-        display: flex;
-        justify-content: space-between;
-        padding: 0 32rpx 0 28rpx;
-        box-sizing: border-box;
-        line-height: 70rpx;
-        .fl{
-          font-size: 28rpx;
+      line-height: 70rpx;
+
+      .fl {
+        font-size: 28rpx;
+        font-weight: 400;
+        color: #1E2128;
+      }
+
+      .fr {
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #1E2128;
+
+        .txt1 {
+          font-size: 24rpx;
           font-weight: 400;
-          color: #1E2128;
+          color: #88909B;
+          margin-right: 8rpx;
         }
-        .fr{
-          font-size: 32rpx;
-          font-weight: 600;
-          color: #1E2128;
-          .txt1{
-            font-size: 24rpx;
-            font-weight: 400;
-            color: #88909B;
-            margin-right: 8rpx;
-          }
-          .txt2{
-            font-size: 20rpx;
-          }
+
+        .txt2 {
+          font-size: 20rpx;
         }
       }
     }
   }
-  .line{
-    width: 630rpx;
-    height: 2rpx;
-    margin: 0 auto;
-    box-shadow: inset 0px 1rpx 0px 0px rgba(202,205,211,1);
-  }
-  .footer_box_2{
+}
+
+.line {
+  width: 630rpx;
+  height: 2rpx;
+  margin: 0 auto;
+  box-shadow: inset 0px 1rpx 0px 0px rgba(202, 205, 211, 1);
+}
+
+.footer_box_2 {
+  display: flex;
+  justify-content: space-between;
+
+  .fl {
     display: flex;
-    justify-content: space-between;
-    .fl{
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 32rpx;
-      font-weight: 600;
-      color: #FFFFFF;
-      .icon{
-        width: 40rpx;
-        height: 40rpx;
-      }
-    }
-    .fr{
-      display: flex;
-    }
-    .btn{
-      width: 154rpx;
-      height: 68rpx;
-      line-height: 68rpx;
-      font-size: 28rpx;
-      font-weight: 600;
-      color: #ffffff;
-      background: #ff253a;
-      text-align: center;
-      border-radius: 34rpx;
-    }
-    .del{
-      color: #fff;
-      background: #ff253a;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #FFFFFF;
+
+    .icon {
+      width: 40rpx;
+      height: 40rpx;
     }
   }
+
+  .fr {
+    display: flex;
+  }
+
+  .btn {
+    width: 154rpx;
+    height: 68rpx;
+    line-height: 68rpx;
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #ffffff;
+    background: #ff253a;
+    text-align: center;
+    border-radius: 34rpx;
+  }
+
+  .del {
+    color: #fff;
+    background: #ff253a;
+  }
+}
+
 .footer_box {
   position: fixed;
   z-index: 99;
@@ -234,5 +277,36 @@ export default {
   background: rgba(0, 0, 0, 0.6);
   padding: 15rpx 24rpx;
   box-sizing: border-box;
+}
+
+.main_box_2 {
+  margin: 0 auto;
+  width: 686rpx;
+  background: #FFFFFF;
+  box-shadow: 0 16rpx 32rpx 0px rgba(138, 149, 158, 0.1);
+  border-radius: 16rpx;
+  overflow: hidden;
+
+  .hea {
+    width: 100%;
+    height: 104rpx;
+    line-height: 104rpx;
+    background: #F8B800;
+    border-radius: 16rpx 16rpx 0px 0px;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1E2128;
+    padding-left: 28rpx;
+    box-sizing: border-box;
+  }
+  .mid{
+    font-size: 24rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #505968;
+    line-height: 34rpx;
+    padding: 20rpx 28rpx;
+    box-sizing: border-box;
+  }
 }
 </style>

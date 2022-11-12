@@ -7,9 +7,11 @@
     <block v-if="imgList.length > 1">
       <swiper class="swiper_box" :style="{height:sHeight+'px'}" :circular="true" :current="currentIndex" @transition="swipertransition" @animationfinish="animationfinish" @change="listenSwiperChange">
         <swiper-item v-for="(item,index) in 3" :key="index" class="swiperitem">
-          <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
-          <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
-          <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+          <!--          <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
+          <!--          <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
+          <!--          <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
+          <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/toumingdeshuiyin.png" />
+
           <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[imgShowIndex].url" />
           <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[imgShowIndex].url" />
         </swiper-item>
@@ -17,14 +19,15 @@
     </block>
     <view v-if="imgList.length==1" class="mid_box">
       <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
-      <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
-      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />
+      <!--      <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
+      <!--      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
+      <!--      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
+      <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/toumingdeshuiyin.png" />
       <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
       <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
     </view>
 
-    <view v-if="pageFrom == 'cart'" class="footer_box1">
+    <view v-if="pageFrom == 'timePhoto'" class="footer_box1">
       <view class="cart_box1" @click="handleAddCart">
         <view v-if="imgList.length > 1" class="num_box">
           {{ imgShowIndex + 1 }}/{{ imgList.length }}
@@ -35,8 +38,23 @@
         <image class="cart_icon1" src="https://cdn.shanwo.cc/xcx/asdjhasduirel.png" />
       </view>
     </view>
+    <!--购物车的弹窗 选择的按钮-->
+    <view v-if="pageFrom == 'cart'" class="footer_box1">
+      <view class="cart_box1">
+        <view v-if="imgList.length > 1" class="num_box">
+          {{ imgShowIndex + 1 }}/{{ imgList.length }}
+        </view>
+        <view v-else class="num_box">
+          1/1
+        </view>
+        <image v-if="photoObj.chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />
+        <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />
+
+      </view>
+    </view>
+
     <view v-if="pageFrom == 'my'" class="footer_box">
-      <view class="cart_box1" @click="handleSaveImg">
+      <view class="cart_box" @click="handleSaveImg">
         <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
         <view class="title-1">下载照片</view>
       </view>
@@ -150,6 +168,10 @@ export default {
       console.log('photoObj', this.photoObj)
       uni.setStorageSync('downImgs', [this.photoObj])
       this.$common.push({ url: '/pages/downLoadFile/downLoadFile' })
+    },
+    handleChoose() {
+      // this.photoObj.chooseStatus = 0
+      // this.$emit('sonChoose')
     }
   }
 }
@@ -188,6 +210,7 @@ export default {
       opacity: 0.8;
       margin-top: 10rpx;
       border: 2rpx solid #4E5969;
+      margin-right: 40rpx;
     }
   }
 .cart_icon1{
@@ -234,8 +257,8 @@ export default {
   z-index: 100;
   top: 200rpx;
   .close_img{
-    width: 48rpx;
-    height: 48rpx;
+    width: 64rpx;
+    height: 64rpx;
     display: block;
   }
 }
@@ -244,6 +267,12 @@ export default {
   overflow: hidden;
   max-height: 860rpx;
 
+}
+.new_shuiyin{
+  position: absolute;
+  left: 100rpx;
+  top: 0;
+  z-index: 1;
 }
 .shuiyin1{
   position: absolute;
@@ -284,5 +313,13 @@ export default {
   color: #fff;
   font-size: 24rpx;
   margin: 20rpx 0;
+}
+.cart_icon1{
+  width: 64rpx;
+  height: 64rpx;
+  display: block;
+  position: absolute;
+  right: 40rpx;
+  top: 0;
 }
 </style>

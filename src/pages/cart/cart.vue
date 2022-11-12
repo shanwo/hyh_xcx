@@ -3,22 +3,35 @@
     <skiHeader />
     <div v-if="cartList.length == 0" style="margin-top: 150px">
       <emptyCom />
-
     </div>
-    <view v-if="cartList.length > 0">
-      <div class="ski_main">
-        <div v-for="(item,index) in cartList" :key="item.id" class="cart_list">
-          <div :class="[index %2 == 0 ? 'mr4':'']" class="main_box">
-            <image :src="item.url" class="main_img" mode="aspectFill" />
-            <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose(index)">
-              <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
-            </div>
-            <div v-else class="choose_box flexbox_center">
-              <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose(index)" />
-            </div>
-          </div>
-        </div>
-      </div>
+    <view>
+      <template>
+        <view class="container">
+          <view class="left">
+            <view v-for="(item,index) in leftList" :key="index" class="left_box">
+              <image :src="item.url" alt="" mode="widthFix" @click="hanleClickImg(item)" />
+              <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose('left',index)">
+                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+              </div>
+              <div v-else class="choose_box flexbox_center">
+                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose('left',index)" />
+              </div>
+            </view>
+          </view>
+          <view class="right">
+            <view v-for="(item,index) in rightList" :key="index" class="right_box">
+              <image :src="item.url" alt="" mode="widthFix" @click="hanleClickImg(item)" />
+              <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose('right',index)">
+                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+              </div>
+              <div v-else class="choose_box flexbox_center">
+                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose('right',index)" />
+              </div>
+            </view>
+          </view>
+        </view>
+      </template>
+
       <div class="my_box" @click.stop="handleEdit">编辑</div>
       <div class="footer_box">
         <div v-if="editStatus == 1" class="footer_box_1">
@@ -52,6 +65,7 @@
         <safeAreaCom />
       </div>
     </view>
+    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'cart'" :img-list="cartList" :photo-obj="photoObj" @listenClose="listenClose" />
 
   </div>
 
@@ -61,15 +75,24 @@
 import skiHeader from '@/components/common/skiHeader'
 import safeAreaCom from '@/components/common/safeAreaCom'
 import emptyCom from '@/components/common/emptyCom'
+import photoDetailDialog from '@/components/common/photoDetailDialog'
 export default {
   name: 'ChooseSkiList',
   components: {
     skiHeader,
     safeAreaCom,
+    photoDetailDialog,
     emptyCom
   },
   data() {
     return {
+      photoObj: '',
+      photoStatus: false,
+      leftList: [],
+      rightList: [],
+      // 初始化左右盒子高度
+      leftH: 0,
+      rightH: 0,
       num: 0,
       editStatus: 0,
       totalPrice: 0,
@@ -78,9 +101,30 @@ export default {
     }
   },
   onLoad() {
+  },
+  onShow() {
     this.getCartList()
   },
+  onHide() {
+    this.photoObj = ''
+    this.photoStatus = false
+    this.leftList = []
+    this.rightList = []
+    // 初始化左右盒子高度
+    this.leftH = 0
+    this.rightH = 0
+  },
   methods: {
+    hanleClickImg(obj) {
+      this.photoObj = obj
+      this.photoStatus = true
+      const data = JSON.parse(JSON.stringify(this.cartList))
+      const index = this.cartList.findIndex(val => val.id == obj.id)
+      console.log('index', index)
+      setTimeout(() => {
+        this.$refs['refPhotoDetailDialog'].init(data, index)
+      })
+    },
     setPrice() {
       const price = uni.getStorageSync('skiObj').price * 1
       const idArr = []
@@ -99,33 +143,55 @@ export default {
       }
     },
     handleChooseAll() {
-      if (this.cartList.length) {
+      if (this.leftList.length) {
         if (this.chooseStatus == 1) {
-          this.cartList.forEach(val => {
+          this.leftList.forEach(val => {
             val['chooseStatus'] = 0
           })
         } else {
-          this.cartList.forEach(val => {
+          this.leftList.forEach(val => {
             val['chooseStatus'] = 1
           })
         }
-        this.setPrice()
       }
-    },
-    handleChoose(index) {
-      if (this.cartList[index].chooseStatus) {
-        this.cartList[index].chooseStatus = 0
-      } else {
-        this.cartList[index].chooseStatus = 1
+      if (this.rightList.length) {
+        if (this.chooseStatus == 1) {
+          this.rightList.forEach(val => {
+            val['chooseStatus'] = 0
+          })
+        } else {
+          this.rightList.forEach(val => {
+            val['chooseStatus'] = 1
+          })
+        }
       }
       this.setPrice()
     },
+    handleChoose(decrition, index) {
+      if (decrition == 'left') {
+        if (this.leftList[index].chooseStatus) {
+          this.leftList[index].chooseStatus = 0
+        } else {
+          this.leftList[index].chooseStatus = 1
+        }
+      } else {
+        if (this.rightList[index].chooseStatus) {
+          this.rightList[index].chooseStatus = 0
+        } else {
+          this.rightList[index].chooseStatus = 1
+        }
+      }
+
+      this.setPrice()
+    },
     getCartList() {
+      this.cartList = []
       const cartList = uni.getStorageSync('cartList') || []
       cartList.forEach(val => {
         val['chooseStatus'] = 0
       })
       this.cartList = cartList
+      this.doList()
     },
     // 编辑
     handleEdit() {
@@ -191,6 +257,34 @@ export default {
       this.$common.push({
         url: `/pages/confirmOrder/confirmOrder?idArr=${idArr}`
       })
+    },
+    doList() {
+      const that = this
+      this.cartList.forEach(res => {
+        // 获取图片宽高
+        uni.getImageInfo({
+          src: res.url,
+          success: (image) => {
+            console.log(res.url)
+            // 计算图片渲染高度
+            const showH = (50 * image.height) / image.width
+            // 判断左右盒子高度
+            if (that.leftH <= that.rightH) {
+              that.leftList.push(res)
+              that.leftH += showH
+            } else {
+              that.rightList.push(res)
+              that.rightH += showH
+            }
+          }
+        })
+      })
+    },
+    listenClose() {
+      this.photoStatus = false
+    },
+    onDone() {
+
     }
   }
 }
@@ -353,4 +447,17 @@ export default {
   border-radius: 50%;
 }
 
+.container {
+  padding: 0 30rpx;
+  font-size: 14rpx;
+  line-height: 24rpx;
+}
+.right,
+.left{display: inline-block; width: 49%;vertical-align: top;}
+.left{margin-right: 2%;}
+.left image,
+.right image{width: 100%;margin-bottom: 10rpx;}
+.left_box,.right_box{
+  position: relative;
+}
 </style>
