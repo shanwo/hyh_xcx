@@ -262,10 +262,11 @@ export default {
       const that = this
       this.cartList.forEach(res => {
         // 获取图片宽高
+        const url = res.url.includes('https') ? res.url : 'https:' + res.url
         uni.getImageInfo({
-          src: res.url,
+          src: url,
           success: (image) => {
-            console.log(res.url)
+            // console.log(res.url)
             // 计算图片渲染高度
             const showH = (50 * image.height) / image.width
             // 判断左右盒子高度
