@@ -19,21 +19,21 @@
         </div>
         <div v-else class="photo_box">
           <div v-for="(item,index) in venDayList" :key="index" class="photo_list">
-            <!--            <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">-->
             <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">
               <div class="list_label" @click="handleHideBox(index)">
                 <div class="fl flexbox">
                   <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
-                  <div>{{ item.created_at }}</div>
-                  <image v-if="item.statusHeight != 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />
-                  <image v-if="item.statusHeight == 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_right%402x.png" />
+                  <div>{{ item.venue.name }}</div>
+                  <!--                  <image v-if="item.statusHeight != 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />-->
+                  <!--                  <image v-if="item.statusHeight == 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_right%402x.png" />-->
                 </div>
-                <div class="fr">
-                  <span>已购买</span>
-                  <span class="active">{{ item.images.length }}张</span>
-                  <span>张</span>
-                  <span>共￥{{ item.pay_price }}</span>
-                </div>
+                <div class="fl_time">{{ item.created_at }}</div>
+                <!--                <div class="fr">-->
+                <!--                  <span>已购买</span>-->
+                <!--                  <span class="active">{{ item.images.length }}张</span>-->
+                <!--                  <span>张</span>-->
+                <!--                  <span>共￥{{ item.pay_price }}</span>-->
+                <!--                </div>-->
               </div>
               <div class="main_box">
                 <div v-if="venDayList.length > 1 && !item.statusHeight && index != venDayList.length - 1" class="main_box_line" />
@@ -256,11 +256,18 @@ export default {
 .photo_list{
   margin-bottom: 32rpx;
   .list_label{
-    display: flex;
-    justify-content: space-between;
+    //display: flex;
+    //justify-content: space-between;
     padding: 0 16rpx;
     box-sizing: border-box;
     margin-bottom: 18rpx;
+    .fl_time{
+      color: $descColor;
+      height: 40rpx;
+      font-size: 28rpx;
+      padding: 0 34rpx;
+      box-sizing: border-box;
+    }
     .fl{
       height: 40rpx;
       font-size: 28rpx;
@@ -269,6 +276,8 @@ export default {
       color: $descColor;
       line-height: 40rpx;
       align-items: center;
+      flex-wrap: wrap;
+      flex: 1;
       .icon{
         width: 24rpx;
         height: 24rpx;
@@ -309,7 +318,7 @@ export default {
   .main_box_line{
     position: absolute;
     left: 25rpx;
-    top: -24rpx;
+    top: -65rpx;
     bottom: -40rpx;
     z-index: 1;
     width: 1rpx;

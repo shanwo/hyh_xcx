@@ -7,13 +7,13 @@
 
     <div class="header_box">
       <div class="title">{{ timeStr }}</div>
-      <div class="desc flexbox">
-        <image class="icon" src="https://cdn.shanwo.cc/xcx/gps_white@2x.png" />
-        <div v-if="skiObj" class="text_line1">
-          {{ skiObj.merger_name }}
-          {{ skiObj.address }}
-        </div>
-      </div>
+      <!--      <div class="desc flexbox">-->
+      <!--        <image class="icon" src="https://cdn.shanwo.cc/xcx/gps_white@2x.png" />-->
+      <!--        <div v-if="skiObj" class="text_line1">-->
+      <!--          {{ skiObj.merger_name }}-->
+      <!--          {{ skiObj.address }}-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
     <block v-if="hoursList.length">
       <tabsCom
@@ -41,6 +41,7 @@
       :refresher-threshold="100"
       refresher-background="'#000000'"
       @refresherrefresh="onRefresh"
+      @scrolltolower="scrolltolower"
     >
 
       <waterfall-list
@@ -79,6 +80,7 @@ export default {
   },
   data() {
     return {
+      page: 1,
       addLeftStatus: false, // 动画方向
       aniStatus: false, // 是否运行动画效果
       cartStatus: false, // 是否显示dom
@@ -128,7 +130,6 @@ export default {
       this.skid = options.skid
       this.timeStr = options.timeStr
       this.getScrollViewHeight()
-      this.getScrollViewHeight()
       this.getWxHoursList()
       this.getSkiList()
     },
@@ -142,16 +143,20 @@ export default {
       const sysInfo = uni.getSystemInfoSync()
       console.log('sysInfo', sysInfo)
       if (sysInfo.safeArea) {
-        const sHeight = sysInfo.screenHeight - sysInfo.statusBarHeight - 46 - 44 - 44 - 60
+        const sHeight = sysInfo.screenHeight - sysInfo.statusBarHeight - 26 - 44 - 44 - 60
         this.sHeight = sHeight
       }
     },
     listenTabComChange(obj) {
       console.log(obj)
       this.hourVal = obj.time
-      this.waterfall.list = []
       this.waterfall.reset = true
-      this.getList()
+      this.$forceUpdate()
+      setTimeout(() => {
+        this.waterfall.list = []
+        this.waterfall.status = 'success'
+        this.getList()
+      })
     },
     getSkiList() {
       ajaxVenueLists().then(res => {
@@ -180,14 +185,10 @@ export default {
       this.$common.showLoading()
       this.waterfall.status = 'loading'
       ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
-        // if (this.hourVal == 13) {
-        //   this.waterfall.list = []
-        // } else {
-        //   this.waterfall.list = res.data.data.lists
-        // }
-        this.waterfall.list = res.data.data.lists
+        this.waterfall.list = this.waterfall.list.concat(res.data.data.lists)
         if (this.waterfall.list.length == 0) {
           this.waterfall.status = 'success'
+          this.waterfall.reset = false
           setTimeout(() => {
             this.waterfall.status = 'empty'
           })
@@ -235,6 +236,10 @@ export default {
         url: './goodInfo?id=' + id + '&score=' + this.score
       })
     },
+    scrolltolower() {
+      this.waterfall.reset = false
+      this.getList()
+    },
     onReachBottom() {
       // this.pageIndex += 1
       // this.getList()
@@ -280,7 +285,7 @@ export default {
   .header_box{
     padding-left: 20rpx;
     box-sizing: border-box;
-    height: 46px;
+    height: 26px;
     .title{
       color: $titleColor;
       height: 40rpx;

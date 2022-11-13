@@ -1,6 +1,6 @@
 <template>
   <div class="my_box" @click="handleMy">
-    我的
+    <image class="icon" src="https://cdn.shanwo.cc/xcx/dsquwieyvwqieu.png" />
   </div>
 </template>
 
@@ -47,5 +47,11 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+   .icon{
+     width: 88rpx;
+     height: 88rpx;
+     display: block;
+     box-sizing: border-box;
+   }
  }
 </style>

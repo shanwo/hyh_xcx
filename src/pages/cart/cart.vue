@@ -65,7 +65,7 @@
         <safeAreaCom />
       </div>
     </view>
-    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'cart'" :img-list="cartList" :photo-obj="photoObj" @listenClose="listenClose" />
+    <photoDetailDialog v-if="photoStatus" ref="refPhotoDetailDialog" :page-from="'cart'" :img-list="cartList" :photo-obj="photoObj" @listenCancel="listenCancel" @listenSuccess="listenSuccess" @listenClose="listenClose" />
 
   </div>
 
@@ -282,6 +282,30 @@ export default {
     },
     listenClose() {
       this.photoStatus = false
+    },
+    // 监听取消
+    listenCancel(obj) {
+      const fIndex = this.leftList.findIndex(val => val.id == obj.id)
+      console.log('fIndex', fIndex)
+      if (fIndex >= 0) {
+        this.leftList[fIndex].chooseStatus = 0
+      } else {
+        const rIndex = this.rightList.findIndex(val => val.id == obj.id)
+        console.log('fIndex', fIndex)
+        this.rightList[rIndex].chooseStatus = 0
+      }
+    },
+    // 监听选中
+    listenSuccess(obj) {
+      const fIndex = this.leftList.findIndex(val => val.id == obj.id)
+      console.log('fIndex', fIndex)
+      if (fIndex >= 0) {
+        this.leftList[fIndex].chooseStatus = 1
+      } else {
+        const rIndex = this.rightList.findIndex(val => val.id == obj.id)
+        console.log('fIndex', fIndex)
+        this.rightList[rIndex].chooseStatus = 1
+      }
     },
     onDone() {
 

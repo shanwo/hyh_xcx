@@ -10,7 +10,7 @@
           <!--          <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
           <!--          <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
           <!--          <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
-          <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/toumingdeshuiyin.png" />
+          <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
 
           <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[imgShowIndex].url" />
           <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[imgShowIndex].url" />
@@ -22,7 +22,7 @@
       <!--      <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
       <!--      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
       <!--      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
-      <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/toumingdeshuiyin.png" />
+      <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
       <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
       <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
     </view>
@@ -47,9 +47,8 @@
         <view v-else class="num_box">
           1/1
         </view>
-        <image v-if="photoObj.chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />
+        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />
         <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />
-
       </view>
     </view>
 
@@ -122,6 +121,10 @@ export default {
         this.$common.hideLoading()
         this.loadingStatus = true
         console.log('animationfinish', e)
+        if (this.pageFrom == 'cart') {
+          // 如果是购物车页面 需要更新选择状态
+          console.log('this.imgList[index]', this.imgList[this.imgShowIndex])
+        }
       }
     },
     listenSwiperChange(e) {
@@ -170,8 +173,15 @@ export default {
       this.$common.push({ url: '/pages/downLoadFile/downLoadFile' })
     },
     handleChoose() {
-      // this.photoObj.chooseStatus = 0
-      // this.$emit('sonChoose')
+      if (this.imgList[this.imgShowIndex].chooseStatus == 1) {
+        this.imgList[this.imgShowIndex].chooseStatus = 0
+        this.$emit('listenCancel', this.imgList[this.imgShowIndex])
+      } else {
+        this.imgList[this.imgShowIndex].chooseStatus = 1
+        this.$emit('listenSuccess', this.imgList[this.imgShowIndex])
+      }
+      console.log(this.imgList[this.imgShowIndex])
+      this.$forceUpdate()
     }
   }
 }

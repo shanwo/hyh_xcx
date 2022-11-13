@@ -127,9 +127,13 @@ export default {
         //   console.error('河浪瀑布流插件提示：当前数据无效')
         //   return
         // }
-
+        console.log('执行success')
         // 若本次渲染为 重置 则先恢复组件的默认参数
+        console.log('执行reset', this.$props.reset)
+
         if (this.$props.reset) {
+          console.log('执行reset')
+
           this.leftHeight = 0
           this.rightHeight = 0
           this.leftList = []
