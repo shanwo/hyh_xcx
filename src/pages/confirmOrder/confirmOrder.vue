@@ -115,27 +115,32 @@ export default {
         ids: this.idArr
       }
       ajaxOrderSend(params).then(res => {
-        const payInfo = res.data.data
-        console.log('支付信息', payInfo)
-        console.log('订单号', payInfo.order_sn)
-
-        wx.requestPayment({
-          timeStamp: payInfo.timeStamp,
-          nonceStr: payInfo.nonceStr,
-          package: payInfo.package,
-          signType: payInfo.signType,
-          paySign: payInfo.paySign,
-          success(res) {
-            console.log('支付成功', res)
-            that.removeCartOne()
-            that.$common.redirect({
-              url: '/pages/payResult/payResult?order_sn=' + payInfo.order_sn
-            })
-          },
-          fail(res) {
-            console.log('支付失败', res)
-          }
-        })
+        console.log('支付信息', res)
+        if (res.data.code == 200) {
+          const payInfo = res.data.data
+          console.log('支付信息', payInfo)
+          console.log('订单号', payInfo.order_sn)
+          wx.requestPayment({
+            timeStamp: payInfo.timeStamp,
+            nonceStr: payInfo.nonceStr,
+            package: payInfo.package,
+            signType: payInfo.signType,
+            paySign: payInfo.paySign,
+            success(res) {
+              console.log('支付成功', res)
+              that.removeCartOne()
+              that.$common.redirect({
+                url: '/pages/payResult/payResult?order_sn=' + payInfo.order_sn
+              })
+            },
+            fail(res) {
+              this.$common.toast(res.errMsg)
+              console.log('支付失败', res)
+            }
+          })
+        } else {
+          this.$common.toast(res.data.msg)
+        }
       })
     },
     getTimeStamp() {
