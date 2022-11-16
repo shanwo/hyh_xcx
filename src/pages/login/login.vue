@@ -1,6 +1,7 @@
 
 <template>
   <div class="body_bg">
+    <skiHeader />
     <div class="main_box" :style="{top:top1}">
       <image class="shandian" src="https://cdn.shanwo.cc/xcx/asjdkas.png" />
     </div>
@@ -19,10 +20,11 @@
 
 <script>
 import wxMiniLogin from '@/components/common/wxMiniLogin'
-
+import skiHeader from '@/components/common/skiHeader'
 export default {
   components: {
-    wxMiniLogin
+    wxMiniLogin,
+    skiHeader
   },
   data() {
     return {

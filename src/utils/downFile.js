@@ -39,11 +39,11 @@ function downloadSaveFile(url, k) {
   }).onProgressUpdate(res => {
     numArr[k] = res.progress / 100
     // console.log(`第${k}张照片的下载进度`, res.progress / 100)
-    console.log('照片进度', numArr)
+    // console.log('照片进度', numArr)
     let val = 0
     for (let i = 0; i < numArr.length; i++) {
       val += numArr[i]
-      console.log('总进度', val / 6)
+      // console.log('总进度', val / 6)
     }
   })
 }

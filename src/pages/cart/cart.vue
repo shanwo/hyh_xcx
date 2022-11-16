@@ -248,19 +248,37 @@ export default {
       //   this.$common.showToast('请选择结算的照片')
       //   return
       // }
-      const idArr = []
-      this.cartList.forEach(val => {
-        if (val['chooseStatus'] == 1) {
-          idArr.push(val.id)
+      const that = this
+      if (uni.getStorageSync('token')) {
+        const idArr = []
+        this.cartList.forEach(val => {
+          if (val['chooseStatus'] == 1) {
+            idArr.push(val.id)
+          }
+        })
+        if (idArr.length == 0) {
+          this.$common.toast('请选择结算的照片')
+          return
         }
-      })
-      if (idArr.length == 0) {
-        this.$common.toast('请选择结算的照片')
-        return
+        this.$common.push({
+          url: `/pages/confirmOrder/confirmOrder?idArr=${idArr}`
+        })
+      } else {
+        uni.showModal({
+          title: '提示',
+          content: '您当前未登录,您是否立即登录',
+          success: function(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              that.$common.push({
+                url: `/pages/login/login`
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
       }
-      this.$common.push({
-        url: `/pages/confirmOrder/confirmOrder?idArr=${idArr}`
-      })
     },
     doList() {
       const that = this

@@ -74,10 +74,7 @@ export default {
                 url: that.backUrl
               })
             } else {
-              console.log('2333333333333')
-              that.$common.redirect({
-                url: '/pages/index/index'
-              })
+              uni.navigateBack()
             }
           }).catch(err => {
             console.log('err', err)

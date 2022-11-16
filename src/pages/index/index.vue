@@ -97,20 +97,20 @@ export default {
   },
   methods: {
     init(options) {
-      if (uni.getStorageSync('token')) {
-        if (uni.getStorageSync('skid')) {
-          this.showStatus = true
-          this.skid = uni.getStorageSync('skid')
-          this.skiObj = uni.getStorageSync('skiObj')
-          console.log('已经选择雪场1')
-          this.getDayPhoto()
-        } else {
-          console.log('进入选择雪场页面')
-          this.$common.redirect({ url: '/pages/chooseSkiList/chooseSkiList' })
-        }
+      // if (uni.getStorageSync('token')) {
+      if (uni.getStorageSync('skid')) {
+        this.showStatus = true
+        this.skid = uni.getStorageSync('skid')
+        this.skiObj = uni.getStorageSync('skiObj')
+        console.log('已经选择雪场1')
+        this.getDayPhoto()
       } else {
-        this.$common.redirect({ url: '/pages/login/login' })
+        console.log('进入选择雪场页面')
+        this.$common.redirect({ url: '/pages/chooseSkiList/chooseSkiList' })
       }
+      // } else {
+      //   this.$common.redirect({ url: '/pages/login/login' })
+      // }
     },
     getDayPhoto() {
       if (this.loadingObj.status == 'nomore') {
