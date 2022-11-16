@@ -38,12 +38,12 @@
               <div class="main_box">
                 <div v-if="venDayList.length > 1 && !item.statusHeight && index != venDayList.length - 1" class="main_box_line" />
                 <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
-                <!--                <view class="footer_box">-->
-                <!--                  <view class="cart_box" @click="handleNextPage(1,item.images)">-->
-                <!--                    <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />-->
-                <!--                    <view class="title-1">下载全部</view>-->
-                <!--                  </view>-->
-                <!--                </view>-->
+                <view class="footer_box">
+                  <view class="cart_box" @click="handleNextPage(1,item.images)">
+                    <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
+                    <view class="title-1">下载全部</view>
+                  </view>
+                </view>
               </div>
             </div>
           </div>
