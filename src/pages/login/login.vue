@@ -11,7 +11,7 @@
     <!--    <H5Login />-->
     <!--    &lt;!&ndash; #endif&ndash;&gt;-->
     <div class="login_box" :style="{top:top3}">
-      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/jsahffbs.png" />
+      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/logo%402x%20asdasd.png" />
       <wx-mini-login />
     </div>
   </div>
@@ -85,10 +85,10 @@ export default {
     height: 816rpx;
   }
   .desc_logo{
-    width: 520rpx;
-    height: 132rpx;
+    width: 408rpx;
+    height: 172rpx;
     display: block;
-    margin: 0 auto 80rpx;
+    margin: 0 auto 48rpx;
   }
   .login_box{
     width: 100%;

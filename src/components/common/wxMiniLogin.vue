@@ -1,9 +1,13 @@
 <template>
-  <view class="btn_wrap">
-    <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
-    <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
-    <button class="btns" @click="handleNewLogin">微信登录</button>
+  <view class="box_main">
+    <view class="btns" @click="handleNewLogin">
+      <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
+      <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
+      <image class="img_icon" src="https://cdn.shanwo.cc/xcx/Wechat%402x%20%281%29.png" />
+      <view class="bvs">微信登录</view>
+    </view>
   </view>
+
 </template>
 
 <script>
@@ -103,5 +107,17 @@ export default {
     border-radius: 10rpx;
     font-size: 32rpx;
     color: #060606;
+  }
+  .bvs{
+    background: #F8B800;
+  }
+  .img_icon{
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 20rpx;
+  }
+  .box_main{
+    display: flex;
+    justify-content: center;
   }
 </style>

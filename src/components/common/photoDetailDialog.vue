@@ -7,11 +7,7 @@
     <block v-if="imgList.length > 1">
       <swiper class="swiper_box" :style="{height:sHeight+'px'}" :circular="true" :current="currentIndex" @transition="swipertransition" @animationfinish="animationfinish" @change="listenSwiperChange">
         <swiper-item v-for="(item,index) in 3" :key="index" class="swiperitem">
-          <!--          <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
-          <!--          <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
-          <!--          <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
           <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
-
           <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[imgShowIndex].url" />
           <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[imgShowIndex].url" />
         </swiper-item>
@@ -19,9 +15,6 @@
     </block>
     <view v-if="imgList.length==1" class="mid_box">
       <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
-      <!--      <image class="shuiyin1" src="/static/images/cart/shuiyin.png" />-->
-      <!--      <image class="shuiyin2" :style="{top: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
-      <!--      <image class="shuiyin3" :style="{bottom: status ? '0':'20px'}" src="/static/images/cart/shuiyin.png" />-->
       <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
       <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
       <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
@@ -47,8 +40,8 @@
         <view v-else class="num_box">
           1/1
         </view>
-        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />
-        <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />
+        <!--        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />-->
+        <!--        <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />-->
       </view>
     </view>
 
@@ -66,10 +59,10 @@
 export default {
   name: 'PhotoDetailDialog',
   props: {
-    photoObj: {
-      type: Object,
-      default: () => {}
-    },
+    // photoObj: {
+    //   type: Object,
+    //   default: () => {}
+    // },
     pageFrom: {
       type: String,
       default: ''
@@ -77,6 +70,7 @@ export default {
   },
   data() {
     return {
+      photoObj: '',
       loadingStatus: true,
       imgShowIndex: 0,
       currentIndex: 0,
@@ -93,9 +87,9 @@ export default {
     init(data, index) {
       this.imgShowIndex = index
       this.imgList = data
+      this.photoObj = this.imgList[this.imgShowIndex]
     },
     swipertransition(e) {
-      // console.log('loadingStatus', this.loadingStatus)
       if (this.loadingStatus) {
         this.loadingStatus = false
       }
@@ -118,6 +112,7 @@ export default {
           console.log('this.imgShowIndex', this.imgShowIndex)
           console.log('右滑')
         }
+        this.photoObj = this.imgList[this.imgShowIndex]
         this.$common.hideLoading()
         this.loadingStatus = true
         console.log('animationfinish', e)
@@ -134,7 +129,7 @@ export default {
       console.log('图片加载', e)
       const sys = uni.getSystemInfoSync()
       console.log(sys, e.detail.width)
-      if (e.detail.width > e.detail.height) {
+      if (e.detail.width >= e.detail.height) {
         this.sWidth = sys.screenWidth
         this.sHeight = this.sWidth * e.detail.height / e.detail.width
         this.status = true
@@ -154,6 +149,8 @@ export default {
       cartList.forEach(val => {
         cartIdArr.push(val.id)
       })
+      console.log('cartIdArr', cartIdArr)
+      console.log('photoObj.id', this.photoObj.id)
       if (cartIdArr.includes(this.photoObj.id)) {
         this.$common.toast('购物车已存在该照片')
         return

@@ -3,7 +3,7 @@
     <view>
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
-        <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/homelogo.png'" />
+        <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/logo%402xxiaoasd.png'" />
         <div class="main_title">照片墙</div>
         <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
           <img class="right_sd" src="https://cdn.shanwo.cc/xcx/asdsa5634x.png" alt="">

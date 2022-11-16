@@ -222,6 +222,10 @@ export default {
               }
             })
             that.cartList = newArr
+            that.leftList = []
+            that.rightList = []
+            that.leftH = 0
+            that.rightH = 0
             uni.setStorageSync('cartList', newArr)
             that.num = 0
           } else if (res.cancel) {

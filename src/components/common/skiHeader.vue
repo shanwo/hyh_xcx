@@ -267,7 +267,7 @@ export default {
   background-color: #e9e9e9;
 }
 .logo_icon{
-  width: 158rpx;
-  height: 42rpx;
+  width: 190rpx;
+  height: 80rpx;
 }
 </style>
