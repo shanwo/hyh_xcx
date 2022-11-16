@@ -1,10 +1,20 @@
 <template>
-  <view class="box_main">
-    <view class="btns" @click="handleNewLogin">
-      <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
-      <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
-      <image class="img_icon" src="https://cdn.shanwo.cc/xcx/Wechat%402x%20%281%29.png" />
-      <view class="bvs">微信登录</view>
+  <view>
+    <view class="box_main">
+      <view class="btns" @click="handleNewLogin">
+        <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
+        <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
+        <image class="img_icon" src="https://cdn.shanwo.cc/xcx/Wechat%402x%20%281%29.png" />
+        <view class="bvs">微信登录</view>
+      </view>
+    </view>
+    <view class="xieyi_box">
+      <img v-if="status == 1" class="choose_icon" src="https://cdn.shanwo.cc/xcx/%E9%80%89%E6%8B%A9.png" alt="" @click="status = 0">
+      <img v-else class="choose_icon" src="https://cdn.shanwo.cc/xcx/%E9%80%89%E6%8B%A9%E6%A1%86_%E9%BB%98%E8%AE%A4%20%281%29.png" alt="" @click="status = 1">
+      <div class="a_box">
+        <view>我已阅读并同意</view>
+        <view style="color: #F8B800" @click="handleNextBox">《用户协议》</view>
+      </div>
     </view>
   </view>
 
@@ -17,7 +27,8 @@ export default {
   data() {
     return {
       version: true,
-      backUrl: ''
+      backUrl: '',
+      status: 0
     }
   },
   mounted() {
@@ -43,6 +54,11 @@ export default {
   methods: {
     handleNewLogin() {
       const that = this
+      if (that.status == 0) {
+        that.$common.toast('请勾选用户协议')
+        return
+      }
+
       that.$common.showLoading('登录中')
       wx.login({
         success(e) {
@@ -88,6 +104,11 @@ export default {
     },
     decryptPhoneNumber(e) {
       console.log('手机号校验信息', e)
+    },
+    handleNextBox() {
+      this.$u.route({
+        url: '/pages/aggrement/aggrement'
+      })
     }
   }
 }
@@ -119,5 +140,23 @@ export default {
   .box_main{
     display: flex;
     justify-content: center;
+  }
+  .a_box{
+    color: #fff;
+    display: flex;
+  }
+  .choose_icon{
+    width: 36rpx;
+    height: 36rpx;
+    display: block;
+    margin-right: 5rpx;
+  }
+  .xieyi_box{
+    margin-top: 15rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rpx;
+    box-sizing: border-box;
   }
 </style>

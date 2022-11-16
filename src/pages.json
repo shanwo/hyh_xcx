@@ -50,6 +50,16 @@
 			}
 		},
 		{
+			"path": "pages/aggrement/aggrement",
+			"meta": {
+				"auth": true
+			},
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "用户协议"
+			}
+		},
+		{
 			"path": "pages/downLoadFile/downLoadFile",
 			"meta": {
 				"auth": true
@@ -153,6 +163,10 @@
 			{
 				"name": "选择滑雪场", //模式名称
 				"path": "pages/chooseSkiList/chooseSkiList" //启动页面，必选
+			},
+			{
+				"name": "用户协议", //模式名称
+				"path": "pages/aggrement/aggrement" //启动页面，必选
 			},
 			{
 				"name": "选择时间照片", //模式名称
