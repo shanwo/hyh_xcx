@@ -51,11 +51,10 @@ export default {
     handleChoose(obj) {
       uni.setStorageSync('skid', obj.id)
       uni.setStorageSync('skiObj', obj)
-      // const pages = getCurrentPages()
-      // const currentPage = pages[pages.length - 2]
-      // console.log('前一个页面', currentPage)
-      // currentPage.$vm.init() // 调用首页的初始化方法
-      this.$common.redirect({
+      const pages = getCurrentPages()
+      console.log('页面栈', pages)
+
+      uni.reLaunch({
         url: '/pages/index/index'
       })
     },

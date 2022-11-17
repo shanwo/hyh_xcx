@@ -3,7 +3,7 @@
     <view>
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
-        <skiHeader :show-back="false" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/logo%402xxiaoasd.png'" />
+        <skiHeader :show-back="showBackStatus" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/logo%402xxiaoasd.png'" />
         <div class="main_title">照片墙</div>
         <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
           <img class="right_sd" src="https://cdn.shanwo.cc/xcx/asdsa5634x.png" alt="">
@@ -46,7 +46,6 @@
 
 <script>
 import skiHeader from '@/components/common/skiHeader'
-import safeAreaCom from '@/components/common/safeAreaCom'
 import myCom from '@/components/common/my'
 import cart from '@/components/common/cart/cart'
 // import getLocationCom from '@/components/common/getLocationCom'
@@ -57,13 +56,13 @@ export default {
   components: {
     skiHeader,
     // getLocationCom,
-    safeAreaCom,
     cart,
     myCom,
     nineCom
   },
   data() {
     return {
+      showBackStatus: false,
       loadingObj: {
         status: 'loadmore',
         loadingText: '努力加载中',
@@ -97,7 +96,6 @@ export default {
   },
   methods: {
     init(options) {
-      // if (uni.getStorageSync('token')) {
       if (uni.getStorageSync('skid')) {
         this.showStatus = true
         this.skid = uni.getStorageSync('skid')
@@ -106,11 +104,10 @@ export default {
         this.getDayPhoto()
       } else {
         console.log('进入选择雪场页面')
-        this.$common.redirect({ url: '/pages/chooseSkiList/chooseSkiList' })
+        uni.redirectTo({
+          url: '/pages/chooseSkiList/chooseSkiList'
+        })
       }
-      // } else {
-      //   this.$common.redirect({ url: '/pages/login/login' })
-      // }
     },
     getDayPhoto() {
       if (this.loadingObj.status == 'nomore') {
