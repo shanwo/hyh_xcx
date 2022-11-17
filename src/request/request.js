@@ -9,7 +9,6 @@ const myRequest = ({ url, data, method = 'POST', header = {}}) => {
   return new Promise((resolve, reject) => {
     const _header = {
       appid: baseObj.appId,
-      appsecret: baseObj.appsecret,
       Authorization: 'Bearer ' + uni.getStorageSync('token') || ''
     }
     const myHeader = Object.assign({}, _header, header)
