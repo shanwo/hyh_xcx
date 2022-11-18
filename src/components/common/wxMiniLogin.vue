@@ -64,17 +64,23 @@ export default {
         success(e) {
           console.log('code', e.code)
           ajaxLogin({ code: e.code }).then(res => {
-            console.log('res', res.data.data)
-            uni.setStorageSync('userId', res.data.data.id)
-            uni.setStorageSync('token', res.data.data.api_token)
-            that.$common.hideLoading()
-            if (that.backUrl) {
-              console.log('4444444444')
-              that.$common.redirect({
-                url: that.backUrl
-              })
+            console.log('res', res)
+
+            console.log('res', res.data.code)
+            if (res.data.code == 200) {
+              uni.setStorageSync('userId', res.data.data.id)
+              uni.setStorageSync('token', res.data.data.api_token)
+              that.$common.hideLoading()
+              if (that.backUrl) {
+                console.log('4444444444')
+                that.$common.redirect({
+                  url: that.backUrl
+                })
+              } else {
+                uni.navigateBack()
+              }
             } else {
-              uni.navigateBack()
+              that.$common.toast('登录失败')
             }
           }).catch(err => {
             console.log('err', err)
