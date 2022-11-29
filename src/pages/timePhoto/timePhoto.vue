@@ -73,6 +73,7 @@
       <!--        @click="listenClick"-->
       <!--        @done="onDone"-->
       <!--      />-->
+      <div class="loading_box_d" />
 
     </scroll-view>
 
@@ -101,8 +102,7 @@ export default {
     tabsCom,
     cartCom,
     skiHeader,
-    photoDetailDialog,
-    waterfallList
+    photoDetailDialog
   },
   data() {
     return {
@@ -359,5 +359,11 @@ export default {
       width: 40rpx;
       height: 40rpx;
     }
+  }
+  .loading_box_d{
+    height: 180rpx;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 </style>
