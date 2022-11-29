@@ -21,6 +21,18 @@ const myRequest = ({ url, data, method = 'POST', header = {}}) => {
       header: myHeader,
       success: (res) => {
         console.log('res', res)
+        if (res.data.code === 300) {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: res.data.msg,
+            success: function() {
+              uni.navigateTo({
+                url: '/pages/login/login'
+              })
+            }
+          })
+        }
         resolve(res)
       },
       fail: (error) => {

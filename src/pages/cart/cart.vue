@@ -185,6 +185,10 @@ export default {
       this.setPrice()
     },
     getCartList() {
+      // 重置选择的数据
+      this.num = 0
+      this.totalPrice = 0
+      this.chooseStatus = 0
       this.cartList = []
       const cartList = uni.getStorageSync('cartList') || []
       cartList.forEach(val => {

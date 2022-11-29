@@ -43,14 +43,39 @@
       @refresherrefresh="onRefresh"
       @scrolltolower="scrolltolower"
     >
+      <view v-if="waterfall.reset" class="lan_box">
+        <wxwaterfall ref="uWaterfall" v-model="waterfall.list">
+          <template #left="{leftList}">
+            <view v-for="(item, index) in leftList" :key="index" @click="listenClick(item)">
+              <view class="left_box">
+                <div class="jiahao_img_box" @click.stop="handleAddCart(item)">
+                  <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
+                </div>
+                <wxlazyload threshold="0" :height="200" :loading-img="'/static/images/kongs.png'" :image="item.url" :index="index" />
+              </view>
+            </view>
+          </template>
+          <template #right="{rightList}">
+            <view v-for="(item, index) in rightList" :key="index" @click="listenClick(item)">
+              <view class="right_box">
+                <div class="jiahao_img_box" @click.stop="handleAddCart(item)">
+                  <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
+                </div>
+                <wxlazyload threshold="0" :height="200" :loading-img="'/static/images/kongs.png'" :image="item.url" :index="index" />
+              </view>
+            <!-- 这里编写您的内容，item为您传递给v-model的数组元素 -->
+            </view>
+          </template>
+        </wxwaterfall>
+      </view>
 
-      <waterfall-list
-        :status="waterfall.status"
-        :list="waterfall.list"
-        :reset="waterfall.reset"
-        @click="listenClick"
-        @done="onDone"
-      />
+      <!--      <waterfall-list-->
+      <!--        :status="waterfall.status"-->
+      <!--        :list="waterfall.list"-->
+      <!--        :reset="waterfall.reset"-->
+      <!--        @click="listenClick"-->
+      <!--        @done="onDone"-->
+      <!--      />-->
 
     </scroll-view>
 
@@ -61,6 +86,8 @@
 
 <script>
 // import zeroWaList from '@/pages/demo/zeroWaList/zeroWaList'
+import wxwaterfall from '@/components/common/wxwaterfall'
+import wxlazyload from '@/components/common/wxlazyload'
 import waterfallList from '@/components/common/watterLayout/waterfall-list'
 import tabsCom from '@/components/common/tabsCom'
 import skiHeader from '@/components/common/skiHeader'
@@ -72,6 +99,8 @@ import { ajaxVenueLists } from '@/api/chooseSkiList'
 export default {
   name: 'List3',
   components: {
+    wxlazyload,
+    wxwaterfall,
     tabsCom,
     cartCom,
     skiHeader,
@@ -97,7 +126,7 @@ export default {
       // 瀑布流组件相关
       waterfall: {
         status: '',
-        reset: false,
+        reset: true,
         list: []
       },
       photoStatus: false,
@@ -114,16 +143,6 @@ export default {
   },
   onHide() {
     this.photoStatus = false
-  },
-  mounted() {
-    const that = this
-    uni.$on('changeCartNum', res => {
-      console.log('res', res)
-      that.$refs['refCartCom'].changeNum()
-    })
-  },
-  beforeDestroy() {
-    uni.$off('changeCartNum')
   },
   methods: {
     init(options) {
@@ -150,9 +169,10 @@ export default {
     listenTabComChange(obj) {
       console.log(obj)
       this.hourVal = obj.time
-      this.waterfall.reset = true
       this.$forceUpdate()
+      this.$refs.uWaterfall.clear()
       setTimeout(() => {
+        this.waterfall.reset = true
         this.waterfall.list = []
         this.waterfall.status = 'success'
         this.getList()
@@ -199,6 +219,24 @@ export default {
         this.triggered = false
       })
     },
+    async handleAddCart(params) {
+      const cartList = uni.getStorageSync('cartList') || []
+      const cartIdArr = []
+      cartList.forEach(val => {
+        cartIdArr.push(val.id)
+      })
+      if (cartIdArr.includes(params.id)) {
+        this.$common.toast('购物车已存在该照片')
+        return
+      } else {
+        this.$common.toast('添加成功')
+        cartList.push(params)
+        uni.setStorageSync('cartList', cartList)
+      }
+      this.$refs['refCartCom'].changeNum()
+
+      // this.status = !this.status
+    },
     // getList() {
     //   this.waterfall.status = 'loading'
     //   setTimeout(() => {
@@ -237,7 +275,6 @@ export default {
       })
     },
     scrolltolower() {
-      this.waterfall.reset = false
       this.getList()
     },
     onReachBottom() {
@@ -324,6 +361,34 @@ export default {
       width: 0;
       height: 0;
       transform: rotate(180deg);
+    }
+  }
+  .lan_box{
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    .left_box{
+      position: relative;
+      margin-bottom: 15rpx;
+      padding-right: 8rpx;
+      box-sizing: border-box;
+
+    }
+    .right_box{
+      position: relative;
+      margin-bottom: 15rpx;
+      padding-left: 8rpx;
+      box-sizing: border-box;
+    }
+  }
+  .jiahao_img_box{
+    padding: 20rpx;
+    position: absolute;
+    z-index: 11;
+    right: 0;
+    bottom: 0;
+    .jiahao{
+      width: 40rpx;
+      height: 40rpx;
     }
   }
 </style>

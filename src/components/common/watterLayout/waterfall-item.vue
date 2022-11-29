@@ -108,7 +108,7 @@ export default {
 <style lang="scss" scoped>
 .waterfall-item {
   padding: 16 rpx;
-  background-color: #fff;
+  background-color: #333;
   border-radius: 4px;
   font-size: 28 rpx;
   color: #666;

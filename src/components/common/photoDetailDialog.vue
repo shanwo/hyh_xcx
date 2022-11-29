@@ -277,7 +277,9 @@ export default {
 }
 .new_shuiyin{
   position: absolute;
-  left: 100rpx;
+  left: 0;
+  width: 100%;
+  right: 0;
   top: 0;
   z-index: 1;
 }
