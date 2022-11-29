@@ -231,6 +231,8 @@ export default {
             that.leftH = 0
             that.rightH = 0
             uni.setStorageSync('cartList', newArr)
+            that.doList()
+
             that.num = 0
           } else if (res.cancel) {
             console.log('点击取消')
