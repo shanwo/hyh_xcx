@@ -37,7 +37,7 @@
       :style="{height:sHeight+'px'}"
       scroll-y="true"
       :refresher-threshold="120"
-      lower-threshold="60"
+      lower-threshold="120"
       @scrolltolower="scrolltolower"
     >
       <view v-if="waterfall.reset" class="lan_box">
