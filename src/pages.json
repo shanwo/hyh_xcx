@@ -83,7 +83,7 @@
 				"auth": true
 			},
 			"style": {
-				"disableScroll": true,
+				"disableScroll": false,
 				"navigationBarTitleText": "照片墙"
 			}
 		},

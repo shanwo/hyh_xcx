@@ -36,11 +36,8 @@
     <scroll-view
       :style="{height:sHeight+'px'}"
       scroll-y="true"
-      refresher-enabled="true"
-      :refresher-triggered="triggered"
-      :refresher-threshold="100"
-      refresher-background="'#000000'"
-      @refresherrefresh="onRefresh"
+      :refresher-threshold="120"
+      lower-threshold="60"
       @scrolltolower="scrolltolower"
     >
       <view v-if="waterfall.reset" class="lan_box">
@@ -152,12 +149,6 @@ export default {
       this.getWxHoursList()
       this.getSkiList()
     },
-    onRefresh() {
-      this.triggered = true
-      this.waterfall.list = []
-      this.waterfall.reset = true
-      this.getList()
-    },
     getScrollViewHeight() {
       const sysInfo = uni.getSystemInfoSync()
       console.log('sysInfo', sysInfo)
@@ -234,25 +225,7 @@ export default {
         uni.setStorageSync('cartList', cartList)
       }
       this.$refs['refCartCom'].changeNum()
-
-      // this.status = !this.status
     },
-    // getList() {
-    //   this.waterfall.status = 'loading'
-    //   setTimeout(() => {
-    //     const arr = []
-    //     console.log('当前页', this.pageIndex)
-    //     const currentData = this.storeData.concat(this.allStoreData[this.pageIndex])
-    //     currentData.forEach(val => {
-    //       arr.push({
-    //         url: val
-    //       })
-    //     })
-    //
-    //     this.waterfall.list = arr
-    //     this.waterfall.status = 'success'
-    //   }, 1000)
-    // },
     listenClick(obj) {
       this.photoObj = obj
       this.photoStatus = true
@@ -276,10 +249,6 @@ export default {
     },
     scrolltolower() {
       this.getList()
-    },
-    onReachBottom() {
-      // this.pageIndex += 1
-      // this.getList()
     },
     handleClickAdd(index) {
       const that = this
