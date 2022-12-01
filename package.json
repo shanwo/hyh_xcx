@@ -71,6 +71,7 @@
     "core-js": "^3.6.5",
     "flyio": "^0.6.2",
     "less-loader": "^6.0.0",
+    "miniprogram-ci": "^1.8.35",
     "regenerator-runtime": "^0.12.1",
     "uni-read-pages": "^1.0.5",
     "uni-simple-router": "^2.0.7",
