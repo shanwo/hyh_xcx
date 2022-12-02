@@ -34,6 +34,14 @@
         <div> 照片的下载仅可拍摄人与被拍摄人用于非商业使用</div>
       </div>
     </div>
+    <div v-if="dgArr.length" class="main_box_2" style="margin-top: 16rpx">
+      <div class="hea">订购照片</div>
+      <div class="photo_box">
+        <div v-for="(item,index) in dgArr" :key="index" style="border-radius: 8rpx;width: 310rpx;height: 240rpx;overflow: hidden;margin-bottom: 20rpx" :style="{'margin-right':index %2 === 0 ? '20rpx':0}">
+          <image :src="item.url" mode="aspectFill" style="width: 320rpx;height: 340rpx;" />
+        </div>
+      </div>
+    </div>
     <div class="footer_box">
       <div class="footer_box_2">
         <div class="fl">
@@ -51,6 +59,8 @@
       </div>
       <safeAreaCom />
     </div>
+    <!--占位-->
+    <div style="height: 200rpx;width: 100%" />
   </div>
 
 </template>
@@ -73,7 +83,8 @@ export default {
       hjPrice: 0,
       options: '',
       skiObj: {},
-      idArr: []
+      idArr: [],
+      dgArr: []// 订购的照片
     }
   },
   onLoad(options) {
@@ -83,13 +94,23 @@ export default {
     this.totalPrice = (this.skiObj.price * this.idArr.length / 100).toFixed(2)
     this.hjPrice = this.totalPrice
     console.log('idArr', this.idArr)
+    this.getDingGouList()
   },
   mounted() {
 
   },
   methods: {
+    // 获取用户订购的数据
+    getDingGouList() {
+      const cartList = uni.getStorageSync('cartList')
+      cartList.forEach(val => {
+        console.log('val.id', val.id)
+        if (this.idArr.splice(val.id)) {
+          this.dgArr.push(val)
+        }
+      })
+    },
     // 移除购物车中的品
-
     removeCartOne() {
       const that = this
       const cartList = uni.getStorageSync('cartList')
@@ -313,5 +334,8 @@ export default {
     padding: 20rpx 28rpx;
     box-sizing: border-box;
   }
+}
+.photo_box{
+  display: flex;flex-wrap: wrap;padding:20rpx;box-sizing: border-box
 }
 </style>

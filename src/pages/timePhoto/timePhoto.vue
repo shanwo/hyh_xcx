@@ -135,6 +135,16 @@ export default {
   onLoad(options) {
     this.init(options)
   },
+  mounted() {
+    const that = this
+    uni.$on('changeCartNum', res => {
+      console.log('res', res)
+      that.$refs['refCartCom'].changeNum()
+    })
+  },
+  beforeDestroy() {
+    uni.$off('changeCartNum')
+  },
   onShow() {
     this.$refs['refCartCom'].changeNum()
   },
