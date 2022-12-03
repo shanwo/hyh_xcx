@@ -90,6 +90,7 @@ export default {
   onLoad(options) {
     this.options = options
     this.idArr = this.options.idArr.split(',')
+    this.idArr = this.idArr.map(Number) // 转换成数字格式
     this.skiObj = uni.getStorageSync('skiObj')
     this.totalPrice = (this.skiObj.price * this.idArr.length / 100).toFixed(2)
     this.hjPrice = this.totalPrice
@@ -103,9 +104,10 @@ export default {
     // 获取用户订购的数据
     getDingGouList() {
       const cartList = uni.getStorageSync('cartList')
+      // 先转成数组中元素都是数字类型
       cartList.forEach(val => {
         console.log('val.id', val.id)
-        if (this.idArr.splice(val.id)) {
+        if (this.idArr.includes(val.id)) {
           this.dgArr.push(val)
         }
       })

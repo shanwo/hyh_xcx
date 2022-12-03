@@ -2,6 +2,8 @@
   <view class="main_box">
     <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[imgShowIndex].url" @load="imgLoad" />
     <view class="header_box">
+      <view v-if="imgList.length > 1">{{ imgShowIndex + 1 }}/{{ imgList.length }}</view>
+      <view v-if="imgList.length == 1">1/1</view>
       <image class="close_img" src="/static/images/cart/close@2x.png" @click="handleClose" />
     </view>
     <block v-if="imgList.length > 1">
@@ -13,32 +15,29 @@
         </swiper-item>
       </swiper>
     </block>
-    <view v-if="imgList.length==1" class="mid_box">
-      <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
-      <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
-      <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
-      <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
-    </view>
-
+    <block v-if="imgList.length == 1">
+      <view class="mid_box">
+        <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
+        <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
+        <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
+        <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
+      </view>
+    </block>
     <view v-if="pageFrom == 'timePhoto'" class="footer_box1">
-      <view class="cart_box1" @click="handleAddCart">
-        <view v-if="imgList.length > 1" class="num_box">
-          {{ imgShowIndex + 1 }}/{{ imgList.length }}
+      <view class="cart_box1">
+        <view>
+          <view class="bot_box">照片ID</view>
+          <view class="bot_name">{{ imgList[imgShowIndex].name }}</view>
         </view>
-        <view v-else class="num_box">
-          1/1
-        </view>
-        <image class="cart_icon1" src="https://cdn.shanwo.cc/xcx/asdjhasduirel.png" />
+        <image class="cart_icon1" src="https://cdn.shanwo.cc/xcx/asdjhasduirel.png" @click="handleAddCart" />
       </view>
     </view>
     <!--购物车的弹窗 选择的按钮-->
     <view v-if="pageFrom == 'cart'" class="footer_box1">
       <view class="cart_box1">
-        <view v-if="imgList.length > 1" class="num_box">
-          {{ imgShowIndex + 1 }}/{{ imgList.length }}
-        </view>
-        <view v-else class="num_box">
-          1/1
+        <view v-if="imgList[imgShowIndex].name">
+          <view class="bot_box">照片ID</view>
+          <view class="bot_name">{{ imgList[imgShowIndex].name }}</view>
         </view>
         <!--        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />-->
         <!--        <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />-->
@@ -247,25 +246,32 @@ export default {
 }
 .footer_box1{
   display: flex;
-  justify-content: center;
   width: 100%;
   position: fixed;
   z-index: 100;
   bottom: 150rpx;
+  padding-left: 36rpx;
+  box-sizing: border-box;
 }
 .header_box{
+  position: relative;
   width: 100%;
   display: flex;
-  flex-direction: row-reverse;
-  padding-right: 40rpx;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   margin-bottom: 6rpx;
   position: fixed;
   z-index: 100;
   top: 200rpx;
+  color: #fff;
   .close_img{
+    position: absolute;
+    right: 0;
+    z-index: 1;
     width: 64rpx;
     height: 64rpx;
+    right: 40rpx;
     display: block;
   }
 }
@@ -330,5 +336,16 @@ export default {
   position: absolute;
   right: 40rpx;
   top: 0;
+}
+.bot_box{
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #86909C;
+}
+.bot_name{
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #86909C;
 }
 </style>
