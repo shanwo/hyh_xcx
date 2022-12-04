@@ -14,7 +14,7 @@
     </view>
     <view class="footer_box">
       <view class="cart_box" @click="handleSaveImg">
-        <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
+        <image class="cart_icon" src="https://cdn.chillman.cc/xcx/bianzu.png" />
         <view class="title-1">下载照片</view>
       </view>
     </view>

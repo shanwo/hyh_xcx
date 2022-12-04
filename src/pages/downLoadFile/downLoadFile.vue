@@ -3,7 +3,7 @@
     <skiHeader :page-back="'1'" @listenCallBack="listenCallBack" />
     <!--    <div style="color: #fff" @click="handleCeshi">点击</div>-->
     <div class="top_box">
-      <img class="icon" src="https://cdn.shanwo.cc/xcx/xiazaiicon213123.png" alt="">
+      <img class="icon" src="https://cdn.chillman.cc/xcx/xiazaiicon213123.png" alt="">
       <div class="title">正在下载请勿关闭...</div>
     </div>
     <div>
@@ -59,7 +59,7 @@ export default {
   methods: {
     //
     // handleCeshi() {
-    //   uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.shanwo.cc/xcx/homelogo.png' }])
+    //   uni.setStorageSync('downImgs', [{ 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': '' }, { 'name': 'hy', 'original_url': 'https://sw-img-1255862984.cos.ap-beijing.myqcloud.com/picture/7/2022-11/01-thumbnail/DSC03939.JPG', 'thumbnail_url': 'https://cdn.chillman.cc/xcx/homelogo.png' }])
     //   this.init()
     // },
     listenCallBack() {

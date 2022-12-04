@@ -2,14 +2,14 @@
   <div class="footer_box">
     <div class="flexbox" @click="handleNextCart">
       <div style="position: relative">
-        <image class="img_sa" src="https://cdn.shanwo.cc/xcx/shoppingssad.png" />
+        <image class="img_sa" src="https://cdn.chillman.cc/xcx/shoppingssad.png" />
         <div v-if="num" class="num">
           {{ num }}
         </div>
       </div>
 
       <div class="title">购物车</div>
-      <image class="img_sad" src="https://cdn.shanwo.cc/xcx/arrow_white@2x.png" />
+      <image class="img_sad" src="https://cdn.chillman.cc/xcx/arrow_white@2x.png" />
     </div>
     <div>
       <!--      <safeAreaCom />-->
@@ -56,7 +56,7 @@ export default {
   .footer_box{
     width: 750rpx;
     //background: rgba(0,0,0,0.6);
-    background: url("https://cdn.shanwo.cc/xcx/juxingtouming.png") no-repeat left;
+    background: url("https://cdn.chillman.cc/xcx/juxingtouming.png") no-repeat left;
     opacity: 0.6;
     position: fixed;
     bottom: 0;

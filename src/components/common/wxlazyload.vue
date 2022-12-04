@@ -22,7 +22,7 @@
           @tap="clickImg"
         />
         <view v-else class="empty_box" :style="{ height: imgHeight}">
-          <image class="icon" src="https://cdn.shanwo.cc/xcx/photojiazaizhongzhong.png" /></view>
+          <image class="icon" src="https://cdn.chillman.cc/xcx/photojiazaizhongzhong.png" /></view>
       </view>
       <view v-else>
         <image

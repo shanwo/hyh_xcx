@@ -8,7 +8,7 @@
     <div class="header_box">
       <div class="title">{{ timeStr }}</div>
       <!--      <div class="desc flexbox">-->
-      <!--        <image class="icon" src="https://cdn.shanwo.cc/xcx/gps_white@2x.png" />-->
+      <!--        <image class="icon" src="https://cdn.chillman.cc/xcx/gps_white@2x.png" />-->
       <!--        <div v-if="skiObj" class="text_line1">-->
       <!--          {{ skiObj.merger_name }}-->
       <!--          {{ skiObj.address }}-->
@@ -46,7 +46,7 @@
             <view v-for="(item, index) in leftList" :key="index" @click="listenClick(item)">
               <view class="left_box">
                 <div class="jiahao_img_box" @click.stop="handleAddCart(item)">
-                  <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
+                  <image class="jiahao" src="https://cdn.chillman.cc/xcx/jiahao.png" />
                 </div>
                 <wxlazyload threshold="0" :height="200" :loading-img="'/static/images/kongs.png'" :image="item.url" :index="index" />
               </view>
@@ -56,7 +56,7 @@
             <view v-for="(item, index) in rightList" :key="index" @click="listenClick(item)">
               <view class="right_box">
                 <div class="jiahao_img_box" @click.stop="handleAddCart(item)">
-                  <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
+                  <image class="jiahao" src="https://cdn.chillman.cc/xcx/jiahao.png" />
                 </div>
                 <wxlazyload threshold="0" :height="200" :loading-img="'/static/images/kongs.png'" :image="item.url" :index="index" />
               </view>

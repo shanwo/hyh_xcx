@@ -9,7 +9,7 @@
     <block v-if="imgList.length > 1">
       <swiper class="swiper_box" :style="{height:sHeight+'px'}" :circular="true" :current="currentIndex" @transition="swipertransition" @animationfinish="animationfinish" @change="listenSwiperChange">
         <swiper-item v-for="(item,index) in 3" :key="index" class="swiperitem">
-          <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
+          <image class="new_shuiyin" mode="widthFix" src="https://cdn.chillman.cc/xcx/sdjfhsdkf.png" />
           <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[imgShowIndex].url" />
           <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[imgShowIndex].url" />
         </swiper-item>
@@ -18,7 +18,7 @@
     <block v-if="imgList.length == 1">
       <view class="mid_box">
         <image class="big_img" style="position: fixed;bottom: -200rpx;width: 20px;height: 20px" mode="widthFix" :src="imgList[0].url" @load="imgLoad" />
-        <image class="new_shuiyin" mode="widthFix" src="https://cdn.shanwo.cc/xcx/sdjfhsdkf.png" />
+        <image class="new_shuiyin" mode="widthFix" src="https://cdn.chillman.cc/xcx/sdjfhsdkf.png" />
         <image v-if="sWidth && imgStatus&& sHeight" class="big_img" :style="{width:sWidth+'px',height:sHeight+'px' }" :src="imgList[0].url" />
         <image v-if="!imgStatus" mode="aspectFit" :style="{width:sWidth+'px',height:sHeight+'px' }" class="big_img" :src="imgList[0].url" />
       </view>
@@ -29,7 +29,7 @@
           <view class="bot_box">照片ID</view>
           <view class="bot_name">{{ imgList[imgShowIndex].name }}</view>
         </view>
-        <image class="cart_icon1" src="https://cdn.shanwo.cc/xcx/asdjhasduirel.png" @click="handleAddCart" />
+        <image class="cart_icon1" src="https://cdn.chillman.cc/xcx/asdjhasduirel.png" @click="handleAddCart" />
       </view>
     </view>
     <!--购物车的弹窗 选择的按钮-->
@@ -39,14 +39,14 @@
           <view class="bot_box">照片ID</view>
           <view class="bot_name">{{ imgList[imgShowIndex].name }}</view>
         </view>
-        <!--        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.shanwo.cc/xcx/choosetrue.png" @click.stop="handleChoose" />-->
-        <!--        <image v-else class="cart_icon1" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose" />-->
+        <!--        <image v-if="imgList[imgShowIndex].chooseStatus == 1" class="cart_icon1" src=" https://cdn.chillman.cc/xcx/choosetrue.png" @click.stop="handleChoose" />-->
+        <!--        <image v-else class="cart_icon1" src="https://cdn.chillman.cc/xcx/choosenone.png" @click.stop="handleChoose" />-->
       </view>
     </view>
 
     <!--    <view v-if="pageFrom == 'my'" class="footer_box">-->
     <!--      <view class="cart_box" @click="handleSaveImg">-->
-    <!--        <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />-->
+    <!--        <image class="cart_icon" src="https://cdn.chillman.cc/xcx/bianzu.png" />-->
     <!--        <view class="title-1">下载照片</view>-->
     <!--      </view>-->
     <!--    </view>-->

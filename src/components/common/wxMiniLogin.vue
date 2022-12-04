@@ -4,13 +4,13 @@
       <view class="btns" @click="handleNewLogin">
         <!--    <button v-if="!version" class="btns" type="default" open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>-->
         <!--    <button v-if="version" class="btns" @click="getUserInfo">微信登录</button>-->
-        <image class="img_icon" src="https://cdn.shanwo.cc/xcx/Wechat%402x%20%281%29.png" />
+        <image class="img_icon" src="https://cdn.chillman.cc/xcx/Wechat%402x%20%281%29.png" />
         <view class="bvs">微信登录</view>
       </view>
     </view>
     <view class="xieyi_box">
-      <img v-if="status == 1" class="choose_icon" src="https://cdn.shanwo.cc/xcx/%E9%80%89%E6%8B%A9.png" alt="" @click="status = 0">
-      <img v-else class="choose_icon" src="https://cdn.shanwo.cc/xcx/%E9%80%89%E6%8B%A9%E6%A1%86_%E9%BB%98%E8%AE%A4%20%281%29.png" alt="" @click="status = 1">
+      <img v-if="status == 1" class="choose_icon" src="https://cdn.chillman.cc/xcx/%E9%80%89%E6%8B%A9.png" alt="" @click="status = 0">
+      <img v-else class="choose_icon" src="https://cdn.chillman.cc/xcx/%E9%80%89%E6%8B%A9%E6%A1%86_%E9%BB%98%E8%AE%A4%20%281%29.png" alt="" @click="status = 1">
       <div class="a_box">
         <view>我已阅读并同意</view>
         <view style="color: #F8B800" @click="handleNextBox">《用户协议》</view>

@@ -24,7 +24,7 @@
               :class="[`u-tabs__wrapper__nav__item-${index}`, item.disabled && 'u-tabs__wrapper__nav__item--disabled']"
               @tap="clickHandler(item, index)"
             >
-              <image style="width: 24rpx;height: 24rpx;margin-right: 8rpx" src="https://cdn.shanwo.cc/xcx/timeicon-1.png" />
+              <image style="width: 24rpx;height: 24rpx;margin-right: 8rpx" src="https://cdn.chillman.cc/xcx/timeicon-1.png" />
               <text
                 :class="[item.disabled && 'u-tabs__wrapper__nav__item__text--disabled']"
                 class="u-tabs__wrapper__nav__item__text"

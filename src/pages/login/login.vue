@@ -3,16 +3,16 @@
   <div class="body_bg">
     <skiHeader />
     <div class="main_box" :style="{top:top1}">
-      <image class="shandian" src="https://cdn.shanwo.cc/xcx/asjdkas.png" />
+      <image class="shandian" src="https://cdn.chillman.cc/xcx/asjdkas.png" />
     </div>
     <div class="logo_box" :style="{top:top2}">
-      <image class="logo" src="https://cdn.shanwo.cc/xcx/skier2x.png" />
+      <image class="logo" src="https://cdn.chillman.cc/xcx/skier2x.png" />
     </div>
     <!--    &lt;!&ndash; #ifdef H5 &ndash;&gt;-->
     <!--    <H5Login />-->
     <!--    &lt;!&ndash; #endif&ndash;&gt;-->
     <div class="login_box" :style="{top:top3}">
-      <image class="desc_logo" src="https://cdn.shanwo.cc/xcx/logo%402x%20asdasd.png" />
+      <image class="desc_logo" src="https://cdn.chillman.cc/xcx/logo%402x%20asdasd.png" />
       <wx-mini-login />
     </div>
   </div>

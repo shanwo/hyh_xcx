@@ -1,6 +1,6 @@
 <template>
   <div>
-    <image class="icon1" src="https://cdn.shanwo.cc/xcx/sfddgfgfg98.png" />
+    <image class="icon1" src="https://cdn.chillman.cc/xcx/sfddgfgfg98.png" />
     <div class="title">{{ title }}</div>
   </div>
 </template>
