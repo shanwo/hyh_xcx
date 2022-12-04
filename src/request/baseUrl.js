@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
 } else if (process.env.NODE_ENV === 'test') {
   baseObj.apiUrl = 'https://api.shanwo.vip'
 } else if (process.env.NODE_ENV === 'production') {
-  baseObj.apiUrl = 'https://api.shanwo.cc'
+  baseObj.apiUrl = 'https://api.chillman.cc'
   baseObj.appId = 'wx95a9b9e995351a26'
 }
 
