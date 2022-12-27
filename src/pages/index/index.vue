@@ -3,13 +3,13 @@
     <view>
       <!--      <getLocationCom @errorBack="getLocationErrorBack" @successBack="getLocationSuccessBack" />-->
       <view class="content">
-        <skiHeader :show-back="showBackStatus" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.shanwo.cc/xcx/logo%402xxiaoasd.png'" />
+        <skiHeader :show-back="showBackStatus" :show-back-home="false" :fl-bg-color="'#000000'" :logo="'https://cdn.chillman.cc/xcx/logo%402xxiaoasd.png'" />
         <div class="main_title">照片墙</div>
         <div class="flexbox_s_center hxc_label" @click="handleChooseSki">
-          <img class="right_sd" src="https://cdn.shanwo.cc/xcx/asdsa5634x.png" alt="">
-          <image class="icon_left" src="https://cdn.shanwo.cc/xcx/gps@2x.png" />
+          <img class="right_sd" src="https://cdn.chillman.cc/xcx/asdsa5634x.png" alt="">
+          <image class="icon_left" src="https://cdn.chillman.cc/xcx/gps@2x.png" />
           <div class="active">{{ skiObj.name }}</div>
-          <image class="icon_right" src="https://cdn.shanwo.cc/xcx/arrow@2x.png" />
+          <image class="icon_right" src="https://cdn.chillman.cc/xcx/arrow@2x.png" />
         </div>
         <div class="desc_box text_line1">{{ skiObj.merger_name }}{{ skiObj.address }}</div>
         <div class="photo_box">
@@ -22,7 +22,7 @@
                 <span>已有</span>
                 <span class="active">{{ item.total }}</span>
                 <span>张照片</span>
-                <image class="icon_right" src="https://cdn.shanwo.cc/xcx/arrow_white@2x.png" />
+                <image class="icon_right" src="https://cdn.chillman.cc/xcx/arrow_white@2x.png" />
               </div>
             </div>
             <nineCom :img-list="item.images" />

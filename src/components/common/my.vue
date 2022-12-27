@@ -1,6 +1,6 @@
 <template>
   <div class="my_box" @click="handleMy">
-    <image class="icon" src="https://cdn.shanwo.cc/xcx/dsquwieyvwqieu.png" />
+    <image class="icon" src="https://cdn.chillman.cc/xcx/dsquwieyvwqieu.png" />
   </div>
 </template>
 

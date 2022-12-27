@@ -6,15 +6,15 @@
       <div v-for="(item,index) in venueLists" :key="item.id" class="ski_list">
         <image :src="item.image" class="main_img" />
         <div class="flexbox_s_center hxc_label">
-          <image v-if="item.id == skid" class="icon_left" src="https://cdn.shanwo.cc/xcx/gps@2x.png" />
-          <image v-else class="icon_left" src="https://cdn.shanwo.cc/xcx/nochoose.png" />
+          <image v-if="item.id == skid" class="icon_left" src="https://cdn.chillman.cc/xcx/gps@2x.png" />
+          <image v-else class="icon_left" src="https://cdn.chillman.cc/xcx/nochoose.png" />
           <div v-if="item.id == skid" class="active">{{ item.name }}</div>
           <div v-else class="active" style="color: #ffffff">{{ item.name }}</div>
         </div>
         <div class="desc_box">{{ item.merger_name }}{{ item.address }}</div>
         <template>
           <div v-if="item.id == skid" class="choose_box_active">
-            <image class="icon" src="https://cdn.shanwo.cc/xcx/choose@2x.png" />
+            <image class="icon" src="https://cdn.chillman.cc/xcx/choose@2x.png" />
             <div>当前选择</div>
           </div>
           <div v-else class="choose_box" @click="handleChoose(item)">选择</div>

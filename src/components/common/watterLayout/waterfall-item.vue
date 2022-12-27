@@ -4,10 +4,10 @@
       <!--status ==1?'move_left':'','son_box'-->
       <div :class="[status == 1? 'fix_box_active':'', 'fix_box', ]" />
       <div v-if="status == 0" class="img_box" @click.stop="handleAddCart">
-        <image class="jiahao" src="https://cdn.shanwo.cc/xcx/jiahao.png" />
+        <image class="jiahao" src="https://cdn.chillman.cc/xcx/jiahao.png" />
       </div>
       <div v-if="status == 1" class="img_box" @click.stop="handleRemoveCart">
-        <image class="jiahao" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+        <image class="jiahao" src="https://cdn.chillman.cc/xcx/choosetrue.png" />
       </div>
 
       <image :src="params.url" mode="widthFix" @load="emitHeight" @error="emitHeight" />

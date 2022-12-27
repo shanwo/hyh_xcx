@@ -11,10 +11,10 @@
             <view v-for="(item,index) in leftList" :key="index" class="left_box">
               <image :src="item.url" alt="" mode="widthFix" @click="hanleClickImg(item)" />
               <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose('left',index)">
-                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+                <image class="icon" src="https://cdn.chillman.cc/xcx/choosetrue.png" />
               </div>
               <div v-else class="choose_box flexbox_center">
-                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose('left',index)" />
+                <image class="icon" src="https://cdn.chillman.cc/xcx/choosenone.png" @click.stop="handleChoose('left',index)" />
               </div>
             </view>
           </view>
@@ -22,10 +22,10 @@
             <view v-for="(item,index) in rightList" :key="index" class="right_box">
               <image :src="item.url" alt="" mode="widthFix" @click="hanleClickImg(item)" />
               <div v-if="item.chooseStatus == 1" class="choose_box flexbox_center" @click.stop="handleChoose('right',index)">
-                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
+                <image class="icon" src="https://cdn.chillman.cc/xcx/choosetrue.png" />
               </div>
               <div v-else class="choose_box flexbox_center">
-                <image class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" @click.stop="handleChoose('right',index)" />
+                <image class="icon" src="https://cdn.chillman.cc/xcx/choosenone.png" @click.stop="handleChoose('right',index)" />
               </div>
             </view>
           </view>
@@ -46,8 +46,8 @@
         <div v-if="editStatus == 0" class="footer_box_2">
           <div class="fl">
             <div class="flexbox" @click.stop="handleChooseAll">
-              <image v-if="chooseStatus == 1" class="icon" src="https://cdn.shanwo.cc/xcx/choosetrue.png" />
-              <image v-else class="icon" src="https://cdn.shanwo.cc/xcx/choosenone.png" />
+              <image v-if="chooseStatus == 1" class="icon" src="https://cdn.chillman.cc/xcx/choosetrue.png" />
+              <image v-else class="icon" src="https://cdn.chillman.cc/xcx/choosenone.png" />
               <div style="font-weight: 400;margin-left: 6rpx">全选</div>
             </div>
             <div style="width: 100%;">

@@ -7,11 +7,11 @@
           <div>
             <div class="head flexbox">
               <div>我的照片</div>
-              <!--              <image class="head_icon" src="https://cdn.shanwo.cc/xcx/logo.png" />-->
+              <!--              <image class="head_icon" src="https://cdn.chillman.cc/xcx/logo.png" />-->
             </div>
           </div>
           <!--          <div class="avatar_box">-->
-          <!--            <img src="https://cdn.shanwo.cc/xcx/morentouxiang.png" class="avatar_icon" alt="">-->
+          <!--            <img src="https://cdn.chillman.cc/xcx/morentouxiang.png" class="avatar_icon" alt="">-->
           <!--          </div>-->
         </div>
         <div v-if="venDayList.length == 0" style="margin-top: 150rpx">
@@ -22,10 +22,10 @@
             <div :class="[item.statusHeight == 1 ? 'height0':'heightauto']">
               <div class="list_label" @click="handleHideBox(index)">
                 <div class="fl flexbox">
-                  <image class="icon1" src="https://cdn.shanwo.cc/xcx/crux.png" />
+                  <image class="icon1" src="https://cdn.chillman.cc/xcx/crux.png" />
                   <div>{{ item.venue.name }}</div>
-                  <!--                  <image v-if="item.statusHeight != 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_down.png" />-->
-                  <!--                  <image v-if="item.statusHeight == 1" class="icon" src="https://cdn.shanwo.cc/xcx/arrow_crux_right%402x.png" />-->
+                  <!--                  <image v-if="item.statusHeight != 1" class="icon" src="https://cdn.chillman.cc/xcx/arrow_crux_down.png" />-->
+                  <!--                  <image v-if="item.statusHeight == 1" class="icon" src="https://cdn.chillman.cc/xcx/arrow_crux_right%402x.png" />-->
                 </div>
                 <div class="fl_time">{{ item.created_at }}</div>
                 <!--                <div class="fr">-->
@@ -40,7 +40,7 @@
                 <nineCom :img-list="item.images" :page-status="'1'" @clickImg="handleClickImg" />
                 <view class="footer_box">
                   <view class="cart_box" @click="handleNextPage(1,item.images)">
-                    <image class="cart_icon" src="https://cdn.shanwo.cc/xcx/bianzu.png" />
+                    <image class="cart_icon" src="https://cdn.chillman.cc/xcx/bianzu.png" />
                     <view class="title-1">下载全部</view>
                   </view>
                 </view>
@@ -166,7 +166,7 @@ export default {
       }
       if (status == 1) {
         // obj.forEach(val => {
-        //   val['original_url'] = 'https://cdn.shanwo.cc/xcx/cecececece.jpg'
+        //   val['original_url'] = 'https://cdn.chillman.cc/xcx/cecececece.jpg'
         // })
         uni.setStorageSync('downImgs', obj)
         this.$common.push({
@@ -360,7 +360,7 @@ export default {
 .avatar_box{
   width: 187rpx;
   height: 222rpx;
-  background: url("https://cdn.shanwo.cc/xcx/asjdkas.png") no-repeat left top;
+  background: url("https://cdn.chillman.cc/xcx/asjdkas.png") no-repeat left top;
   background-size: cover;
   position: relative;
   .avatar_icon{
