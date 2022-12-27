@@ -126,6 +126,7 @@ export default {
         reset: true,
         list: []
       },
+      pageNo: 1, // 分页
       photoStatus: false,
       storeData: [],
       allStoreData: [],
@@ -175,6 +176,7 @@ export default {
       setTimeout(() => {
         this.waterfall.reset = true
         this.waterfall.list = []
+        this.pageNo = 1
         this.waterfall.status = 'success'
         this.getList()
       })
@@ -187,7 +189,7 @@ export default {
       })
     },
     getWxHoursList(hour) {
-      ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
+      ajaxVenueHour({ page: 1, size: 15, venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
         if (!this.hoursList.length) {
           const hoursList = []
           res.data.data.hours.forEach(val => {
@@ -205,7 +207,7 @@ export default {
     getList() {
       this.$common.showLoading()
       this.waterfall.status = 'loading'
-      ajaxVenueHour({ venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
+      ajaxVenueHour({ page: this.pageNo, size: 15, venue_id: this.skid, day: this.timeStr, hour: this.hourVal }).then(res => {
         this.waterfall.list = this.waterfall.list.concat(res.data.data.lists)
         if (this.waterfall.list.length == 0) {
           this.waterfall.status = 'success'
@@ -258,6 +260,7 @@ export default {
       })
     },
     scrolltolower() {
+      this.pageNo += 1
       this.getList()
     },
     handleClickAdd(index) {
